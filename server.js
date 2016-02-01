@@ -4,6 +4,10 @@ var path 			= require('path');
 var logger 			= require('morgan');
 var cookieParser 	= require('cookie-parser');
 var bodyParser 		= require('body-parser');
+var session 		= require('express-session');
+
+var captchap 		= require('./common/captchap').captchap;
+var genuuid 		= require('./common/gen-uuid');
 
 var app = express();
 
@@ -13,11 +17,20 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'www')));
+app.use(session({
+  genid: function(req) {
+    return genuuid() // use UUIDs for session IDs
+  },
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized:false
+}));
 
 
 
-
-
+app.get('/checkcode', function(req, res, next) {
+	captchap(req, res, next);
+});
 
 
 app.get('*', function(req, res) {
@@ -26,7 +39,7 @@ app.get('*', function(req, res) {
 
 app.use(function(err, req, res, next) {
   console.error(err.stack);
-  res.send(500, { message: err.message });
+  res.status(500).send({ message: err.message });
 });
 
 

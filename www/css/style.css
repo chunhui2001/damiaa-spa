@@ -1,4 +1,48 @@
 /* Empty. Add your own CSS if you like */
+.scroll {
+	height: 100%;
+}
+
 .current-tab {
 	background-color: #0c60ee !important;
+}
+
+
+
+.flash-modal {
+  color: #fff;  
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  bottom: -40px;
+  z-index: -1;
+  -webkit-transition: all 1s;
+  -moz-transition: all 1s;
+}
+.flash-modal > div {
+  padding: .5em;
+  max-width: 40%;
+  margin: auto;
+}
+.modal-info {
+  bottom: 0px;
+}
+.modal-danger {
+  bottom: 0px;
+}
+.modal-error {
+  bottom: 0px;
+}
+
+
+.modal-info > div {
+  background-color: green;
+}
+
+.modal-danger > div {
+  background-color: red;
+}
+
+.modal-error > div {
+  background-color: red;
 }

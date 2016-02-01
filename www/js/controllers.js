@@ -29,18 +29,22 @@ angular.module('starter.controllers', [])
 
 
 
-.controller('product-deatil-controller', function($scope, $state) {
+.controller('product-deatil-controller', function($scope, $state, $ionicViewSwitcher) {
   $scope.pid  = 10000;
 
   $scope.buy = function(pid){
+    $ionicViewSwitcher.nextDirection('forward'); // 'forward', 'back', etc.
     $state.go('order');
   }
 })
 
 
 
-.controller('order-controller', function($scope, $state) {
-
+.controller('order-controller', function($scope, $state, $ionicViewSwitcher) {
+    $scope.backToProductDetailPage = function() {
+      $ionicViewSwitcher.nextDirection('back'); // 'forward', 'back', etc.
+      $state.go('home');
+    }
 })
 
 
@@ -53,8 +57,34 @@ angular.module('starter.controllers', [])
 
 
 
-.controller('register-controller', function($scope, $state) {
-    
+.controller('register-controller', function($scope, $state, $timeout) {
+    $scope.r    = 1;
+    $scope.regM = {};
+    $scope.uploading = false;
+
+    $scope.refreshCode = function() {
+      $scope.r = $scope.r + 1;
+    }
+
+    $scope.sendSMS = function() {
+      if (!$scope.regM.checkcode) return;
+
+      function toolTip(message, type) {
+        $scope.isDanger = type === 'danger';
+        $scope.isInfo   = type === 'info';
+        $scope.isError  = type === 'error';
+
+        $scope.message = message;
+
+        $timeout(function () {
+          $scope.isDanger = false;
+          $scope.isInfo = false;
+          $scope.isError = false;
+        }, 3000);
+      }
+
+      toolTip("手机号码格式不正确", 'danger');
+    }
 })
 
 
