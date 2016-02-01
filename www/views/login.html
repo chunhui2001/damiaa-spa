@@ -1,0 +1,72 @@
+<ion-view view-title="用户登陆">
+
+	<ion-nav-buttons side="primary">
+	  <button class="button button-positive" 
+	  	ng-click="register()">
+	    新用户注册
+	  </button>
+	</ion-nav-buttons>
+
+
+
+	<ion-content class="padding">
+		<div class="button-bar padding-top padding-bottom">
+		  <button ng-click="tabClick(1)" 
+		  			ng-class="{'activated ion-checkmark current-tab':tabIndex==1}"
+		  			class="button button-positive icon-right">
+		  	用户名密码登陆
+		  </button>
+		  <button ng-click="tabClick(2)" 
+		  			ng-class="{'activated ion-checkmark current-tab':tabIndex==2}"
+		  			class="button button-positive icon-right">
+		  	短信验证码登陆
+		  </button>
+		</div>
+		<div ng-class="{'ng-hide':tabIndex!=1}">
+			<div class="item item-divider">用户名密码登陆</div>
+			<div class="list">
+
+				<label class="item item-input">
+					<span class="input-label">用户名</span>
+					<input type="text" placeholder="请输入用户名" />
+				</label>
+
+				<label class="item item-input">
+					<span class="input-label">密码</span>
+					<input type="password" placeholder="请输入密码" />
+				</label>
+			</div>
+
+			<div class="button-bar padding-top padding-bottom">
+			  <button ng-click="login()"
+			  			class="button button-positive">
+			  	登陆
+			  </button>
+			</div>
+		</div>
+
+
+		<div ng-class="{'ng-hide':tabIndex!=2}">
+			<div class="item item-divider">短信验证码登陆</div>
+			<div class="list">
+
+				<div class="item item-input-inset" style="padding:0;">
+				<label class="item-input" style="width:100%;">
+				    <i class="icon ion-ios-telephone placeholder-icon"></i>
+				    <input type="text" placeholder="请输入手机号" ng-model="user.phone">
+				</label>
+				</div>
+
+				<div class="item item-input-inset" style="padding:0;">
+					<label class="item-input" style="width:75%;">
+    					<i class="icon ion-android-textsms placeholder-icon"></i>
+						<input type="password" placeholder="请输入短信验证码" />
+					</label>
+					<button style="padding: 0 1.5em;" class="button button-right button-small activated button-positive">
+					  	发送短信
+					 </button>
+				 </div>
+			</div>
+		</div>
+	</ion-content>
+</ion-view>
