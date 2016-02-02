@@ -103,8 +103,9 @@ angular.module('starter.controllers', [])
         }
 
         Auth.loginSuccess(result.data, function() {
+          $ionicViewSwitcher.nextDirection('forward'); // 'forward', 'back', etc.
           $state.go('account', {}, {reload: true});
-          window.location.reload();
+          //window.location.reload();
         });
       });
     }

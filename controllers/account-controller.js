@@ -19,6 +19,7 @@ module.exports 	= {
 	    //&client_id=spa-clients&client_secret=spa&username=keesh.zhang&password=111111
 	    var endpoints_access_token 	= endpoints.get_access_token.replace('{{{username}}}', username).replace('{{{password}}}', passwd);
 	    var refresh_token 			= endpoints.refresh_token;
+
 	    httpClient(URL.parse(endpoints_access_token), null, 'get', null, function(error, result) {
 	    	if (error) {
 	    		sendResult.error 	= true;
@@ -30,6 +31,14 @@ module.exports 	= {
 	    		sendResult.error 	= true;
 	    		sendResult.data 	= result;
 	    		sendResult.message 	= '用户名或密码错误!';
+	    		return res.json(sendResult);
+	    	}
+
+	    	if (!result.refreshToken) {
+	    		sendResult.error 	= true;
+	    		sendResult.data 	= result;
+	    		sendResult.message 	= endpoints_access_token;
+	    		console.log(endpoints_access_token);
 	    		return res.json(sendResult);
 	    	}
 
@@ -48,14 +57,13 @@ module.exports 	= {
 
     			return res.json(sendResult);
     		});
-
 	    });
 	},
 	logout: function(req, res, next) {
 		var refreshToken 	= req.body.refreshToken.value;
 
 		refresh_token = URL.parse(endpoints.refresh_token.replace('{{{refresh_token}}}', refreshToken));
-console.log(refresh_token, '9999');
+
 	    var sendResult  = {error: false, message: null, data: null};
 
 	    httpClient(refresh_token, null, 'get', null, function(newError, newResult) {

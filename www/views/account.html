@@ -1,7 +1,7 @@
 <ion-view view-title="用户中心">
 
 	<ion-nav-buttons side="primary">
-	  <button ng-hide="{{!logedin}}" style="color:#039EB1;" class="button button-dark button-clear" 
+	  <button ng-show="{{logedin}}" style="color:#039EB1;" class="button button-dark button-clear" 
 	  	ng-click="logout(logoutSuccess)">
 	    退出
 	  </button>
