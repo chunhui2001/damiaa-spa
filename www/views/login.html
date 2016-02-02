@@ -1,7 +1,7 @@
 <ion-view view-title="用户登陆">
 
 	<ion-nav-buttons side="primary">
-	  <button class="button button-dark button-clear" 
+	  <button style="color:#039EB1;" class="button button-dark button-clear" 
 	  	ng-click="register()">
 	    新用户，去注册
 	  </button>
@@ -28,12 +28,12 @@
 
 				<label class="item item-input">
 					<span class="input-label">用户名</span>
-					<input type="text" placeholder="请输入用户名" />
+					<input type="text" placeholder="请输入用户名" ng-model='logM.username' />
 				</label>
 
 				<label class="item item-input">
 					<span class="input-label">密码</span>
-					<input type="password" placeholder="请输入密码" />
+					<input type="password" placeholder="请输入密码" ng-model='logM.passwd' />
 				</label>
 			</div>
 
@@ -67,6 +67,12 @@
 					 </button>
 				 </div>
 			</div>
+		</div>
+
+
+		<div class="status flash-modal" 
+			ng-class='{"modal-info": isInfo, "modal-danger": isDanger, "modal-error": isDanger}'>
+			<div>{{message}}</div>
 		</div>
 	</ion-content>
 </ion-view>

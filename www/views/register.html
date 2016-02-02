@@ -1,7 +1,7 @@
 <ion-view view-title="用户注册">
 
 	<ion-nav-buttons side="primary">
-	  <a class="button button-dark button-clear"
+	  <a style="color:#039EB1;" class="button button-dark button-clear"
 	  		href="#/login">
 	    去登陆
 	  </a>
@@ -14,26 +14,69 @@
 	</ion-nav-buttons>
 
 	<ion-content class="padding">
-	<div class="item item-divider">手机快速注册</div>
+	<div ng-hide="true">
+		<div class="item item-divider">手机快速注册</div>
+		<div class="list">
+
+			<div class="item item-input-inset" style="padding:0;">
+			<label class="item-input" style="width:100%;">
+			    <i class="icon ion-ios-telephone placeholder-icon"></i>
+			    <input type="number" placeholder="请输入手机号" ng-model="user.phone">
+			</label>
+			</div>
+
+			<div class="item item-input-inset" style="padding:0;">
+				<label class="item-input" style="width:75%;">
+					<i class="icon ion-images placeholder-icon"></i>
+					<input type="number" ng-model="regM.checkcode" 
+							placeholder="请输入右侧图片验证码" />
+				</label>
+				<img src="/checkcode?t={{r}}" ng-click="refreshCode()" alt="img" />
+			</div>
+
+			<div class="item item-input-inset" style="padding:0;">
+				<label class="item-input" style="width:75%;">
+					<i class="icon ion-android-textsms placeholder-icon"></i>
+					<input type="number" placeholder="请输入短信验证码" />
+				</label>
+				<button style="padding: 0 1.5em;" 
+						class="button button-right button-small button-positive button-dark"
+						ng-click="sendSMS()">
+				  	发送短信
+				</button>
+			</div>
+
+		</div>
+	</div>
+
+
+	<div class="item item-divider" style="margin-top:1em;">用户基本信息</div>
 	<div class="list">
 
 		<div class="item item-input-inset" style="padding:0;">
 		<label class="item-input" style="width:100%;">
-		    <i class="icon ion-ios-telephone placeholder-icon"></i>
-		    <input type="number" placeholder="请输入手机号" ng-model="user.phone">
+		    <i class="icon ion-person-stalker placeholder-icon"></i>
+		    <input type="text" placeholder="请输入用户名" ng-model="regM.username">
 		</label>
 		</div>
 
 		<div class="item item-input-inset" style="padding:0;">
-			<label class="item-input" style="width:75%;">
-				<i class="icon ion-images placeholder-icon"></i>
-				<input type="number" ng-model="regM.checkcode" 
-						placeholder="请输入右侧图片验证码" />
+			<label class="item-input">
+				<i class="icon ion-ios-barcode placeholder-icon"></i>
+				<input type="password" ng-model="regM.passwd" 
+						placeholder="请输入密码" />
 			</label>
-			<img src="/checkcode?t={{r}}" ng-click="refreshCode()" alt="img" />
-		 </div>
+		</div>
 
-		<div class="item item-input-inset" style="padding:0;">
+		<!-- <div class="item item-input-inset" style="padding:0;">
+			<label class="item-input">
+				<i class="icon ion-ios-email placeholder-icon"></i>
+				<input type="password" ng-model="regM.checkcode" 
+						placeholder="请输入邮箱" />
+			</label>
+		</div> -->
+
+		<!-- <div class="item item-input-inset" style="padding:0;">
 			<label class="item-input" style="width:75%;">
 				<i class="icon ion-android-textsms placeholder-icon"></i>
 				<input type="number" placeholder="请输入短信验证码" />
@@ -42,12 +85,26 @@
 					class="button button-right button-small button-positive button-dark"
 					ng-click="sendSMS()">
 			  	发送短信
-			 </button>
-		 </div>
+			</button>
+		</div> -->
+
+		<div class="item item-input-inset" style="padding:0;">
+			<label class="item-input" style="width:75%;">
+				<i class="icon ion-images placeholder-icon"></i>
+				<input type="number" ng-model="regM.checkcode" 
+						placeholder="请输入右侧图片验证码" />
+			</label>
+			<img src="/checkcode?t={{r}}" ng-click="refreshCode()" alt="img" />
+		</div>
 
 
+		<div class="button-bar padding-top padding-bottom">
+			<button ng-click="register()"
+						class="button button-positive">
+				注册
+			</button>
+		</div>
 	</div>
-
 
 	<div class="status flash-modal" 
 		ng-class='{"modal-info": isInfo, "modal-danger": isDanger, "modal-error": isDanger}'>

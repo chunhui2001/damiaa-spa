@@ -14,7 +14,7 @@ var app = express();
 app.set('port', process.env.PORT || 8100);
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended:false}));
+app.use(bodyParser.urlencoded({extended:true}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'www')));
 app.use(session({
@@ -27,10 +27,19 @@ app.use(session({
 }));
 
 
+var accountController   = require('./controllers/account-controller');
+
 
 app.get('/checkcode', function(req, res, next) {
-	captchap(req, res, next);
+    captchap(req, res, next);
 });
+
+
+
+app.post('/login', accountController.login);
+app.post('/logout', accountController.logout);
+
+
 
 
 app.get('*', function(req, res) {

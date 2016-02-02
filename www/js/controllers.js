@@ -49,9 +49,17 @@ angular.module('starter.controllers', [])
 
 
 
-.controller('account-controller', function($scope, $state) {
+.controller('account-controller', function($scope, $state, Auth) {
+    $scope.logedin = Auth.islogin();
+
     $scope.login = function() {      
       $state.go('login');
+    }
+   // window.location.reload();
+    $scope.logout = Auth.logout;
+    $scope.logoutSuccess = function() {
+      $scope.logedin = false;
+       $state.go($state.current, {}, {reload: true});
     }
 })
 
@@ -69,41 +77,39 @@ angular.module('starter.controllers', [])
     $scope.sendSMS = function() {
       if (!$scope.regM.checkcode) return;
 
-      function toolTip(message, type) {
-        $scope.isDanger = type === 'danger';
-        $scope.isInfo   = type === 'info';
-        $scope.isError  = type === 'error';
+      toolTip($scope, $timeout, "手机号码格式不正确", 'danger');
+    }
 
-        $scope.message = message;
-
-        $timeout(function () {
-          $scope.isDanger = false;
-          $scope.isInfo = false;
-          $scope.isError = false;
-        }, 3000);
-      }
-
-      toolTip("手机号码格式不正确", 'danger');
+    $scope.register = function() {
+        debugger;
     }
 })
 
 
 
-.controller('login-controller', function($scope, $state, $ionicPopup) {
+.controller('login-controller', function($scope, $rootScope, $ionicViewSwitcher, $state, $ionicPopup, $timeout, Auth) {
     $scope.tabIndex   = 1;
+    $scope.logM = {};
 
     $scope.tabClick = function(tabIndex) {
       $scope.tabIndex = tabIndex;
     }
 
     $scope.login = function() {
-      var alertPopup = $ionicPopup.alert({
-         title: '登陆失败!',
-         template: '用户名或密码错误， 请重新输入！'
-       });
+      Auth.login({username: $scope.logM.username, passwd: $scope.logM.passwd}, function(error, result) {
+        if (result.error) {
+          toolTip($scope, $timeout, result.message, 'danger');
+          return;
+        }
+
+        Auth.loginSuccess(result.data, function() {
+          $state.go('account', {}, {reload: true});
+          window.location.reload();
+        });
+      });
     }
 
     $scope.register = function() {
-      $state.go('register');
+      $state.go('register', {}, {reload: true});
     }
 });

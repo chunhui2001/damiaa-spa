@@ -1,14 +1,14 @@
 <ion-view view-title="用户中心">
-<!-- 
+
 	<ion-nav-buttons side="primary">
-	  <button class="button button-positive" 
-	  	ng-click="register()">
-	    注册
+	  <button ng-hide="{{!logedin}}" style="color:#039EB1;" class="button button-dark button-clear" 
+	  	ng-click="logout(logoutSuccess)">
+	    退出
 	  </button>
-	</ion-nav-buttons> -->
+	</ion-nav-buttons>
 
 	<ion-nav-buttons side="right">
-	  <button class="button button-positive" 
+	  <button ng-hide="{{logedin}}" class="button button-positive" 
 	  	ng-click="login()">
 	    去登陆
 	  </button>

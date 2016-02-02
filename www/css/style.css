@@ -2,6 +2,9 @@
 .scroll {
 	height: 100%;
 }
+.title.header-item {
+  font-weight: bold;
+}
 
 .current-tab {
 	background-color: #0c60ee !important;
