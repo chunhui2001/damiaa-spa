@@ -79,10 +79,40 @@ angular.module('starter.controllers', [])
 
 
 
-.controller('resetpwd-controller', function($scope, $rootScope, $state, $ionicViewSwitcher) {
+.controller('resetpwd-controller', function($scope, $rootScope, $state, $timeout, $ionicViewSwitcher, Auth) {
+
+    if (!Auth.islogin()) {
+      $state.go('login', {}, {reload: true});
+      return;
+    }
+
+    var currentUser   = $rootScope.currentUser;
+
+    $scope.resetPwdM = {};
+
     $scope.backToAccountPage = function() {
         $ionicViewSwitcher.nextDirection('back'); // 'forward', 'back', etc.
         $state.go('account');
+    }
+
+    $scope.resetpwd = function() {
+        if ($scope.resetPwdM.oldPwd === undefined || $scope.resetPwdM.oldPwd === '') {
+          toolTip($scope, $timeout, "请输入原始密码", 'danger');
+          return;
+        }
+
+        if ($scope.resetPwdM.newPwd === undefined || $scope.resetPwdM.newPwd === ''
+            || ($scope.resetPwdM.newPwd && ($scope.resetPwdM.newPwd.length < 6 || $scope.resetPwdM.newPwd.length > 16))) {
+          toolTip($scope, $timeout, "请输入新密码, 且新密码长度6-16位, 首位不能有空格！", 'danger');
+          return;
+        }
+
+        if ($scope.resetPwdM.newPwd != $scope.resetPwdM.newPwdAgain) {
+          toolTip($scope, $timeout, "两次输入的新密码不一致，请重新输入新密码!", 'danger');
+          return;
+        }
+
+        // TODO
     }
 })
 

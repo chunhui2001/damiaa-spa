@@ -5,9 +5,11 @@ function toolTip($scope, $timeout, message, type) {
 
     $scope.message = message;
 
-    $timeout(function () {
-      $scope.isDanger = false;
-      $scope.isInfo = false;
-      $scope.isError = false;
-    }, 3000);
+    if ($timeout) {
+	    $timeout(function () {
+	      $scope.isDanger = false;
+	      $scope.isInfo = false;
+	      $scope.isError = false;
+	    }, 3000);
+    }
 }

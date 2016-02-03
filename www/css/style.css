@@ -24,17 +24,17 @@
 }
 .flash-modal > div {
   padding: .5em;
-  max-width: 40%;
+  /*max-width: 40%;*/
   margin: auto;
 }
 .modal-info {
-  bottom: 0px;
+  bottom: 20px;
 }
 .modal-danger {
-  bottom: 0px;
+  bottom: 20px;
 }
 .modal-error {
-  bottom: 0px;
+  bottom: 20px;
 }
 
 
