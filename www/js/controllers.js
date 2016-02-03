@@ -72,7 +72,7 @@ angular.module('starter.controllers', [])
 
     $scope.logoutSuccess = function() {
         $scope.logedin = false;
-        $state.go($state.current, {}, {reload: true});
+        $state.go('home', {}, {reload: true});
     }
 
 })
