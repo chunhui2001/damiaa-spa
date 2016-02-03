@@ -86,6 +86,16 @@ var starter = angular.module('starter', ['ionic', 'ngCookies', 'ngMessages', 'mg
     }
   })
 
+  .state('resetpwd', {
+    url: '/resetpwd',
+    views: {
+      'resetpwd': {
+        templateUrl: 'views/resetpwd.html',
+        controller: 'resetpwd-controller'
+      }
+    }
+  })
+
   // .state('product', {
   //   url: '/product',
   //   views: {

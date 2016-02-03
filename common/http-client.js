@@ -13,7 +13,14 @@ exports.httpClient = function(url, parmas, method, certificate, callback) {
     };
 
     if(certificate){
-        var auth = 'Basic ' + new Buffer(certificate.username + ':' + certificate.password).toString('base64');
+        var auth = null;
+
+        if (certificate.type && certificate.token) {
+            auth = certificate.type +' ' + certificate.token;
+        } else {
+            auth = 'Basic ' + new Buffer(certificate.username + ':' + certificate.password).toString('base64');
+        }
+        
         headers = {
             'accept': 'application/json',
             'Authorization': auth

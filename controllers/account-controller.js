@@ -77,5 +77,31 @@ module.exports 	= {
 
 			return res.json(sendResult);
 		});
+	},
+	userinfo: function(req, res, next) {
+		var tokenType 	= req.body.tokenType;
+		var token 		= req.body.value;
+
+		var endpoints_user_info = URL.parse(endpoints.get_user_info);
+
+	    var sendResult  = {error: false, message: null, data: null};
+
+
+	    httpClient(endpoints_user_info, null, 'get', {type: tokenType, token: token}, function(newError, newResult) {
+	    	console.log(newResult, 9888);
+
+			if (newError) {
+	    		sendResult.error 	= true;
+	    		sendResult.data 	= newError;
+	    		sendResult.message 	= newError.message;
+	    		return res.json(sendResult);
+	    	}
+
+	    	sendResult.data = newResult.data;
+	    	sendResult.message 	= newResult.message;
+	    	sendResult.error 	= newResult.error;
+
+			return res.json(sendResult);
+		});
 	}
 }

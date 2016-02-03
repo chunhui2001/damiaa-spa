@@ -49,17 +49,40 @@ angular.module('starter.controllers', [])
 
 
 
-.controller('account-controller', function($scope, $state, Auth) {
+.controller('account-controller', function($scope, $rootScope, $state, $ionicViewSwitcher, Auth) {
     $scope.logedin = Auth.islogin();
+    $scope.logout = Auth.logout;
+
+    if ($scope.logedin) {
+        Auth.loginUser( function(userInfo) {
+          $scope.loginUser  = userInfo;
+        }, function(error) {
+
+        });
+    }
 
     $scope.login = function() {      
       $state.go('login');
     }
-   // window.location.reload();
-    $scope.logout = Auth.logout;
+
+    $scope.resetpwd = function() {
+        $ionicViewSwitcher.nextDirection('forward'); // 'forward', 'back', etc.
+        $state.go('resetpwd', {}, {reload: true});
+    }
+
     $scope.logoutSuccess = function() {
-      $scope.logedin = false;
-       $state.go($state.current, {}, {reload: true});
+        $scope.logedin = false;
+        $state.go($state.current, {}, {reload: true});
+    }
+
+})
+
+
+
+.controller('resetpwd-controller', function($scope, $rootScope, $state, $ionicViewSwitcher) {
+    $scope.backToAccountPage = function() {
+        $ionicViewSwitcher.nextDirection('back'); // 'forward', 'back', etc.
+        $state.go('account');
     }
 })
 
@@ -105,7 +128,6 @@ angular.module('starter.controllers', [])
         Auth.loginSuccess(result.data, function() {
           $ionicViewSwitcher.nextDirection('forward'); // 'forward', 'back', etc.
           $state.go('account', {}, {reload: true});
-          //window.location.reload();
         });
       });
     }

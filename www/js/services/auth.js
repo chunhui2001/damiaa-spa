@@ -13,8 +13,8 @@ angular.module('starter')
           return callback(e);
         });
     },
-    loginSuccess: function(data, callback) {
-      $cookieStore.put('user', data);
+    loginSuccess: function(user, callback) {
+      $cookieStore.put('user', user);
       $rootScope.currentUser = $cookieStore.get('user');
 
       if (!callback) return;
@@ -23,52 +23,44 @@ angular.module('starter')
     },
     logout: function(success, failed) {
       return $http.post('/logout', $cookieStore.get('user')).success(function(data) {
-        $rootScope.currentUser = null;
+        $rootScope.currentUser  = null;
+        $rootScope.userInfo     = null;
+
         $cookieStore.remove('user');
+        $cookieStore.remove('userInfo');
 
         if (success) success();
       }).error(function(e) {
-        if (failed) failed();
+        if (failed) failed(e);
       });
     },
     islogin: function() {      
       $rootScope.currentUser = $cookieStore.get('user');
       return $rootScope.currentUser != null;
-    }//,
-    // signup: function(user) {
-    //   return $http.post('/api/signup', user)
-    //     .success(function() {
-    //       $location.path('/login');
+    },
+    loginUser: function(success, failed) {
 
-    //       $alert({
-    //         title: 'Congratulations!',
-    //         content: 'Your account has been created.',
-    //         placement: 'top-right',
-    //         type: 'success',
-    //         duration: 3
-    //       });
-    //     })
-    //     .error(function(response) {
-    //       $alert({
-    //         title: 'Error!',
-    //         content: response.data,
-    //         placement: 'top-right',
-    //         type: 'danger',
-    //         duration: 3
-    //       });
-    //     });
-    // },
-    // logout: function() {
-    //   return $http.get('/api/logout').success(function() {
-    //     $rootScope.currentUser = null;
-    //     $cookieStore.remove('user');
-    //     $alert({
-    //       content: 'You have been logged out.',
-    //       placement: 'top-right',
-    //       type: 'info',
-    //       duration: 3
-    //     });
-    //   });
-    // }
+      $rootScope.currentUser  = $cookieStore.get('user');
+      $rootScope.userInfo     = $cookieStore.get('userInfo');
+
+      if ($rootScope.currentUser != null && $rootScope.userInfo != null) 
+          return success($rootScope.userInfo);
+
+      if ($rootScope.currentUser == null) {
+          return success(null);
+      }
+
+      $http.post('/userinfo', $rootScope.currentUser)
+        .success(function(data) {
+
+            $cookieStore.put('userInfo', data.data);
+            $rootScope.userInfo = $cookieStore.get('userInfo');
+
+            if (success) return success(data.data);
+        })
+        .error(function(e) {
+            if (failed) return failed(e);
+        });
+    }
   };
 });
