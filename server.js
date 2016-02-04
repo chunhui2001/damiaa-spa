@@ -39,6 +39,7 @@ app.get('/checkcode', function(req, res, next) {
 app.post('/login', accountController.login);
 app.post('/logout', accountController.logout);
 app.post('/userinfo', accountController.userinfo);
+app.post('/resetpwd', accountController.resetPasswd);
 
 
 

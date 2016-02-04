@@ -51,6 +51,7 @@ angular.module('starter.controllers', [])
 
 .controller('account-controller', function($scope, $rootScope, $state, $ionicViewSwitcher, Auth) {
     $scope.logedin = Auth.islogin();
+    //debugger;
     $scope.logout = Auth.logout;
 
     if ($scope.logedin) {
@@ -59,6 +60,9 @@ angular.module('starter.controllers', [])
         }, function(error) {
 
         });
+    } else {
+        $ionicViewSwitcher.nextDirection('forward'); // 'forward', 'back', etc.
+        $state.go('login');
     }
 
     $scope.login = function() {      
@@ -103,7 +107,7 @@ angular.module('starter.controllers', [])
 
         if ($scope.resetPwdM.newPwd === undefined || $scope.resetPwdM.newPwd === ''
             || ($scope.resetPwdM.newPwd && ($scope.resetPwdM.newPwd.length < 6 || $scope.resetPwdM.newPwd.length > 16))) {
-          toolTip($scope, $timeout, "请输入新密码, 且新密码长度6-16位, 首位不能有空格！", 'danger');
+          toolTip($scope, $timeout, "请输入新密码, 且新密码长度6-16位, 首尾不能有空格！", 'danger');
           return;
         }
 
@@ -112,7 +116,21 @@ angular.module('starter.controllers', [])
           return;
         }
 
-        // TODO
+        Auth.resetPasswd(
+              {
+                oldPwd: $scope.resetPwdM.oldPwd, 
+                newPwd: $scope.resetPwdM.newPwd,
+                userToken: currentUser.value,
+                tokenType: currentUser.tokenType
+              }
+              ,function(result) {
+                toolTip($scope, $timeout, "修改成功.", 'info');
+                return;
+              }, function(e) {
+                toolTip($scope, $timeout, e.message, 'danger');
+                return;
+              }
+        );
     }
 })
 

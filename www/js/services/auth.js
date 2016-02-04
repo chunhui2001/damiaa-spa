@@ -61,6 +61,28 @@ angular.module('starter')
         .error(function(e) {
             if (failed) return failed(e);
         });
+    }, 
+    resetPasswd: function(formData, success, failed) {
+      var formDataObj   = {
+          oldPwd: null,
+          newPwd: null,
+          userToken: null,
+          tokenType: null
+      };
+
+      angular.extend(formDataObj, formData);
+
+      $http.post('/resetpwd', formDataObj)
+        .success(function(data) {
+          if (data.error) {
+            return failed(data);
+          }
+          
+          return success();
+        })
+        .error(function(e) {
+          return failed(e);
+        });
     }
   };
 });

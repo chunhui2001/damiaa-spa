@@ -1,4 +1,7 @@
 var URL 		= require('url');
+var _s 			= require("underscore.string");
+
+
 var httpClient 	= require('../common/http-client').httpClient;
 var endpoints 	= require('../common/endpoints');
 
@@ -21,13 +24,14 @@ module.exports 	= {
 	    var refresh_token 			= endpoints.refresh_token;
 
 	    httpClient(URL.parse(endpoints_access_token), null, 'get', null, function(error, result) {
+
 	    	if (error) {
 	    		sendResult.error 	= true;
 	    		sendResult.data 	= error;
 	    		return res.json(sendResult);
 	    	}
 
-	    	if (result.httpErrorCode == 400) {
+	    	if (!result || result.httpErrorCode == 400) {
 	    		sendResult.error 	= true;
 	    		sendResult.data 	= result;
 	    		sendResult.message 	= '用户名或密码错误!';
@@ -38,7 +42,6 @@ module.exports 	= {
 	    		sendResult.error 	= true;
 	    		sendResult.data 	= result;
 	    		sendResult.message 	= endpoints_access_token;
-	    		console.log(endpoints_access_token);
 	    		return res.json(sendResult);
 	    	}
 
@@ -88,7 +91,6 @@ module.exports 	= {
 
 
 	    httpClient(endpoints_user_info, null, 'get', {type: tokenType, token: token}, function(newError, newResult) {
-	    	console.log(newResult, 9888);
 
 			if (newError) {
 	    		sendResult.error 	= true;
@@ -97,11 +99,63 @@ module.exports 	= {
 	    		return res.json(sendResult);
 	    	}
 
-	    	sendResult.data = newResult.data;
-	    	sendResult.message 	= newResult.message;
-	    	sendResult.error 	= newResult.error;
+	    	if (newResult) {
+		    	sendResult.data 	= newResult.data;
+		    	sendResult.message 	= newResult.message;
+		    	sendResult.error 	= newResult.error;
+	    	}
 
 			return res.json(sendResult);
 		});
+	},
+	resetPasswd: function(req, res, next) {		
+		var oldPwd 			= req.body.oldPwd;
+		var newPwd 			= req.body.newPwd;
+		var userToken 		= req.body.userToken;
+		var tokenType 			= req.body.tokenType;
+		var endpoints_resetpwd 	= URL.parse(endpoints.resetpwd);
+
+
+	    var sendResult  = {error: false, message: null, data: null};
+
+	    // if (!oldPwd || oldPwd.length == 0) {
+	    // 	sendResult.error 	= true;
+	    // 	sendResult.message 	= '请提供原始登陆密码! ';
+	    // }
+
+	    // if (!newPwd || newPwd.length == 0 || 
+	    // 	 (newPwd && (_s(newPwd).trim().length < 6 || _s(newPwd).trim().length > 16))) {
+	    // 	sendResult.error 	= true;
+	    // 	sendResult.message += '请输入新密码, 且新密码长度6-16位, 首尾不能有空格！ ';
+	    // }
+
+	    if (sendResult.error) {	    	
+			return res.json(sendResult);
+	    }
+
+	    newPwd = _s(newPwd).trim()._wrapped;
+
+	    var postdata 	= {oldPwd:oldPwd, newPwd:newPwd};
+
+
+		httpClient(endpoints_resetpwd, postdata, 'post', {type: tokenType, token: userToken}, function(error, result) {
+
+			if (error) {
+	    		sendResult.error 	= true;
+	    		sendResult.data 	= error;
+	    		sendResult.message 	= error.message;
+	    		return res.json(sendResult);
+	    	}
+
+	    	sendResult.data 	= result.data;
+	    	sendResult.message 	= result.message;
+	    	sendResult.error 	= result.error;
+
+			return res.json(sendResult);
+		});
+
+	    //sendResult.data = newPwd;
+
+	    //return res.json(sendResult);
 	}
 }

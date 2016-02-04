@@ -1,14 +1,14 @@
-<ion-view view-title="用户中心">
+<ion-view view-title="用户中心" ng-cloak>
 
 	<ion-nav-buttons side="primary">
-	  <button ng-show="{{logedin}}" style="color:#039EB1;" class="button button-dark button-clear" 
+	  <button ng-if="logedin" style="color:#039EB1;" class="button button-dark button-clear" 
 	  	ng-click="logout(logoutSuccess)">
 	    退出
 	  </button>
 	</ion-nav-buttons>
 
 	<ion-nav-buttons side="right">
-	  <button ng-hide="{{logedin}}" class="button button-positive" 
+	  <button ng-if="!logedin" class="button button-positive" 
 	  	ng-click="login()">
 	    去登陆
 	  </button>
@@ -45,7 +45,7 @@
 				<i class="icon ion-stats-bars" style="color:#37CE1F"></i>
 				<span class="item-content" style="color:gray;">历史订单</span>
 				<span class="badge badge-assertive" 
-						style="right:16px;background-color:#3591E0;">99+</span>
+						style="right:16px;background-color:#3591E0;">{{loginUser.orderCount}}</span>
 			</a>
 
 			<a href="javascript:void(this);" 
@@ -54,7 +54,7 @@
 				<i class="icon ion-levels" style="color:#D41313"></i>
 				<span class="item-content" style="color:gray;">收货地址</span>
 				<span class="badge badge-assertive" 
-					style="right:16px;background-color:#3591E0;">{{loginUser.listOfAddresses.length}}</span>
+					style="right:16px;background-color:#3591E0;">{{loginUser.addressCount}}</span>
 			</a>
 		</div>
 

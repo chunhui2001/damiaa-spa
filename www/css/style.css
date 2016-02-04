@@ -9,8 +9,21 @@
 .current-tab {
 	background-color: #0c60ee !important;
 }
+/*
+body {
+    background: 
+url(http://cdn.wonderfulengineering.com/wp-content/uploads/2014/07/background-wallpapers-32.jpg) ;
+    background-attachment:fixed;
+    background-position: center;
+}
 
+body .view-container.tab-content {
+  background-color: white;
+}
 
+body .pane, .menu, .view, .list, .item       {
+    background: white;
+}*/
 
 .flash-modal {
   color: #fff;  
