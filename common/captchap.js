@@ -10,7 +10,7 @@ exports.captchap=function (req, res, next) {
 
     var p       = new captchapng(width,height, code);
 
-    p.color(0, 0, 0, 0); 
+    p.color(100, 236, 44, 1); 
     p.color(80, 80, 80, 255);
 
     var img         = p.getBase64();

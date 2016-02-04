@@ -40,6 +40,8 @@ app.post('/login', accountController.login);
 app.post('/logout', accountController.logout);
 app.post('/userinfo', accountController.userinfo);
 app.post('/resetpwd', accountController.resetPasswd);
+app.post('/register', accountController.register);
+
 
 
 

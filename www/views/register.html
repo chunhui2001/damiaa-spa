@@ -14,7 +14,7 @@
 	</ion-nav-buttons>
 
 	<ion-content class="padding">
-	<div ng-hide="true">
+	<div ng-if="false">
 		<div class="item item-divider">手机快速注册</div>
 		<div class="list">
 
@@ -49,61 +49,71 @@
 		</div>
 	</div>
 
+	<div ng-if="!regSuccess">
+		<div class="item item-divider" style="margin-top:1em;">用户基本信息</div>
+		<div class="list">
 
-	<div class="item item-divider" style="margin-top:1em;">用户基本信息</div>
-	<div class="list">
-
-		<div class="item item-input-inset" style="padding:0;">
-		<label class="item-input" style="width:100%;">
-		    <i class="icon ion-person-stalker placeholder-icon"></i>
-		    <input type="text" placeholder="请输入用户名" ng-model="regM.username">
-		</label>
-		</div>
-
-		<div class="item item-input-inset" style="padding:0;">
-			<label class="item-input">
-				<i class="icon ion-ios-barcode placeholder-icon"></i>
-				<input type="password" ng-model="regM.passwd" 
-						placeholder="请输入密码" />
+			<div class="item item-input-inset" style="padding:0;">
+			<label class="item-input" style="width:100%;">
+			    <i class="icon ion-person-stalker placeholder-icon"></i>
+			    <input type="text" placeholder="请输入登陆用户名 (仅限: a-z,A-Z,0-9,@,-,_, .)" ng-model="regM.username">
 			</label>
+			</div>
+
+			<div class="item item-input-inset" style="padding:0;">
+				<label class="item-input" style="width:100%;">
+					<i class="icon ion-ios-barcode placeholder-icon"></i>
+					<input type="password" ng-model="regM.passwd" 
+							placeholder="请输入登陆密码(6-16位, 首尾不能包含空格)" />
+				</label>
+			</div>
+
+			<!-- <div class="item item-input-inset" style="padding:0;">
+				<label class="item-input">
+					<i class="icon ion-ios-email placeholder-icon"></i>
+					<input type="password" ng-model="regM.checkcode" 
+							placeholder="请输入邮箱" />
+				</label>
+			</div> -->
+
+			<!-- <div class="item item-input-inset" style="padding:0;">
+				<label class="item-input" style="width:75%;">
+					<i class="icon ion-android-textsms placeholder-icon"></i>
+					<input type="number" placeholder="请输入短信验证码" />
+				</label>
+				<button style="padding: 0 1.5em;" 
+						class="button button-right button-small button-positive button-dark"
+						ng-click="sendSMS()">
+				  	发送短信
+				</button>
+			</div> -->
+
+			<div class="item item-input-inset" style="padding:0;">
+				<label class="item-input" style="width:75%;">
+					<i class="icon ion-images placeholder-icon"></i>
+					<input type="number" ng-model="regM.checkcode" 
+							placeholder="请输入右侧图片验证码" />
+				</label>
+				<img src="/checkcode?t={{r}}" ng-click="refreshCode()" alt="img" />
+			</div>
+
+
+			<div class="button-bar padding-top padding-bottom">
+				<button ng-click="register()"
+							class="button button-positive">
+					注册
+				</button>
+			</div>
 		</div>
-
-		<!-- <div class="item item-input-inset" style="padding:0;">
-			<label class="item-input">
-				<i class="icon ion-ios-email placeholder-icon"></i>
-				<input type="password" ng-model="regM.checkcode" 
-						placeholder="请输入邮箱" />
-			</label>
-		</div> -->
-
-		<!-- <div class="item item-input-inset" style="padding:0;">
-			<label class="item-input" style="width:75%;">
-				<i class="icon ion-android-textsms placeholder-icon"></i>
-				<input type="number" placeholder="请输入短信验证码" />
-			</label>
-			<button style="padding: 0 1.5em;" 
-					class="button button-right button-small button-positive button-dark"
-					ng-click="sendSMS()">
-			  	发送短信
-			</button>
-		</div> -->
-
-		<div class="item item-input-inset" style="padding:0;">
-			<label class="item-input" style="width:75%;">
-				<i class="icon ion-images placeholder-icon"></i>
-				<input type="number" ng-model="regM.checkcode" 
-						placeholder="请输入右侧图片验证码" />
-			</label>
-			<img src="/checkcode?t={{r}}" ng-click="refreshCode()" alt="img" />
-		</div>
+	</div>
 
 
-		<div class="button-bar padding-top padding-bottom">
-			<button ng-click="register()"
-						class="button button-positive">
-				注册
-			</button>
-		</div>
+	<div ng-if="regSuccess">
+		<span style="font-size:1.3em;line-height:1.5em;">恭喜你, <strong>{{regM.username}}</strong>: <br />
+		注册成功, 现在就去登陆吧 </span>
+		<a ng-click="goToLoginPage()" style="font-size:1.75em;color:green;"
+	  			class="ion-log-in">
+		</a>
 	</div>
 
 	<div class="status flash-modal" 

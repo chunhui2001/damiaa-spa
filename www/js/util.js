@@ -10,6 +10,6 @@ function toolTip($scope, $timeout, message, type) {
 	      $scope.isDanger = false;
 	      $scope.isInfo = false;
 	      $scope.isError = false;
-	    }, 3000);
+	    }, 5000);
     }
 }

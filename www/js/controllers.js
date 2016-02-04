@@ -136,23 +136,59 @@ angular.module('starter.controllers', [])
 
 
 
-.controller('register-controller', function($scope, $state, $timeout) {
+.controller('register-controller', function($scope, $state, $timeout, $state, $ionicViewSwitcher, Auth) {
     $scope.r    = 1;
     $scope.regM = {};
-    $scope.uploading = false;
+    $scope.uploading  = false;
+    $scope.regSuccess = false;
 
     $scope.refreshCode = function() {
       $scope.r = $scope.r + 1;
     }
 
-    $scope.sendSMS = function() {
-      if (!$scope.regM.checkcode) return;
+    // $scope.sendSMS = function() {
+    //   if (!$scope.regM.checkcode) return;
 
-      toolTip($scope, $timeout, "手机号码格式不正确", 'danger');
-    }
+    //   toolTip($scope, $timeout, "手机号码格式不正确", 'danger');
+    // }
 
     $scope.register = function() {
-        debugger;
+        var username      = $scope.regM.username;
+        var passwd        = $scope.regM.passwd;
+        var checkcode     = $scope.regM.checkcode;
+
+        var username_reg  = /^([A-Za-z0-9_\-\.\@]){6,16}$/;
+
+        if(typeof(username) == 'undefined' || username_reg.test(username) == false) {          
+          toolTip($scope, $timeout, "用户名不符合规范!(6-16位! 仅限: a-z A-Z 0-9 @ - _ .)", 'danger');
+          return;
+        }
+
+        if(typeof(passwd) == 'undefined' || (passwd.trim().length < 6 || passwd.trim().length > 16)) {          
+          toolTip($scope, $timeout, "密码输入有误!(6-16位,首尾不含空格!)", 'danger');
+          return;
+        }
+
+        if(typeof(checkcode) == 'undefined' || checkcode.toString().trim().length != 6) {          
+          toolTip($scope, $timeout, "验证码输入有误!", 'danger');
+          return;
+        }
+
+        Auth.register({
+          username: username,
+          passwd: passwd,
+          checkcode: checkcode
+        }, function(result){
+            $scope.regSuccess = true;
+            //toolTip($scope, $timeout, "恭喜你, 注册成功! 现在去登陆吧.", 'info');
+        }, function(error) {
+            toolTip($scope, $timeout, error.message, 'danger');
+        });
+    }
+
+    $scope.goToLoginPage = function() {
+        $ionicViewSwitcher.nextDirection('forward'); // 'forward', 'back', etc.
+        $state.go('login', {}, {reload: true});
     }
 })
 

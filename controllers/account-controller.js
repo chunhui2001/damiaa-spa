@@ -112,7 +112,8 @@ module.exports 	= {
 		var oldPwd 			= req.body.oldPwd;
 		var newPwd 			= req.body.newPwd;
 		var userToken 		= req.body.userToken;
-		var tokenType 			= req.body.tokenType;
+		var tokenType 		= req.body.tokenType;
+
 		var endpoints_resetpwd 	= URL.parse(endpoints.resetpwd);
 
 
@@ -154,8 +155,42 @@ module.exports 	= {
 			return res.json(sendResult);
 		});
 
-	    //sendResult.data = newPwd;
 
-	    //return res.json(sendResult);
+	},
+	register: function(req, res, next) {
+		var username 	= req.body.username;
+		var passwd 		= req.body.passwd;
+		var checkcode 	= req.body.checkcode;
+
+
+		var endpoints_user_register 	= URL.parse(endpoints.user_register);
+
+
+	    var sendResult  = {error: false, message: null, data: null};
+
+	    if (req.session.checkcode != checkcode) {
+	    	sendResult.error = true;
+	    	sendResult.message = "验证码不正确，请重新输入！";
+
+			return res.json(sendResult);
+	    }
+
+	    httpClient(endpoints_user_register, {name: username, passwd: passwd}, 'post', null, function(error, result) {
+
+			if (error) {
+	    		sendResult.error 	= true;
+	    		sendResult.data 	= error;
+	    		sendResult.message 	= error.message;
+	    		return res.json(sendResult);
+	    	}
+
+	    	if (result) {
+		    	sendResult.data 	= result.data;
+		    	sendResult.message 	= result.message;
+		    	sendResult.error 	= result.error;
+	    	}
+
+			return res.json(sendResult);
+		});
 	}
 }

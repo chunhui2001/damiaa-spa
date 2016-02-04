@@ -77,7 +77,27 @@ angular.module('starter')
           if (data.error) {
             return failed(data);
           }
-          
+
+          return success();
+        })
+        .error(function(e) {
+          return failed(e);
+        });
+    },
+    register: function(formData, success, failed) {
+      var formDataObj = {
+          username: null,
+          passwd: null,
+          checkcode: null
+      };
+
+      angular.extend(formDataObj, formData);
+
+      $http.post('/register', formDataObj)
+        .success(function(data) {
+          if (data.error) {
+            return failed(data);
+          }
           return success();
         })
         .error(function(e) {
