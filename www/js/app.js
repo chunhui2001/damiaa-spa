@@ -26,6 +26,9 @@ var starter = angular.module('starter', ['ionic', 'ngCookies', 'ngMessages', 'mg
 .config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
 
   $ionicConfigProvider.views.maxCache(0);
+  //$ionicConfigProvider.backButton.text('').icon('ion-ios7-arrow-left');
+  //$ionicConfigProvider.backButton.previousTitleText(false);
+  $ionicConfigProvider.backButton.text('').icon('ion-chevron-left').previousTitleText(false);
 
   // Ionic uses AngularUI Router which uses the concept of states
   // Learn more here: https://github.com/angular-ui/ui-router
@@ -60,6 +63,17 @@ var starter = angular.module('starter', ['ionic', 'ngCookies', 'ngMessages', 'mg
       'account': {
         templateUrl: 'views/account.html',
         controller: 'account-controller'
+      }
+    }
+  })
+
+
+  .state('account-addr', {
+    url: 'account/addr',
+    views: {
+      'account': {
+        templateUrl: 'views/account-addr.html',
+        controller: 'account-addr-controller'
       }
     }
   })

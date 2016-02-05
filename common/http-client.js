@@ -31,7 +31,7 @@ exports.httpClient = function(url, parmas, method, certificate, callback) {
 
     request(options, function(error, response, body) {
 
-        if (!error && response.statusCode == 200) {
+        if (!error) {
             try {               
                 var info = JSON.parse(body);
                 return callback(null,info);

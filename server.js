@@ -28,6 +28,7 @@ app.use(session({
 
 
 var accountController   = require('./controllers/account-controller');
+var addrController      = require('./controllers/addr-controller');
 
 
 app.get('/checkcode', function(req, res, next) {
@@ -41,6 +42,10 @@ app.post('/logout', accountController.logout);
 app.post('/userinfo', accountController.userinfo);
 app.post('/resetpwd', accountController.resetPasswd);
 app.post('/register', accountController.register);
+
+
+app.post('/addr/list',  addrController.list);
+app.post('/addr/set',   addrController.set);
 
 
 

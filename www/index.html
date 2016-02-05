@@ -32,6 +32,7 @@
     <script src="js/controllers.js"></script>
 
     <script src="js/services/auth.js"></script>
+    <script src="js/services/AddrService.js"></script>
     <script src="js/services.js"></script>
   </head>
   <body ng-app="starter">
@@ -85,20 +86,28 @@ navigation history that also transitions its views in and out.
 
 
 
-  <ion-tab hidden="true" title="Login" icon-off="ion-ios-gear-outline" icon-on="ion-ios-gear" href="#/login">
+  <ion-tab hidden="true" title="Login" 
+        icon-off="ion-ios-gear-outline" icon-on="ion-ios-gear" href="#/login">
     <ion-nav-view name="login"></ion-nav-view>
   </ion-tab>
 
 
-  <ion-tab hidden="true" title="Register" icon-off="ion-ios-gear-outline" icon-on="ion-ios-gear" href="#/register">
+  <ion-tab hidden="true" title="Register" 
+        icon-off="ion-ios-gear-outline" icon-on="ion-ios-gear" href="#/register">
     <ion-nav-view name="register"></ion-nav-view>
   </ion-tab>
 
 
-  <ion-tab hidden="true" title="resetpwd" icon-off="ion-ios-gear-outline" icon-on="ion-ios-gear" href="#/resetpwd">
+  <ion-tab hidden="true" title="resetpwd" 
+        icon-off="ion-ios-gear-outline" icon-on="ion-ios-gear" href="#/resetpwd">
     <ion-nav-view name="resetpwd"></ion-nav-view>
   </ion-tab>
 
+
+  <ion-tab hidden="true" title="收货地址" 
+        icon-off="ion-ios-gear-outline" icon-on="ion-ios-gear" href="#/account-addr">
+    <ion-nav-view name="account"></ion-nav-view>
+  </ion-tab>
 
 </ion-tabs>
 

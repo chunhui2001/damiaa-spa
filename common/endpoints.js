@@ -6,5 +6,7 @@ module.exports = {
 	refresh_token: host + '/oauth/token?grant_type=refresh_token&client_id=ios-clients&client_secret=ios&refresh_token={{{refresh_token}}}',
 	get_user_info: host + '/me',
 	resetpwd: host + '/resetpwd',
-	user_register: host + '/register'
+	user_register: host + '/register',
+	user_addr_list: host + '/addr/list',
+	user_addr_set: host + '/addr/set'
 }

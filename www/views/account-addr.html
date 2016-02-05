@@ -1,0 +1,37 @@
+<ion-view view-title="收货地址" ng-cloak>
+<ion-nav-buttons side="right">
+	  <button style="color:#039EB1;" class="button button-dark button-clear"
+	  	ng-click="add_addr(pid)">
+	    新增
+	  </button>
+	</ion-nav-buttons>
+
+	<ion-content class="padding" style="margin-top:1em;">
+		<div ng-if="isNewAddr" style="margin-bottom:2em;">
+			<div class="item item-divider">新增收货地址 
+			</div>
+			<div class="item item-input">
+				<textarea placeholder="新增收货地址"></textarea>
+			</div>
+			<div class="item item-divider" style="text-align:right;">
+				<button class="button button-small button-positive"
+					ng-click="save_addr(pid)">保存</button>
+				<button class="button button-small button-dark"
+					ng-click="add_addr(pid)">取消</button>
+			</div>
+		</div>
+
+		<div class="item item-divider">收货地址列表 
+			<span style="font-size: .85em;font-style: oblique;color: #28a54c;float:right;">单击设为默认地址</span>
+		</div>
+		<div ng-click="setDefault(addr.id)" class="item item-checkbox checkbox-balanced"
+		 		ng-repeat="addr in userAddrList">
+			<label class="checkbox">
+				<input ng-if="addr.defaults" type="radio" name="address" checked />
+				<input ng-if="!addr.defaults" type="radio" name="address" />
+			</label>
+			<span class="input-label">{{addr.city}} {{addr.area}} {{addr.street}} <br />
+			{{addr.detail}}</span>
+		</div>
+	</ion-content>
+</ion-view>

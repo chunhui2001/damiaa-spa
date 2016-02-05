@@ -79,6 +79,10 @@ angular.module('starter.controllers', [])
         $state.go('home', {}, {reload: true});
     }
 
+    $scope.addrList = function() {        
+        $ionicViewSwitcher.nextDirection('forward'); // 'forward', 'back', etc.
+        $state.go('account-addr', {}, {reload: true});
+    }
 })
 
 
@@ -218,5 +222,54 @@ angular.module('starter.controllers', [])
 
     $scope.register = function() {
       $state.go('register', {}, {reload: true});
+    }
+})
+
+
+
+.controller('account-addr-controller', function(
+      $scope, $rootScope, $ionicViewSwitcher, $state, $ionicPopup, $timeout, $filter, Auth, AddrService) {
+
+    $scope.userAddrList   = [];
+    $scope.isNewAddr      = false;
+
+    if (!Auth.islogin()) {
+      $state.go('login', {}, {reload: true});
+      return;
+    }
+
+    var currentUser   = $rootScope.currentUser;
+
+    AddrService.list(currentUser, function(data) {
+      $scope.userAddrList = data;
+    }, function(error) {
+      
+    });
+
+
+    $scope.setDefault = function(addr_id) {
+
+      var currentAddrEntry  = $filter('filter')($scope.userAddrList, function (d) {return d.id === addr_id;})[0];
+
+      if (currentAddrEntry.defaults) return;
+
+      AddrService.setdefault(currentUser, addr_id, function(data) {
+
+          angular.forEach($scope.userAddrList, function(value, key) {
+            value.defaults = false;
+          });
+
+          currentAddrEntry.defaults = true;
+      }, function(error) {
+        
+      });
+    }
+
+    $scope.add_addr = function () {
+        $scope.isNewAddr = !$scope.isNewAddr;
+    }
+
+    $scope.save_addr = function () {
+        
     }
 });
