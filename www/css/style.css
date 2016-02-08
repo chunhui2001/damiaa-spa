@@ -6,6 +6,13 @@
   font-weight: bold;
 }
 
+.addr-list ion-item{
+  padding-left:0;
+}
+.addr-list .item-content{
+  padding-left:60px;
+}
+
 .current-tab {
 	background-color: #0c60ee !important;
 }
