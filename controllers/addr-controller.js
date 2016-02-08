@@ -14,7 +14,6 @@ module.exports 	= {
 	    var sendResult  				= {error: false, message: null, data: null};	    
 		var endpoints_user_addr_list 	= URL.parse(endpoints.user_addr_list);
 
-
 		httpClient(endpoints_user_addr_list, null, 'get', {type: tokenType, token: userToken}, function(newError, newResult) {
 
 			if (newError) {
@@ -59,7 +58,34 @@ module.exports 	= {
 		    	sendResult.error 	= newResult.error;
 	    	}
 
-	    	console.log(newResult);
+			return res.json(sendResult);
+		});
+	},	
+	add: function (req, res, next) {		
+		var userToken 		= req.body.user.value;
+		var tokenType 		= req.body.user.tokenType;
+		var addr 			= req.body.addr;
+
+
+	    var sendResult  				= {error: false, message: null, data: null};	    
+		var endpoints_user_addr_add 	= URL.parse(endpoints.user_addr_add);
+
+
+		httpClient(endpoints_user_addr_add, addr, 'post'
+			, {type: tokenType, token: userToken}, function(newError, newResult) {
+
+			if (newError) {
+	    		sendResult.error 	= true;
+	    		sendResult.data 	= newError;
+	    		sendResult.message 	= newError.message;
+	    		return res.json(sendResult);
+	    	}
+
+	    	if (newResult) {
+		    	sendResult.data 	= newResult.data;
+		    	sendResult.message 	= newResult.message;
+		    	sendResult.error 	= newResult.error;
+	    	}
 
 			return res.json(sendResult);
 		});

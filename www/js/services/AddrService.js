@@ -27,5 +27,29 @@ angular.module('starter')
           return failed(e);
         });
     },
+    add: function(user, addrObj, success, failed) {
+      var addr  = {
+        province: null,
+        area: null,
+        city: null,
+        detail: null,
+        street: '',
+        linkMan: null,
+        linkPone: null
+      };
+
+
+      angular.extend(addr, addrObj);
+      $http.post('/addr/add', {user: user, addr:addr})
+        .success(function(result) {
+          if (result.error) {
+            return failed(result);
+          }
+          return success(result.data);
+        })
+        .error(function(e) {
+          return failed(e);
+        });
+    },
   };
 });

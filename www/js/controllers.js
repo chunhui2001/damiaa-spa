@@ -228,7 +228,8 @@ angular.module('starter.controllers', [])
 
 
 .controller('account-addr-controller', function(
-      $scope, $rootScope, $ionicViewSwitcher, $state, $ionicPopup, $timeout, $filter, Auth, AddrService) {
+      $scope, $rootScope, $ionicViewSwitcher, $state, $ionicPopup, $timeout, $filter
+      , Auth, AddrService, RegionService) {
 
     $scope.userAddrList   = [];
     $scope.isNewAddr      = false;
@@ -265,11 +266,124 @@ angular.module('starter.controllers', [])
       });
     }
 
+    $scope.province   = [];
+    $scope.cities     = [];
+    $scope.area       = [];
+
+    $scope.provinceCode   = '-1';    
+    $scope.cityCode       = '-1';   
+    $scope.areaCode       = '-1';
+
+    $scope.provinceDefaultSelectedCode  = '-1';
+    $scope.cityDefaultSelectedCode      = '-1';
+    $scope.areaDefaultSelectedCode      = '-1';
+
+    $scope.provinceDefaultSelectedItem = {"id":"-1","code":"-1","name":"省"};
+    $scope.cityDefaultSelectedItem     = {"id":"-1","code":"-1","name":"市"};
+    $scope.areaDefaultSelectedItem     = {"id":"-1","code":"-1","name":"区"};
+
+    $scope.addrM    = {};
+
+
+    RegionService.list('province', '-1', function(result) {
+        $scope.province = result;//[$scope.provinceDefaultSelectedItem].concat(result);
+    });
+
+    RegionService.list('city', $scope.provinceCode, function(result) {
+        $scope.cities = result;//[$scope.cityDefaultSelectedItem].concat(result);
+    });
+
+    RegionService.list('area', $scope.cityCode , function(result) {
+        $scope.area = result;//[$scope.areaDefaultSelectedItem].concat(result);
+    });
+
+    
+    $scope.regionChange = function(selectedItemVal, name) {
+      if (name == 'province') {
+        $scope.provinceCode = selectedItemVal;
+
+        RegionService.list('city', selectedItemVal, function(result) {
+          $scope.cities = result;//[$scope.cityDefaultSelectedItem].concat(result);
+        });
+
+        $scope.cityCode = '-1';
+        $scope.areaCode = '-1';
+      }
+
+      if (name == 'city') {
+        $scope.cityCode = selectedItemVal;
+        $scope.areaCode = '-1';
+      }
+
+      if (name != 'area') {
+        RegionService.list('area', selectedItemVal , function(result) {
+          $scope.area = result;//[$scope.areaDefaultSelectedItem].concat(result);
+        });
+      } else {        
+        $scope.areaCode = selectedItemVal;
+      }
+
+    }
+
     $scope.add_addr = function () {
         $scope.isNewAddr = !$scope.isNewAddr;
     }
 
     $scope.save_addr = function () {
-        
+        $scope.isLinkManErr   = false;
+        $scope.isLinkPhoneErr   = false;
+
+        $scope.isProvErr   = false;
+        $scope.isCityErr   = false;
+        $scope.isAreaErr   = false;
+
+        $scope.isDetailErr   = false;
+
+        if (!$scope.addrM.linkMan || $scope.addrM.linkMan.length == 0 || !$scope.addrM.linkPhone || $scope.addrM.linkPhone.length == 0) {
+
+          $scope.isLinkManErr   = !$scope.addrM.linkMan || $scope.addrM.linkMan.length == 0;
+          $scope.isLinkPhoneErr = !$scope.addrM.linkPhone || $scope.addrM.linkPhone.length == 0;
+
+          toolTip($scope, $timeout, '请输入"收货人姓名"和"联系电话"', 'danger');
+          return;
+        }
+
+        if ($scope.provinceCode == '-1' || $scope.cityCode == '-1' || $scope.areaCode == '-1') {
+
+          $scope.isProvErr = $scope.provinceCode == '-1';
+          $scope.isCityErr = $scope.cityCode == '-1';
+          $scope.isAreaErr = $scope.areaCode == '-1';
+
+          toolTip($scope, $timeout, '请选择 “省、市、区”', 'danger');
+          return;
+        }
+
+        if (!$scope.addrM.detail || $scope.addrM.detail.length == 0) {
+
+          $scope.isDetailErr   = !$scope.addrM.detail || $scope.addrM.detail.length == 0;
+
+          toolTip($scope, $timeout, '请输入"详细地址"', 'danger');
+          return;
+        }
+
+        var currentAddr   = {
+            "area":$scope.areaCode, 
+            "city":$scope.cityCode, 
+            "detail":$scope.addrM.detail, 
+            "province":$scope.provinceCode, 
+            "linkMan": $scope.addrM.linkMan, 
+            "linkPone": $scope.addrM.linkPhone
+          };
+
+        AddrService.add(currentUser, currentAddr, function(newId) {
+          // add the newest addr object to current list of address
+          //$scope.userAddrList
+          currentAddr.id      = newId;
+          $scope.userAddrList = [currentAddr].concat($scope.userAddrList);
+
+          $scope.isNewAddr = false;
+        }, function(error) {
+          
+        });
     }
 });

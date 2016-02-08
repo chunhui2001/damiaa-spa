@@ -7,11 +7,80 @@
 	</ion-nav-buttons>
 
 	<ion-content class="padding" style="margin-top:1em;">
+<style type="text/css">
+	.modal-error, .modal-danger {
+		bottom: -5px;
+	}
+</style>
+
 		<div ng-if="isNewAddr" style="margin-bottom:2em;">
 			<div class="item item-divider">新增收货地址 
 			</div>
-			<div class="item item-input">
-				<textarea placeholder="新增收货地址"></textarea>
+
+			<div class="list" style="margin-bottom:0;">
+
+				<label class="item item-input">
+					<span class="input-label" 
+							ng-class='{"submit-validate-error": isLinkManErr}'>收货人</span>
+					<input type="text" placeholder="请输入收货人姓名" ng-model='addrM.linkMan' />
+				</label>
+
+				<label class="item item-input">
+					<span class="input-label"
+							ng-class='{"submit-validate-error": isLinkPhoneErr}'>联系电话</span>
+					<input type="text" placeholder="请输入联系电话" ng-model='addrM.linkPhone' />
+				</label>
+				
+				<label class="item item-input item-select">
+				    <div class="input-label" ng-class='{"submit-validate-error": isProvErr}'>
+				        所在(省)
+				    </div>
+				    <select ng-model="provinceDefaultSelectedItem" 
+				    		ng-change="regionChange(provinceDefaultSelectedItem, 'province')">
+				        <option ng-selected="provinceDefaultSelectedCode == prov.code" value="{{prov.code}}"
+				         		ng-repeat="prov in province">{{prov.name}}</option>
+				    </select>
+				</label>
+
+				<label class="item item-input item-select">
+				    <div class="input-label" ng-class='{"submit-validate-error": isCityErr}'>
+				        所在(市)
+				    </div>
+				    <!-- <span style="font-size:.75em;">
+				    	<i>黑龙江省</i>
+				    	<i>绥化市</i><br/>
+				    	<i>北林区</i>
+			    	</span> -->
+				    <!-- <select>	        
+				        <option ng-repeat="city in cities">{{city.name}}</option>
+				    </select> -->
+				    <select ng-model="cityDefaultSelectedItem" 
+				    		ng-change="regionChange(cityDefaultSelectedItem, 'city')">
+				        <option ng-selected="cityDefaultSelectedCode == city.code" value="{{city.code}}"
+				         		ng-repeat="city in cities">{{city.name}}</option>
+				    </select>
+				</label>
+
+				<label class="item item-input item-select">
+				    <div class="input-label" ng-class='{"submit-validate-error": isAreaErr}'>
+				        所在(区)
+				    </div>
+				    <!-- <select>
+				        <option ng-repeat="a in area">{{a.name}}</option>
+				    </select> -->
+				    <select ng-model="areaDefaultSelectedItem" 
+				    		ng-change="regionChange(areaDefaultSelectedItem, 'area')">
+				        <option ng-selected="areaDefaultSelectedCode == a.code" value="{{a.code}}"
+				         		ng-repeat="a in area">{{a.name}}</option>
+				    </select>
+				</label>
+
+
+				<label class="item item-input">
+					<span class="input-label" 
+							ng-class='{"submit-validate-error": isDetailErr}'>详细地址</span>
+					<textarea placeholder="请在这里输入详细地址" ng-model='addrM.detail'></textarea>
+				</label>
 			</div>
 			<div class="item item-divider" style="text-align:right;">
 				<button class="button button-small button-positive"
@@ -30,8 +99,16 @@
 				<input ng-if="addr.defaults" type="radio" name="address" checked />
 				<input ng-if="!addr.defaults" type="radio" name="address" />
 			</label>
-			<span class="input-label">{{addr.city}} {{addr.area}} {{addr.street}} <br />
+			<span class="input-label"><strong>{{addr.linkMan}}</strong> 
+			<strong style="color:#5D5DFF;font-style:oblique;">{{addr.linkPone}}</strong><br />
+			{{addr.city}} {{addr.area}} {{addr.street}}<br />
 			{{addr.detail}}</span>
+		</div>
+
+
+		<div class="status flash-modal" 
+			ng-class='{"modal-info": isInfo, "modal-danger": isDanger, "modal-error": isDanger}'>
+			<div>{{message}}</div>
 		</div>
 	</ion-content>
 </ion-view>

@@ -42,12 +42,15 @@ body .pane, .menu, .view, .list, .item       {
 }
 .modal-info {
   bottom: 20px;
+  z-index: 100;
 }
 .modal-danger {
   bottom: 20px;
+  z-index: 100;
 }
 .modal-error {
   bottom: 20px;
+  z-index: 100;
 }
 
 
@@ -61,4 +64,8 @@ body .pane, .menu, .view, .list, .item       {
 
 .modal-error > div {
   background-color: red;
+}
+
+.submit-validate-error {
+  color:red !important;
 }

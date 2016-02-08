@@ -8,5 +8,6 @@ module.exports = {
 	resetpwd: host + '/resetpwd',
 	user_register: host + '/register',
 	user_addr_list: host + '/addr/list',
-	user_addr_set: host + '/addr/set'
+	user_addr_set: host + '/addr/set',
+	user_addr_add: host + '/addr'
 }
