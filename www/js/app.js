@@ -80,11 +80,12 @@ var starter = angular.module('starter', ['ionic', 'ngCookies', 'ngMessages', 'mg
 
 
   .state('login', {
-    url: '/login',
+    url: '/login/:b',
     views: {
       'login': {
         templateUrl: 'views/login.html',
-        controller: 'login-controller'
+        controller: 'login-controller'//,        
+        //params: ['b']
       }
     }
   })
@@ -185,5 +186,3 @@ var starter = angular.module('starter', ['ionic', 'ngCookies', 'ngMessages', 'mg
 
 
 
-
-starter.value('aa', 'aa');

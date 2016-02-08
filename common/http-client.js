@@ -34,11 +34,22 @@ exports.httpClient = function(url, parmas, method, certificate, callback) {
         if (!error) {
             try {               
                 var info = JSON.parse(body);
+
+                if (info.message.indexOf('Invalid access token') != -1) {
+                    return callback({error: true, message: info.message, data: null}, null);
+                }
+
                 return callback(null,info);
             } catch(e) {
+
+                if (body && body.message && body.message.indexOf('Invalid access token') != -1) {
+                    return callback({error: true, message: body.message, data: 4000}, null);
+                }
+
                 return callback(null,body);
             }
         }
+
 
         return callback(error,null);
     });

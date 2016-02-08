@@ -90,7 +90,7 @@ angular.module('starter.controllers', [])
 .controller('resetpwd-controller', function($scope, $rootScope, $state, $timeout, $ionicViewSwitcher, Auth) {
 
     if (!Auth.islogin()) {
-      $state.go('login', {}, {reload: true});
+      $state.go('login', {'b':'resetpwd'}, {reload: true});
       return;
     }
 
@@ -131,6 +131,7 @@ angular.module('starter.controllers', [])
                 toolTip($scope, $timeout, "修改成功.", 'info');
                 return;
               }, function(e) {
+                debugger;
                 toolTip($scope, $timeout, e.message, 'danger');
                 return;
               }
@@ -198,9 +199,10 @@ angular.module('starter.controllers', [])
 
 
 
-.controller('login-controller', function($scope, $rootScope, $ionicViewSwitcher, $state, $ionicPopup, $timeout, Auth) {
+.controller('login-controller', function($scope, $stateParams, $rootScope, $ionicViewSwitcher, $state, $ionicPopup, $timeout, Auth) {
+    $scope.b          = $stateParams.b;
     $scope.tabIndex   = 1;
-    $scope.logM = {};
+    $scope.logM       = {};
 
     $scope.tabClick = function(tabIndex) {
       $scope.tabIndex = tabIndex;
@@ -215,7 +217,7 @@ angular.module('starter.controllers', [])
 
         Auth.loginSuccess(result.data, function() {
           $ionicViewSwitcher.nextDirection('forward'); // 'forward', 'back', etc.
-          $state.go('account', {}, {reload: true});
+          $state.go($scope.b ? $scope.b : 'account', {}, {reload: true});
         });
       });
     }
@@ -235,7 +237,7 @@ angular.module('starter.controllers', [])
     $scope.isNewAddr      = false;
 
     if (!Auth.islogin()) {
-      $state.go('login', {}, {reload: true});
+        $state.go('login', {'b':'account-addr'});
       return;
     }
 
@@ -244,7 +246,10 @@ angular.module('starter.controllers', [])
     AddrService.list(currentUser, function(data) {
       $scope.userAddrList = data;
     }, function(error) {
-      
+      if (error.data == '4000') {
+        $state.go('login', {'b':'account-addr'});
+        return;
+      }
     });
 
 
@@ -367,19 +372,18 @@ angular.module('starter.controllers', [])
         }
 
         var currentAddr   = {
-            "area":$scope.areaCode, 
-            "city":$scope.cityCode, 
-            "detail":$scope.addrM.detail, 
-            "province":$scope.provinceCode, 
+            "area": $scope.areaCode, 
+            "city": $scope.cityCode,  
+            "detail": $scope.addrM.detail, 
+            "province": $scope.provinceCode,  
             "linkMan": $scope.addrM.linkMan, 
             "linkPone": $scope.addrM.linkPhone
           };
 
-        AddrService.add(currentUser, currentAddr, function(newId) {
+        AddrService.add(currentUser, currentAddr, function(newAddr) {
           // add the newest addr object to current list of address
           //$scope.userAddrList
-          currentAddr.id      = newId;
-          $scope.userAddrList = [currentAddr].concat($scope.userAddrList);
+          $scope.userAddrList = [newAddr].concat($scope.userAddrList);
 
           $scope.isNewAddr = false;
         }, function(error) {

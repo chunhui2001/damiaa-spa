@@ -14,7 +14,11 @@ angular.module('starter')
         });
     },
     loginSuccess: function(user, callback) {
-      $cookieStore.put('user', user);
+
+      var expireDate = new Date();
+      expireDate.setDate(expireDate.getDate() + 7);
+
+      $cookieStore.put('user', user, {'expires': expireDate});
       $rootScope.currentUser = $cookieStore.get('user');
 
       if (!callback) return;
@@ -35,7 +39,9 @@ angular.module('starter')
       });
     },
     islogin: function() {      
-      $rootScope.currentUser = $cookieStore.get('user');
+      $rootScope.currentUser  = $cookieStore.get('user');
+      //$rootScope.userInfo     = $cookieStore.get('userInfo');
+
       return $rootScope.currentUser != null;
     },
     loginUser: function(success, failed) {
@@ -52,8 +58,10 @@ angular.module('starter')
 
       $http.post('/userinfo', $rootScope.currentUser)
         .success(function(data) {
+            var expireDate = new Date();
+            expireDate.setDate(expireDate.getDate() + 7);
 
-            $cookieStore.put('userInfo', data.data);
+            $cookieStore.put('userInfo', data.data, {'expires': expireDate});
             $rootScope.userInfo = $cookieStore.get('userInfo');
 
             if (success) return success(data.data);

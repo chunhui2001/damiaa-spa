@@ -37,7 +37,8 @@
 				    </div>
 				    <select ng-model="provinceDefaultSelectedItem" 
 				    		ng-change="regionChange(provinceDefaultSelectedItem, 'province')">
-				        <option ng-selected="provinceDefaultSelectedCode == prov.code" value="{{prov.code}}"
+				        <option ng-selected="provinceDefaultSelectedCode == prov.code" 
+				        		value="{{prov.code}}"
 				         		ng-repeat="prov in province">{{prov.name}}</option>
 				    </select>
 				</label>
@@ -100,8 +101,11 @@
 				<input ng-if="!addr.defaults" type="radio" name="address" />
 			</label>
 			<span class="input-label"><strong>{{addr.linkMan}}</strong> 
-			<strong style="color:#5D5DFF;font-style:oblique;">{{addr.linkPone}}</strong><br />
-			{{addr.city}} {{addr.area}} {{addr.street}}<br />
+			<strong style="color:#5D5DFF;font-style:oblique;"> {{addr.linkPone}}</strong><br />
+			{{addr.province.split('(')[0]}} 
+			{{addr.city.split('(')[0]}} 
+			{{addr.area.split('(')[0]}} 
+			{{addr.street}}<br />
 			{{addr.detail}}</span>
 		</div>
 

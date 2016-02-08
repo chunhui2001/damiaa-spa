@@ -1,9 +1,19 @@
 var URL 		= require('url');
+var _ 			= require("underscore");
 var _s 			= require("underscore.string");
 
 
 var httpClient 	= require('../common/http-client').httpClient;
 var endpoints 	= require('../common/endpoints');
+
+
+
+var province 	= require('../json-data/region/province.json');
+var city 		= require('../json-data/region/city.json');
+var area 		= require('../json-data/region/area.json');
+
+
+
 
 module.exports 	= { 
 	list: function (req, res, next) {		
@@ -18,12 +28,13 @@ module.exports 	= {
 
 			if (newError) {
 	    		sendResult.error 	= true;
-	    		sendResult.data 	= newError;
+	    		sendResult.data 	= newError.data;
 	    		sendResult.message 	= newError.message;
 	    		return res.json(sendResult);
 	    	}
 
 	    	if (newResult) {
+	    		//console.log(newResult, 89);
 		    	sendResult.data 	= newResult.data;
 		    	sendResult.message 	= newResult.message;
 		    	sendResult.error 	= newResult.error;
@@ -69,6 +80,12 @@ module.exports 	= {
 
 	    var sendResult  				= {error: false, message: null, data: null};	    
 		var endpoints_user_addr_add 	= URL.parse(endpoints.user_addr_add);
+
+
+
+		addr.province 	= _.where(province, {code: addr.province})[0].name + "(" + addr.province + ")";
+		addr.city 		= _.where(city, {code: addr.city})[0].name + "(" + addr.city + ")";
+		addr.area 		= _.where(area, {code: addr.area})[0].name + "(" + addr.area + ")";
 
 
 		httpClient(endpoints_user_addr_add, addr, 'post'
