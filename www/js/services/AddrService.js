@@ -27,6 +27,18 @@ angular.module('starter')
           return failed(e);
         });
     },
+    del: function(user, addr, success, failed) {
+      $http.delete('/addr/' + addr.id, {params: {token: user.value, tokenType: user.tokenType}})
+        .success(function(result) {
+          if (result.error) {
+            return failed(result);
+          }
+          return success(result.data);
+        })
+        .error(function(e) {
+          return failed(e);
+        });
+    },
     add: function(user, addrObj, success, failed) {
       var addr  = {
         province: null,

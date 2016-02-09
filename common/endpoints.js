@@ -9,5 +9,6 @@ module.exports = {
 	user_register: host + '/register',
 	user_addr_list: host + '/addr/list',
 	user_addr_set: host + '/addr/set',
-	user_addr_add: host + '/addr'
+	user_addr_add: host + '/addr',
+	user_addr_del: host + '/addr/:addrid'
 }

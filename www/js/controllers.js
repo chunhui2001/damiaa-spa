@@ -330,6 +330,25 @@ angular.module('starter.controllers', [])
 
     }
 
+    $scope.onDeleteAddr = function(addr) {
+      if (addr.defaults) {
+        toolTip($scope, $timeout, '默认地址无法删除！', 'danger');
+        return;
+      }
+
+      AddrService.del(currentUser, addr, function(affectRowCount) {
+        if (affectRowCount > 0) {
+          // $scope.userAddrList.splice($scope.userAddrList.indexOf(addr), 1);
+          // $scope.userAddrList = $filter('filter')($scope.userAddrList, {id: addr.id})
+          $scope.userAddrList = $scope.userAddrList.filter(function(item) {
+              return item.id !== addr.id;
+          });
+        }
+      }, function(error) {
+
+      });
+    }
+
     $scope.add_addr = function () {
         $scope.isNewAddr = !$scope.isNewAddr;
     }

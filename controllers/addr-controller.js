@@ -106,5 +106,35 @@ module.exports 	= {
 
 			return res.json(sendResult);
 		});
+	},	
+	del: function (req, res, next) {	
+		var userToken 		= req.query.token;
+		var tokenType 		= req.query.tokenType;
+		var addrid 			= req.params.addrid;
+
+
+		var endpoints_user_addr_del 	= URL.parse(endpoints.user_addr_del.replace('/:addrid', '/' + addrid));
+
+	    
+	    var sendResult  				= {error: false, message: null, data: null};	
+
+	    httpClient(endpoints_user_addr_del, null, 'delete'
+			, {type: tokenType, token: userToken}, function(error, result) {
+
+			if (error) {
+	    		sendResult.error 	= true;
+	    		sendResult.data 	= error;
+	    		sendResult.message 	= error.message;
+	    		return res.json(sendResult);
+	    	}
+
+	    	if (result) {
+		    	sendResult.data 	= result.data;
+		    	sendResult.message 	= result.message;
+		    	sendResult.error 	= result.error;
+	    	}
+
+			return res.json(sendResult);
+		});
 	}
 }

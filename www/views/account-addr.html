@@ -130,10 +130,14 @@
 				{{addr.street}}<br />
 				{{addr.detail}}</span>
 
-				<ion-option-button class="button-dark" 
-					ng-click="onDeleteAddr()">
-				<i class="icon ion-star"></i>
-			</ion-option-button>
+				<!-- <ion-option-button class="button-balanced" 
+						ng-click="onDeleteAddr()">
+					设为默认
+				</ion-option-button> -->
+				<ion-option-button class="button-assertive" 
+						ng-click="onDeleteAddr({{addr}})">
+					删除
+				</ion-option-button>
 			</ion-item>
 		</ion-list>
 
