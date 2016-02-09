@@ -41,9 +41,34 @@ angular.module('starter.controllers', [])
 
 
 .controller('order-controller', function($scope, $state, $ionicViewSwitcher) {
+    $scope.countSelectedVal   = 1;
+    $scope.deliverySingleCosts      = 5.00;
+    $scope.unitPrice          = 136.00;
+
+    $scope.totalPrice         = calculatePrice($scope.countSelectedVal, $scope.unitPrice);
+    $scope.totalDeliveryCosts = calculateDeliveryPrice($scope.countSelectedVal, $scope.deliverySingleCosts);
+
+    $scope.orderPrice         = (parseFloat($scope.totalPrice) + parseFloat($scope.totalDeliveryCosts)).toFixed(2);
+
     $scope.backToProductDetailPage = function() {
       $ionicViewSwitcher.nextDirection('back'); // 'forward', 'back', etc.
       $state.go('home');
+    }
+
+    function calculatePrice(count, unitPrice) {
+      return (unitPrice * count).toFixed(2);
+    }
+
+    function calculateDeliveryPrice(count, singlePrice) {
+      return count >=3 ? (0).toFixed(2) : (count + singlePrice - 1).toFixed(2);
+    }
+
+    $scope.countChange  = function(countVal) {
+      $scope.countSelectedVal  = parseInt(countVal);
+      $scope.totalPrice         = calculatePrice($scope.countSelectedVal, $scope.unitPrice);
+      $scope.totalDeliveryCosts = calculateDeliveryPrice($scope.countSelectedVal, $scope.deliverySingleCosts);
+      $scope.orderPrice         = (parseFloat($scope.totalPrice) + parseFloat($scope.totalDeliveryCosts)).toFixed(2);
+
     }
 })
 

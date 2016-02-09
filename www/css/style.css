@@ -1,4 +1,8 @@
 /* Empty. Add your own CSS if you like */
+.bar-header .icon:before {
+  font-size: 1.5em !important;
+}
+
 .scroll {
 	height: 100%;
 }

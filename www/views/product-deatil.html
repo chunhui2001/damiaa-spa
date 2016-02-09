@@ -2,11 +2,74 @@
 	<ion-nav-buttons side="right">
 	  <button class="button button-positive" 
 	  	ng-click="buy(pid)">
-	    立即订购
+	    立即购买
 	  </button>
 	</ion-nav-buttons>
 
-	<ion-content class="padding">
-	<h1>精米介绍</h1>
+	<ion-content style="background-color:#F7F7F7;">
+		<!-- <ion-slide-box on-slide-changed="slideHasChanged($index)" style="height:100px;">
+		  <ion-slide>
+		    <div class="box blue" style="background-color:blue;height:100%;"><h1>BLUE</h1></div>
+		  </ion-slide>
+		  <ion-slide>
+		    <div class="box yellow" style="background-color:yellow;height:100%;"><h1>YELLOW</h1></div>
+		  </ion-slide>
+		  <ion-slide>
+		    <div class="box pink" style="background-color:pink;height:100%;"><h1>PINK</h1></div>
+		  </ion-slide>
+		</ion-slide-box> -->
+		<div style="min-height:160px;background-color:#FFFBF5;border-bottom:solid #E4E4E4 1px;">
+			<img style="max-height:100%;float:left;width:40%;" ng-src="/img/heros/rice-heart.png" />
+			<div style="float:left;width:60%;margin-top:2.5em">
+				<span style="color:#484848;font-size:1.1em;"><b>AA精米 2015特级新米 <br /> 产地直销</b></span><br />
+				<span style="color:gray;"><b>东北大米 现磨现卖 10KG</b></span> <br />
+				<span style="color:#636161;font-style:oblique;">
+						价格：&yen; 136.00/袋 (10kg)</span> <br />
+				<span style="color:#636161;font-style:oblique;">
+						产地：黑龙江省绥化市双河镇</span>
+			</div>
+			<div style="float:none;clear:both;"></div>
+		</div>
+
+
+		<div style="background-color:white;text-align:center;padding:.9em;
+					margin-top:.6em;
+					border-top:solid #E4E4E4 1px;border-bottom:solid #E4E4E4 1px;">
+			<h3 style="color:black;font-size:1.45em;">源自东北黑土地</h3>
+			<h5 style="color:#484848;font-size:.95em;line-height:1.5em;">这里没有大都市的喧嚣，勤劳淳朴的双河人用辛勤的汗水孕育绿色稻米，一切为了您的餐桌更健康。</h5>
+		</div>
+		<div style="background-color:white;text-align:center;padding:.9em;
+					margin-top:.6em;
+					border-top:solid #E4E4E4 1px;border-bottom:solid #E4E4E4 1px;">
+			<h3 style="color:black;font-size:1.45em;">无任何中间环节、确保原生态</h3>
+			<h5 style="color:#484848;font-size:.95em;line-height:1.5em;">接单 <b>&rarr;</b> 特级粮仓出粮 <b>&rarr;</b> 机房磨米 <b>&rarr;</b> 装袋 <b>&rarr;</b> 发货</h5>
+		</div>
+
+		<div style="background-color:white;text-align:center;padding:.9em;
+					margin-top:.6em;
+					border-top:solid #E4E4E4 1px;border-bottom:solid #E4E4E4 1px;">
+			<h3 style="color:black;font-size:1.45em;">原始农耕作业</h3>
+			<p style="text-align:left;color:#484848;">
+			<img src="/img/heros/person.jpg" style="max-width:65px;float:left;margin-right:1em;" />为保证粮食亩产量，勤劳的双河人在现代机械高速发展的时代背景下，依然坚持使用手工作业进行：播种、插秧、割稻。
+			<div style="float:none;clear:both;"></div>
+			</p>
+		</div>
+
+		<div style="background-color:white;text-align:center;
+					margin-top:.6em;
+					border-top:solid #E4E4E4 1px;border-bottom:solid #E4E4E4 1px;">
+			<h3 style="padding:.6em;width:100%;text-align:center;color:red;font-size:1.45em;position:absolute">产地卫星图</h3>
+			<img style="max-height:100%;width:100%;margin-bottom:-.29em;" ng-src="/img/heros/shuanghe-map.jpg" />
+		</div>
+
+		<div style="background-color:white;text-align:center;
+					margin-top:.6em;
+					margin-bottom:2em;
+					border-top:solid #E4E4E4 1px;border-bottom:solid #E4E4E4 1px;">
+			<h3 style="color:black;font-size:1.45em;">请认准产品包装</h3>
+			<img style="max-height:100%;width:30%;" 
+					ng-src="/img/heros/baozhuang.jpg" />
+		</div>
+
 	</ion-content>
 </ion-view>
