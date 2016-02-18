@@ -46,12 +46,25 @@ var starter = angular.module('starter', ['ionic', 'ngCookies', 'ngMessages', 'mg
       }
     }
   })
+
+
   .state('order', {
-    url: '/order',
+    url: '/order/:gid',
     views: {
       'order': {
         templateUrl: 'views/order.html',
         controller: 'order-controller'
+      }
+    }
+  })
+
+  
+  .state('payment', {
+    url: '/payment/:oid',
+    views: {
+      'payment': {
+        templateUrl: 'views/payment.html',
+        controller: 'payment-controller'
       }
     }
   })

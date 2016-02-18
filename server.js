@@ -27,9 +27,10 @@ app.use(session({
 }));
 
 
-var accountController   = require('./controllers/account-controller');
-var addrController      = require('./controllers/addr-controller');
+var accountController     = require('./controllers/account-controller');
+var addrController        = require('./controllers/addr-controller');
 var regionController      = require('./controllers/region-controller');
+var orderController       = require('./controllers/order-controller');
 
 
 app.get('/checkcode', function(req, res, next) {
@@ -43,6 +44,7 @@ app.post('/logout', accountController.logout);
 app.post('/userinfo', accountController.userinfo);
 app.post('/resetpwd', accountController.resetPasswd);
 app.post('/register', accountController.register);
+app.post('/statistic', accountController.statistic);
 
 
 app.post('/addr/list',  addrController.list);
@@ -52,6 +54,9 @@ app.delete('/addr/:addrid',   addrController.del);
 
 app.get('/region/:name/:code',   regionController.list);
 
+
+app.post('/order/setup',  orderController.setup);
+app.post('/order/:orderid',  orderController.get);
 
 
 

@@ -29,21 +29,40 @@ angular.module('starter.controllers', [])
 
 
 
-.controller('product-deatil-controller', function($scope, $state, $ionicViewSwitcher) {
+.controller('product-deatil-controller', function($scope, $state, $ionicViewSwitcher, Auth) {
   $scope.pid  = 10000;
 
   $scope.buy = function(pid){
+
+    // if (!Auth.islogin()) {
+    //   $state.go('login', {'b':'home'}, {reload: true});
+    //   return;
+    // }
+
     $ionicViewSwitcher.nextDirection('forward'); // 'forward', 'back', etc.
-    $state.go('order');
+    $state.go('order', {'gid': '844266757578'});
   }
 })
 
 
 
-.controller('order-controller', function($scope, $state, $ionicViewSwitcher) {
-    $scope.countSelectedVal   = 1;
-    $scope.deliverySingleCosts      = 5.00;
-    $scope.unitPrice          = 136.00;
+.controller('order-controller', function($scope, $rootScope, $state, $stateParams, $ionicViewSwitcher, Auth, OrderService) {
+
+    $scope.countSelectedVal     = 1;
+    $scope.deliverySingleCosts  = 5.00;
+    $scope.unitPrice            = 136.00;
+
+    var goodsId   = $stateParams.gid;
+
+    if (!Auth.islogin()) {
+      $state.go('login', {'b':'order/' + goodsId}, {reload: true});
+      return;
+    }
+
+
+
+
+    var currentUser   = $rootScope.currentUser;
 
     $scope.totalPrice         = calculatePrice($scope.countSelectedVal, $scope.unitPrice);
     $scope.totalDeliveryCosts = calculateDeliveryPrice($scope.countSelectedVal, $scope.deliverySingleCosts);
@@ -70,18 +89,68 @@ angular.module('starter.controllers', [])
       $scope.orderPrice         = (parseFloat($scope.totalPrice) + parseFloat($scope.totalDeliveryCosts)).toFixed(2);
 
     }
+
+    $scope.setupOrder = function() {
+
+      var buyCount  = $scope.countSelectedVal;
+
+      var orderData   = {
+          paymethod : '1',
+          addrid    : 4
+      };
+
+      orderData[goodsId]  = buyCount;
+
+      OrderService.setup(currentUser, orderData, function(result) {
+        // success
+        // forward to payment page
+        $state.go('payment', {'oid': result.id});
+      }, function(error) {
+
+      });
+    }
 })
 
 
 
-.controller('account-controller', function($scope, $rootScope, $state, $ionicViewSwitcher, Auth) {
-    $scope.logedin = Auth.islogin();
-    //debugger;
-    $scope.logout = Auth.logout;
+.controller('payment-controller', function($scope, $rootScope, $state, $stateParams, $ionicViewSwitcher, Auth, OrderService) {
+  
+    var oid   = $stateParams.oid;
+
+    if (!oid) return;
+
+    if (!Auth.islogin()) {
+      $state.go('login', {'b':'payment/' + oid}, {reload: true});
+      return;
+    }
+
+
+    var currentUser   = $rootScope.currentUser;
+
+
+    OrderService.detail(currentUser, oid, function(result) {
+      // TODO
+    }, function(error) {
+      
+    });
+})
+
+
+
+.controller('account-controller', function($scope, $rootScope, $state, $ionicViewSwitcher, Auth, UserService) {
+    $scope.logedin  = Auth.islogin();
+    $scope.logout   = Auth.logout;
 
     if ($scope.logedin) {
         Auth.loginUser( function(userInfo) {
           $scope.loginUser  = userInfo;
+        }, function(error) {
+
+        });
+
+        UserService.statistic($rootScope.currentUser, function(result) {
+            $scope.loginUserStatistic = {};
+            angular.extend($scope.loginUserStatistic, result);
         }, function(error) {
 
         });
@@ -224,7 +293,14 @@ angular.module('starter.controllers', [])
 
 
 
-.controller('login-controller', function($scope, $stateParams, $rootScope, $ionicViewSwitcher, $state, $ionicPopup, $timeout, Auth) {
+.controller('login-controller', function($scope, $stateParams, $rootScope, $ionicViewSwitcher, $state, $location, $ionicPopup, $timeout, Auth) {
+
+  if (Auth.islogin()) {
+      $state.go('account', {}, {reload: true});
+      return;
+    }
+
+
     $scope.b          = $stateParams.b;
     $scope.tabIndex   = 1;
     $scope.logM       = {};
@@ -242,7 +318,9 @@ angular.module('starter.controllers', [])
 
         Auth.loginSuccess(result.data, function() {
           $ionicViewSwitcher.nextDirection('forward'); // 'forward', 'back', etc.
-          $state.go($scope.b ? $scope.b : 'account', {}, {reload: true});
+          //$state.go($scope.b ? $scope.b : 'account', {}, {reload: true});
+
+          $location.path('/' + $scope.b ? $scope.b : 'account');
         });
       });
     }

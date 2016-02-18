@@ -90,19 +90,48 @@ module.exports 	= {
 	    var sendResult  = {error: false, message: null, data: null};
 
 
-	    httpClient(endpoints_user_info, null, 'get', {type: tokenType, token: token}, function(newError, newResult) {
+	    httpClient(endpoints_user_info, null, 'get', {type: tokenType, token: token}, function(error, result) {
 
-			if (newError) {
+			if (error) {
 	    		sendResult.error 	= true;
-	    		sendResult.data 	= newError;
-	    		sendResult.message 	= newError.message;
+	    		sendResult.data 	= error;
+	    		sendResult.message 	= error.message;
 	    		return res.json(sendResult);
 	    	}
 
-	    	if (newResult) {
-		    	sendResult.data 	= newResult.data;
-		    	sendResult.message 	= newResult.message;
-		    	sendResult.error 	= newResult.error;
+	    	if (result) {
+		    	sendResult.data 	= result.data;
+		    	sendResult.message 	= result.message;
+		    	sendResult.error 	= result.error;
+	    	}
+
+			return res.json(sendResult);
+		});
+	},
+	statistic: function(req, res, next) {
+		var tokenType 	= req.body.tokenType;
+		var token 		= req.body.value;
+
+		var endpoints_user_statistic 	= URL.parse(endpoints.get_user_statistic);
+
+	    var sendResult  = {error: false, message: null, data: null};
+
+console.log(endpoints_user_statistic);
+	    httpClient(endpoints_user_statistic, null, 'get', {type: tokenType, token: token}, function(error, result) {
+
+			if (error) {
+	    		sendResult.error 	= true;
+	    		sendResult.data 	= error;
+	    		sendResult.message 	= error.message;
+	    		return res.json(sendResult);
+	    	}
+console.log(result);
+console.log(endpoints_user_statistic);
+console.log(token);
+	    	if (result) {
+		    	sendResult.data 	= result.data;
+		    	sendResult.message 	= result.message;
+		    	sendResult.error 	= result.error;
 	    	}
 
 			return res.json(sendResult);

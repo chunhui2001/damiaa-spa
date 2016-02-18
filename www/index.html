@@ -32,8 +32,10 @@
     <script src="js/controllers.js"></script>
 
     <script src="js/services/auth.js"></script>
+    <script src="js/services/UserService.js"></script>
     <script src="js/services/AddrService.js"></script>
     <script src="js/services/RegionService.js"></script>
+    <script src="js/services/OrderService.js"></script>
     <script src="js/services.js"></script>
   </head>
   <body ng-app="starter">
@@ -66,6 +68,10 @@ navigation history that also transitions its views in and out.
 
   <ion-tab hidden="true" title="order" icon-off="ion-ios-pulse" icon-on="ion-ios-pulse-strong" href="#/order">
     <ion-nav-view name="order"></ion-nav-view>
+  </ion-tab>
+
+  <ion-tab hidden="true" title="payment" icon-off="ion-ios-pulse" icon-on="ion-ios-pulse-strong" href="#/payment">
+    <ion-nav-view name="payment"></ion-nav-view>
   </ion-tab>
 
 
