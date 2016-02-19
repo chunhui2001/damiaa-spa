@@ -46,11 +46,13 @@ angular.module('starter.controllers', [])
 
 
 
-.controller('order-controller', function($scope, $rootScope, $state, $stateParams, $ionicViewSwitcher, Auth, OrderService) {
+.controller('order-controller', function($scope, $rootScope, $state, $stateParams, $ionicViewSwitcher, Auth, OrderService, GoodsService) {
 
     $scope.countSelectedVal     = 1;
     $scope.deliverySingleCosts  = 5.00;
-    $scope.unitPrice            = 136.00;
+    $scope.marketPrice          = false;
+    $scope.unitPrice            = false;
+    $scope.isSpecial            = false;
 
     var goodsId   = $stateParams.gid;
 
@@ -59,15 +61,37 @@ angular.module('starter.controllers', [])
       return;
     }
 
-
+    $scope.currentGoods  = {};
 
 
     var currentUser   = $rootScope.currentUser;
 
-    $scope.totalPrice         = calculatePrice($scope.countSelectedVal, $scope.unitPrice);
-    $scope.totalDeliveryCosts = calculateDeliveryPrice($scope.countSelectedVal, $scope.deliverySingleCosts);
 
-    $scope.orderPrice         = (parseFloat($scope.totalPrice) + parseFloat($scope.totalDeliveryCosts)).toFixed(2);
+
+
+    GoodsService.get(currentUser, goodsId, function(result) {
+
+      $scope.currentGoods = result.goods;
+
+      if (result.specialPrice) {
+        $scope.unitPrice            = result.specialPrice;
+        $scope.isSpecial            = true;
+      } else {
+        $scope.unitPrice            = result.goods.marketPrice;
+      }
+
+
+      $scope.marketPrice          = result.goods.marketPrice;
+
+      $scope.totalPrice         = calculatePrice($scope.countSelectedVal, $scope.unitPrice);
+      $scope.totalDeliveryCosts = calculateDeliveryPrice($scope.countSelectedVal, $scope.deliverySingleCosts);
+      $scope.orderPrice         = (parseFloat($scope.totalPrice) + parseFloat($scope.totalDeliveryCosts)).toFixed(2);
+    }, function(error) {
+      
+    });
+
+
+    
 
     $scope.backToProductDetailPage = function() {
       $ionicViewSwitcher.nextDirection('back'); // 'forward', 'back', etc.
@@ -126,10 +150,13 @@ angular.module('starter.controllers', [])
 
 
     var currentUser   = $rootScope.currentUser;
+    $scope.currentOrder   = {};
+    $scope.orderItems     = {};
 
 
     OrderService.detail(currentUser, oid, function(result) {
-      // TODO
+      $scope.currentOrder = result.order;
+      $scope.orderItems   = result.orderItems;
     }, function(error) {
       
     });

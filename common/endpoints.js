@@ -18,4 +18,8 @@ module.exports = {
 
 	order_setup: host + '/order/',
 	order_detail: host + '/order/{{{orderid}}}',
+
+
+
+	goods_detail: host + '/goods/{{{goodsid}}}',
 }

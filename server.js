@@ -31,6 +31,7 @@ var accountController     = require('./controllers/account-controller');
 var addrController        = require('./controllers/addr-controller');
 var regionController      = require('./controllers/region-controller');
 var orderController       = require('./controllers/order-controller');
+var goodsController       = require('./controllers/goods-controller');
 
 
 app.get('/checkcode', function(req, res, next) {
@@ -57,6 +58,9 @@ app.get('/region/:name/:code',   regionController.list);
 
 app.post('/order/setup',  orderController.setup);
 app.post('/order/:orderid',  orderController.get);
+
+
+app.post('/goods/:goodsid',  goodsController.get);
 
 
 

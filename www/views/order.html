@@ -11,9 +11,13 @@
 		<div style="min-height:140px;background-color:#FFFBF5;border-bottom:solid #E4E4E4 1px;">
 			<img style="margin: .5em;margin-right:1em;max-height:100%;float:left;width:20%;" ng-src="/img/heros/baozhuang.jpg" />
 			<div style="float:left;min-width:65%;margin-top:1em">
-				<span style="color:#484848;">品名：AA精米 2015特级新米</span><br />
-				<span style="color:#484848;">
-						单价：&yen; <i>{{unitPrice.toFixed(2)}}</i>/袋 (10kg)</span> <br />
+				<span style="color:#484848;" >品名：<i ng-bind-html="currentGoods.htmlName">{{currentGoods.htmlName}}</i></span><br />
+				<span ng-if="!isSpecial" style="color:#484848;display:block;">
+						单价：&yen; <i>{{marketPrice.toFixed(2)}}</i>/袋 (10kg)</span> 
+
+				<span ng-if="isSpecial" style="color:#484848;display:block;">
+						单价：<i style="text-decoration:line-through;font-style:oblique;">&yen; {{marketPrice.toFixed(2)}}</i> 
+							 <i style="color:red;font-weight:bold;">&yen; {{unitPrice.toFixed(2)}}</i>/袋 (10kg)</span> 
 				<span style="color:#484848;">
 						产地：黑龙江省绥化市双河镇</span>
 				<div style="color:#484848;">
@@ -34,7 +38,7 @@
 				    </select>
 			    </div>
 			    <hr style="border:none;border-bottom:solid 1px #D6D6D6;" />
-			    <span style="color:#484848;float:right;">
+			    <span style="color:#484848;float:right;display:block;margin-bottom:.8em;">
 						合计：&yen; {{totalPrice}}</span>
 			</div>
 			<div style="float:none;clear:both;"></div>
@@ -45,9 +49,9 @@
 					border-top:solid #E4E4E4 1px;border-bottom:solid #E4E4E4 1px;">
 			<div>
 				<i class="icon " 
-					style="padding:.8em;font-size:1em;float:left;width:20%;color:gray;">收货地址</i>
+					style="padding:.8em;font-size:1em;float:left;width:30%;color:gray;">收货地址</i>
 				<a href="javascript:void(this);" class="item item-icon-right" 
-					style="font-size:1em;border:none;float:left;width:80%;text-align:left;
+					style="font-size:1em;border:none;float:left;width:70%;text-align:left;
 							border-bottom:solid 1px #EAEAEA;margin-bottom:1px;
 							padding-top:.8em;padding-bottom:.8em;padding-left:.6em;">
 					<span class="item-content">一切为了您的餐桌更健康</span>
@@ -57,9 +61,9 @@
 			</div>
 			<div>
 				<i class="icon " 
-					style="padding:.8em;font-size:1em;float:left;width:20%;color:gray;">付款方式</i>
+					style="padding:.8em;font-size:1em;float:left;width:30%;color:gray;">付款方式</i>
 				<div class="item item-icon-right" 
-					style="font-size:1em;border:none;float:left;width:80%;text-align:left;
+					style="font-size:1em;border:none;float:left;width:70%;text-align:left;
 							border-bottom:solid 1px #EAEAEA;margin-bottom:1px;
 							padding-top:.8em;padding-bottom:.8em;padding-left:.6em;">
 					<span class="item-content">微信支付</span>
@@ -70,9 +74,9 @@
 			</div>
 			<div>
 				<i class="icon " 
-					style="padding:.8em;font-size:1em;float:left;width:20%;color:gray;">摘要</i>
+					style="padding:.8em;font-size:1em;float:left;width:30%;color:gray;">摘要</i>
 				<div class="item " 
-					style="font-size:1em;border:none;float:left;width:80%;text-align:left;
+					style="font-size:1em;border:none;float:left;width:70%;text-align:left;
 							padding-top:.8em;padding-bottom:.8em;padding-left:.6em;">
 					<div class="item-content">
 						<span>商品总计</span>
@@ -101,13 +105,6 @@
 		  		创建订单
 		  </button>
 		</div>
-		<!-- 
-		<div class="button-bar padding">
-		  <button ng-click="login()"
-		  			class="button button-assertive">
-		  	<span style="color:#5BCA00;font-weight:bold;font-style:oblique;">
-		  		需付：&yen; {{orderPrice}}</span> &nbsp;&nbsp;微信安全支付
-		  </button>
-		</div> -->
+		
 	</ion-content>
 </ion-view>
