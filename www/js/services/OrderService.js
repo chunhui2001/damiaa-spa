@@ -20,6 +20,15 @@ angular.module('starter')
         .error(function(e) {
           return failed(e);
         });
+    },
+    list: function(user, success, failed) {
+      $http.post('/order', {user: user})
+        .success(function(result) {   
+          return success(result.data);
+        })
+        .error(function(e) {
+          return failed(e);
+        });
     }
   };
 });

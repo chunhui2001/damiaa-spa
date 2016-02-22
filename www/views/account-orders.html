@@ -1,0 +1,18 @@
+<ion-view view-title="历史订单">
+
+	<ion-content class="padding" style="margin-top:1em;">
+		<ion-list class="order-list">
+			<ion-item ng-click="setDefault(addr.id)" class="item"
+					  ng-repeat="order in userOrderList">
+			    <div>
+				<span>订单编号: </span><span class="input-label">{{order.id}}</span>
+				</div>
+			    <div>
+				<span>订单编号: </span><span class="input-label">{{order.id}}</span>
+				</div>
+				<!-- <i class="icon ion-ios-arrow-forward" style="color:#505050;"></i> -->
+			</ion-item>
+		</ion-list>
+		
+	</ion-content>
+</ion-view>

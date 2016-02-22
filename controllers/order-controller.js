@@ -72,5 +72,31 @@ module.exports 	= {
 
 			return res.json(sendResult);
 		});
+	}, 
+	list: function(req, res, next) {		
+		var userToken 		= req.body.user.value;
+		var tokenType 		= req.body.user.tokenType;
+
+
+	    var sendResult  			= {error: false, message: null, data: null};	
+	    var endpoints_order_list 	= URL.parse(endpoints.order_list);
+
+		httpClient(endpoints_order_list, null, 'get', {type: tokenType, token: userToken}, function(error, result) {
+
+			if (error) {
+	    		sendResult.error 	= true;
+	    		sendResult.data 	= error.data;
+	    		sendResult.message 	= error.message;
+	    		return res.json(sendResult);
+	    	}
+
+	    	if (result) {
+		    	sendResult.data 	= result.data;
+		    	sendResult.message 	= result.message;
+		    	sendResult.error 	= result.error;
+	    	}
+console.log(sendResult, 999999);
+			return res.json(sendResult);
+		});
 	}
 }

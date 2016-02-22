@@ -94,24 +94,6 @@
 		<div class="item item-divider">收货地址列表 
 			<span style="font-size: .85em;font-style: oblique;color: #28a54c;float:right;">单击设为默认地址</span>
 		</div>
-		<!-- <div ng-click="setDefault(addr.id)" class="item item-checkbox checkbox-balanced"
-		 		ng-repeat="addr in userAddrList">
-			<label class="checkbox">
-				<input ng-if="addr.defaults" type="radio" name="address" checked />
-				<input ng-if="!addr.defaults" type="radio" name="address" />
-			</label>
-			<span class="input-label"><strong>{{addr.linkMan}}</strong> 
-			<strong style="color:#5D5DFF;font-style:oblique;"> {{addr.linkPone}}</strong><br />
-			{{addr.province.split('(')[0]}} 
-			{{addr.city.split('(')[0]}} 
-			{{addr.area.split('(')[0]}} 
-			{{addr.street}}<br />
-			{{addr.detail}}</span>
-			<ion-option-button class="button-dark" 
-					ng-click="onDeleteAddr()">
-				<i class="icon ion-star"></i>
-			</ion-option-button>
-		</div> -->
 
 		<ion-list class="addr-list">
 			<ion-item ng-click="setDefault(addr.id)" class="item item-checkbox checkbox-balanced"

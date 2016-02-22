@@ -204,6 +204,11 @@ angular.module('starter.controllers', [])
         $ionicViewSwitcher.nextDirection('forward'); // 'forward', 'back', etc.
         $state.go('account-addr', {}, {reload: true});
     }
+
+    $scope.orderList = function() {        
+        $ionicViewSwitcher.nextDirection('forward'); // 'forward', 'back', etc.
+        $state.go('account-orders', {}, {reload: true});
+    }
 })
 
 
@@ -357,6 +362,24 @@ angular.module('starter.controllers', [])
     }
 })
 
+.controller('account-orders-controller', function(
+      $scope, $rootScope, $ionicViewSwitcher, $state, $ionicPopup, $timeout, $filter
+      , Auth, OrderService) {
+
+    if (!Auth.islogin()) {
+        $state.go('login', {'b':'account-orders'});
+      return;
+    }
+
+    var currentUser         = $rootScope.currentUser;
+    $scope.userOrderList    = [];
+
+    OrderService.list(currentUser, function(result) {
+      $scope.userOrderList = result;
+    }, function(error) {
+
+    });
+})
 
 
 .controller('account-addr-controller', function(

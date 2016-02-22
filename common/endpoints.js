@@ -17,6 +17,7 @@ module.exports = {
 	user_addr_del: host + '/addr/:addrid',
 
 	order_setup: host + '/order/',
+	order_list: host + '/order/',
 	order_detail: host + '/order/{{{orderid}}}',
 
 

@@ -56,6 +56,7 @@ app.delete('/addr/:addrid',   addrController.del);
 app.get('/region/:name/:code',   regionController.list);
 
 
+app.post('/order',  orderController.list);
 app.post('/order/setup',  orderController.setup);
 app.post('/order/:orderid',  orderController.get);
 

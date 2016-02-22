@@ -81,6 +81,17 @@ var starter = angular.module('starter', ['ionic', 'ngCookies', 'ngMessages', 'mg
   })
 
 
+  .state('account-orders', {
+    url: 'account/orders',
+    views: {
+      'account': {
+        templateUrl: 'views/account-orders.html',
+        controller: 'account-orders-controller'
+      }
+    }
+  })
+
+
   .state('account-addr', {
     url: 'account/addr',
     views: {
