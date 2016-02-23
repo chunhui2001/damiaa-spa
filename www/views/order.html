@@ -50,13 +50,20 @@
 			<div>
 				<i class="icon " 
 					style="padding:.8em;font-size:1em;float:left;width:30%;color:gray;">收货地址</i>
-				<a href="javascript:void(this);" class="item item-icon-right" 
+				<div href="javascript:void(this);" class="item item-icon-right" 
 					style="font-size:1em;border:none;float:left;width:70%;text-align:left;
 							border-bottom:solid 1px #EAEAEA;margin-bottom:1px;
 							padding-top:.8em;padding-bottom:.8em;padding-left:.6em;">
-					<span class="item-content">一切为了您的餐桌更健康</span>
-					<i class="icon ion-ios-arrow-forward" style="color:#505050;font-size:1.5em;"></i>
-				</a>
+					<span ng-click="showAddrDetail()" class="item-content" ng-class='{"nowrap-normal": nowrapNormal}'>
+					{{orderAddrText}}
+					<a ng-if="orderAddr" style="cursor:pointer;" ng-click="changeAddress()">[修改默认地址]</a>
+					<a ng-if="!orderAddr" style="cursor:pointer;" ng-click="changeAddress()">[添加收获地址]</a>
+					</span>
+					<a  ng-if="orderAddr" class="icon ion-chevron-right ion-chevron-down" 
+						ng-class='{"ion-chevron-down": nowrapNormal, "ion-chevron-right": !nowrapNormal}'
+						ng-click="showAddrDetail()"
+						style="color:#505050;font-size:1.3em;height:auto;top:11px;"></a>
+				</div>
 				<div style="float:none;clear:both;"></div>
 			</div>
 			<div>
@@ -102,9 +109,14 @@
 		  <button ng-click="setupOrder()"
 		  			class="button button-positive">
 		  	<span style="color:white;">
-		  		创建订单
+		  		创建订单</span>
 		  </button>
 		</div>
 		
+		
+		<div class="status flash-modal" 
+			ng-class='{"modal-info": isInfo, "modal-danger": isDanger, "modal-error": isError}'>
+			<div>{{message}}</div>
+		</div>
 	</ion-content>
 </ion-view>

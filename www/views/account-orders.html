@@ -1,18 +1,32 @@
 <ion-view view-title="历史订单">
 
-	<ion-content class="padding" style="margin-top:1em;">
+	<ion-content>
 		<ion-list class="order-list">
-			<ion-item ng-click="setDefault(addr.id)" class="item"
+
+		<div class="list list-inset"
 					  ng-repeat="order in userOrderList">
-			    <div>
-				<span>订单编号: </span><span class="input-label">{{order.id}}</span>
-				</div>
-			    <div>
-				<span>订单编号: </span><span class="input-label">{{order.id}}</span>
-				</div>
-				<!-- <i class="icon ion-ios-arrow-forward" style="color:#505050;"></i> -->
-			</ion-item>
-		</ion-list>
-		
+			<div class="item item-divider" style="font-size:.9em;">
+				<span>订单编号: </span>
+				<span>{{order.id}}</span>
+				<span style="float:right;">{{order.statusText}}</span>
+			</div>
+			<div class="item item-icon-right" ng-repeat="item in order.listOfItems">
+				<span>{{item.goodsName}}</span>
+				<span>({{item.goods.weight}})</span>
+				<span>x{{item.count}}{{item.goods.unit}}</span>
+
+
+				<!-- <i class="icon ion-ios-arrow-forward" style="color:#505050;font-size:1.5em;"></i> -->
+			</div>
+			<div class="item item-divider" style="font-size:.9em;">
+				<span>金额: </span><span>&yen; {{order.orderMoney.toFixed(2)}}</span>
+
+				<button ng-click="goPay(order.id)" style="float:right;min-height:21px;line-height:0;"
+							class="button button-small button-positive">
+					<span style="color:white;">去付款</span>
+				</button>
+				<span ng-if="order.status == 'CASHED'" style="float:right;">已付款</span>
+			</div>
+		</div>
 	</ion-content>
 </ion-view>

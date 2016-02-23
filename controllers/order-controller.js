@@ -95,7 +95,7 @@ module.exports 	= {
 		    	sendResult.message 	= result.message;
 		    	sendResult.error 	= result.error;
 	    	}
-console.log(sendResult, 999999);
+	    	
 			return res.json(sendResult);
 		});
 	}

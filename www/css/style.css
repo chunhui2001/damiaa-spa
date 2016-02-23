@@ -20,6 +20,10 @@
 .current-tab {
 	background-color: #0c60ee !important;
 }
+
+.nowrap-normal {
+  white-space:normal;
+}
 /*
 body {
     background: 
@@ -56,11 +60,11 @@ body .pane, .menu, .view, .list, .item       {
   z-index: 100;
 }
 .modal-danger {
-  bottom: 20px;
+  bottom: 0px;
   z-index: 100;
 }
 .modal-error {
-  bottom: 20px;
+  bottom: 0px;
   z-index: 100;
 }
 

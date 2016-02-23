@@ -40,19 +40,24 @@ angular.module('starter.controllers', [])
     // }
 
     $ionicViewSwitcher.nextDirection('forward'); // 'forward', 'back', etc.
-    $state.go('order', {'gid': '844266757578'});
+    $state.go('order', {'gid': '305657400791'});
   }
 })
 
 
 
-.controller('order-controller', function($scope, $rootScope, $state, $stateParams, $ionicViewSwitcher, Auth, OrderService, GoodsService) {
+.controller('order-controller', function($scope, $rootScope, $state, $location, $timeout
+    , $stateParams, $ionicViewSwitcher
+    , Auth, OrderService, GoodsService, AddrService) {
 
     $scope.countSelectedVal     = 1;
     $scope.deliverySingleCosts  = 5.00;
     $scope.marketPrice          = false;
     $scope.unitPrice            = false;
     $scope.isSpecial            = false;
+    $scope.orderAddr            = false;
+    $scope.orderAddrText        = '';
+    $scope.nowrapNormal         = false;
 
     var goodsId   = $stateParams.gid;
 
@@ -90,6 +95,31 @@ angular.module('starter.controllers', [])
       
     });
 
+    AddrService.list(currentUser, function(result) {
+      if (result.length == 1) {
+        $scope.orderAddr = result[0];
+      } 
+
+      if (result.length == 0) {
+        
+      } else if (result.length == 1) {
+        $scope.orderAddr = result[0];
+      } else {
+        angular.forEach(result, function(value) {
+          if (value.defaults) {
+            $scope.orderAddr = value;
+            $scope.orderAddrText  = //value.province.split('(')[0] +
+                                    " " + value.city.split('(')[0] 
+                                    + " " + value.area.split('(')[0] 
+                                    + " " + value.detail.split('(')[0] ;
+          }
+        });
+      }
+
+      
+    }, function(error) {
+
+    });
 
     
 
@@ -116,11 +146,15 @@ angular.module('starter.controllers', [])
 
     $scope.setupOrder = function() {
 
-      var buyCount  = $scope.countSelectedVal;
+      if (!$scope.orderAddr) {
+        toolTip($scope, $timeout, "请添加收货地址", 'danger');
+        return;
+      }
 
+      var buyCount  = $scope.countSelectedVal;
       var orderData   = {
           paymethod : '1',
-          addrid    : 4
+          addrid    : $scope.orderAddr.id
       };
 
       orderData[goodsId]  = buyCount;
@@ -132,6 +166,15 @@ angular.module('starter.controllers', [])
       }, function(error) {
 
       });
+    }
+
+    $scope.showAddrDetail = function() {
+      $scope.nowrapNormal = !$scope.nowrapNormal;
+    }
+
+    $scope.changeAddress = function() {
+      $ionicViewSwitcher.nextDirection('forward'); // 'forward', 'back', etc.
+        $state.go('account-addr', {}, {reload: true});
     }
 })
 
@@ -363,7 +406,7 @@ angular.module('starter.controllers', [])
 })
 
 .controller('account-orders-controller', function(
-      $scope, $rootScope, $ionicViewSwitcher, $state, $ionicPopup, $timeout, $filter
+      $scope, $rootScope, $ionicViewSwitcher, $state, $ionicPopup, $timeout, $filter, $location
       , Auth, OrderService) {
 
     if (!Auth.islogin()) {
@@ -379,6 +422,10 @@ angular.module('starter.controllers', [])
     }, function(error) {
 
     });
+
+    $scope.goPay = function(oid) {
+      $location.path('/payment/' + oid);
+    }
 })
 
 
