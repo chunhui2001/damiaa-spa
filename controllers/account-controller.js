@@ -38,28 +38,70 @@ module.exports 	= {
 	    		return res.json(sendResult);
 	    	}
 
-	    	if (!result.refreshToken) {
+// 1.0.0	
+// {
+//   "expired" : false,
+//   "scope" : [
+//     "read",
+//     "write",
+//     "trust"
+//   ],
+//   "additionalInformation" : {},
+//   "refreshToken" : {
+//     "value" : "f8ac0b53-990f-4b7b-adb7-5f8b3a560387",
+//     "expiration" : 1459091021405
+//   },
+//   "tokenType" : "bearer",
+//   "value" : "c05ed1e6-46d3-4dfe-a2e8-83977fc8e572",
+//   "expiresIn" : 359999917,
+//   "expiration" : 1816499021406
+// }
+
+// 2.0.8
+// {
+//   "token_type" : "bearer",
+//   "scope" : "read write trust",
+//   "refresh_token" : "5ecde1e1-c895-4601-a420-ef80851f3a5c",
+//   "access_token" : "aeba4d50-e18e-4121-ad94-9209d27974d7",
+//   "expires_in" : 359999989
+// }
+
+	    	if (!result.refresh_token) {
 	    		sendResult.error 	= true;
-	    		sendResult.data 	= result;
+    			sendResult.data 	= result;
 	    		sendResult.message 	= endpoints_access_token;
-	    		return res.json(sendResult);
-	    	}
-
-    		var refreshToken 	= result.refreshToken.value;
-
-    		refresh_token = URL.parse(refresh_token.replace('{{{refresh_token}}}', refreshToken));
-
-    		httpClient(refresh_token, null, 'get', null, function(newError, newResult) {
-    			if (newError) {
-		    		sendResult.error 	= true;
-		    		sendResult.data 	= newError;
-		    		return res.json(sendResult);
-		    	}
-
-		    	sendResult.data = newResult;
 
     			return res.json(sendResult);
-    		});
+	    	}
+
+	    	sendResult.data 	= {
+	    		value: result.access_token,
+	    		tokenType: result.token_type,
+	    		refreshToken : {
+	    			value: result.refresh_token
+	    		},
+	    		scope: result.scope.split(' '),
+	    		expiresIn: result.expires_in
+	    	};
+
+    		return res.json(sendResult);
+
+
+    		// var refreshToken 	= result.refreshToken.value;
+
+    		// refresh_token = URL.parse(refresh_token.replace('{{{refresh_token}}}', refreshToken));
+
+    		// httpClient(refresh_token, null, 'get', null, function(newError, newResult) {
+    		// 	if (newError) {
+		    // 		sendResult.error 	= true;
+		    // 		sendResult.data 	= newError;
+		    // 		return res.json(sendResult);
+		    // 	}
+
+		    // 	sendResult.data = newResult;
+
+    		// 	return res.json(sendResult);
+    		// });
 	    });
 	},
 	logout: function(req, res, next) {
@@ -116,7 +158,6 @@ module.exports 	= {
 
 	    var sendResult  = {error: false, message: null, data: null};
 
-console.log(endpoints_user_statistic);
 	    httpClient(endpoints_user_statistic, null, 'get', {type: tokenType, token: token}, function(error, result) {
 
 			if (error) {
@@ -125,9 +166,7 @@ console.log(endpoints_user_statistic);
 	    		sendResult.message 	= error.message;
 	    		return res.json(sendResult);
 	    	}
-console.log(result);
-console.log(endpoints_user_statistic);
-console.log(token);
+
 	    	if (result) {
 		    	sendResult.data 	= result.data;
 		    	sendResult.message 	= result.message;
