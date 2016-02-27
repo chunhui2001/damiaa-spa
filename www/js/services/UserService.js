@@ -7,6 +7,9 @@ angular.module('starter')
 
       $http.post('/statistic', user)
         .success(function(result) {   
+          if (result.error) {
+            return failed(result);
+          }
           return success(result.data);
         })
         .error(function(e) {

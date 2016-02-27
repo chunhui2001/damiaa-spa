@@ -426,6 +426,24 @@ angular.module('starter.controllers', [])
     $scope.goPay = function(oid) {
       $location.path('/payment/' + oid);
     }
+
+    $scope.doCancel = function(order) {
+      OrderService.cancel(currentUser, order, function(result) {
+        order.status = 'CANCEL';
+        order.statusText = '已取消';
+      }, function(error) {
+
+      });
+    }
+
+    $scope.doDel = function(order) {
+      OrderService.del(currentUser, order, function(result) {
+        order.status = 'DELETED';
+        $scope.userOrderList.splice($scope.userOrderList.indexOf(order),1);
+      }, function(error) {
+
+      });
+    }
 })
 
 

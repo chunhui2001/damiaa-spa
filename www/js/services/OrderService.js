@@ -6,6 +6,9 @@ angular.module('starter')
     setup: function(user, orderData, success, failed) {
       $http.post('/order/setup', {user: user, orderData: orderData})
         .success(function(result) {   
+          if (result.error) {
+            return failed(result);
+          }
           return success(result.data);
         })
         .error(function(e) {
@@ -15,6 +18,9 @@ angular.module('starter')
     detail: function(user, orderid, success, failed) {
       $http.post('/order/' + orderid, {user: user})
         .success(function(result) {   
+          if (result.error) {
+            return failed(result);
+          }
           return success(result.data);
         })
         .error(function(e) {
@@ -24,11 +30,38 @@ angular.module('starter')
     list: function(user, success, failed) {
       $http.post('/order', {user: user})
         .success(function(result) {   
+          if (result.error) {
+            return failed(result);
+          }
           return success(result.data);
         })
         .error(function(e) {
           return failed(e);
-        });
+      });
+    }, 
+    cancel: function(user, order, success, failed) {
+      $http.put('/order/' + order.id, {user: user, action: 'updateStatus', status: 'CANCEL'})
+        .success(function(result) {   
+          if (result.error) {
+            return failed(result);
+          }
+          return success(result.data);
+        })
+        .error(function(e) {
+          return failed(e);
+      });
+    },
+    del: function(user, order, success, failed) {
+      $http.post('/order/del/' + order.id, {user: user})
+        .success(function(result) {   
+          if (result.error) {
+            return failed(result);
+          }
+          return success(result.data);
+        })
+        .error(function(e) {
+          return failed(e);
+      });
     }
   };
 });

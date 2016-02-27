@@ -10,22 +10,47 @@
 				<span>{{order.id}}</span>
 				<span style="float:right;">{{order.statusText}}</span>
 			</div>
-			<div class="item item-icon-right" ng-repeat="item in order.listOfItems">
+
+			<div class="item" style="font-size: .8em;text-align:right;color: gray;font-style: oblique;border-bottom:none;padding:.5em 1em 0 .5em;">
+					该订单创建于 {{order.createTime}}</div>
+			<div class="item item-icon-right" ng-repeat="item in order.listOfItems"
+				 style="border-top:none;padding-top:.5em;">
 				<span>{{item.goodsName}}</span>
 				<span>({{item.goods.weight}})</span>
 				<span>x{{item.count}}{{item.goods.unit}}</span>
-
-
 				<!-- <i class="icon ion-ios-arrow-forward" style="color:#505050;font-size:1.5em;"></i> -->
 			</div>
 			<div class="item item-divider" style="font-size:.9em;">
 				<span>金额: </span><span>&yen; {{order.orderMoney.toFixed(2)}}</span>
 
-				<button ng-click="goPay(order.id)" style="float:right;min-height:21px;line-height:0;"
+				<button ng-if="order.status == 'PENDING'" ng-click="goPay(order.id)" style="float:right;min-height:21px;line-height:0;"
 							class="button button-small button-positive">
 					<span style="color:white;">去付款</span>
 				</button>
-				<span ng-if="order.status == 'CASHED'" style="float:right;">已付款</span>
+
+				<button ng-if="order.status == 'PENDING'" ng-click="doCancel(order)" 
+							style="float:right;min-height:21px;line-height:0;margin-right:.2em;"
+							class="button button-small button-positive">
+					<span style="color:white;">取消</span>
+				</button>
+
+				<button ng-if="order.status == 'CANCEL'" ng-click="doDel(order)" 
+							style="float:right;min-height:21px;line-height:0;margin-right:.2em;"
+							class="button button-small button-positive">
+					<span style="color:white;">删除</span>
+				</button>
+<!-- 
+				<button ng-if="order.status == 'CANCEL'"
+							style="float:right;min-height:21px;line-height:0;margin-right:.2em;"
+							class="button button-small button-positive">
+					<span style="color:white;">已取消</span>
+				</button> -->
+
+				<button ng-if="order.status == 'CASHED'"
+							style="float:right;min-height:21px;line-height:0;margin-right:.2em;"
+							class="button button-small button-positive">
+					<span style="color:white;">已付款</span>
+				</button>
 			</div>
 		</div>
 	</ion-content>
