@@ -12,12 +12,13 @@
 			</div>
 
 			<div class="item" style="font-size: .8em;text-align:right;color: gray;font-style: oblique;border-bottom:none;padding:.5em 1em 0 .5em;">
-					该订单创建于 {{order.createTime}}</div>
+					{{order.lastEvent}}</div>
 			<div class="item item-icon-right" ng-repeat="item in order.listOfItems"
 				 style="border-top:none;padding-top:.5em;">
 				<span>{{item.goodsName}}</span>
 				<span>({{item.goods.weight}})</span>
-				<span>x{{item.count}}{{item.goods.unit}}</span>
+				<span style="font-style: oblique;color: crimson;font-weight: bold;">
+					x{{item.count}}{{item.goods.unit}}</span>
 				<!-- <i class="icon ion-ios-arrow-forward" style="color:#505050;font-size:1.5em;"></i> -->
 			</div>
 			<div class="item item-divider" style="font-size:.9em;">

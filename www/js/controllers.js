@@ -428,8 +428,8 @@ angular.module('starter.controllers', [])
     }
 
     $scope.doCancel = function(order) {
-      OrderService.cancel(currentUser, order, function(result) {
-        order.status = 'CANCEL';
+      OrderService.cancel(currentUser, order, function(result) {        
+        angular.extend(order, result);
         order.statusText = '已取消';
       }, function(error) {
 
@@ -438,7 +438,7 @@ angular.module('starter.controllers', [])
 
     $scope.doDel = function(order) {
       OrderService.del(currentUser, order, function(result) {
-        order.status = 'DELETED';
+        angular.extend(order, result);
         $scope.userOrderList.splice($scope.userOrderList.indexOf(order),1);
       }, function(error) {
 
