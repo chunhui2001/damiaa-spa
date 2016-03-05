@@ -40,7 +40,7 @@ angular.module('starter.controllers', [])
     // }
 
     $ionicViewSwitcher.nextDirection('forward'); // 'forward', 'back', etc.
-    $state.go('order', {'gid': '305657400791'});
+    $state.go('order', {'gid': '987657506927'});
   }
 })
 
@@ -101,22 +101,19 @@ angular.module('starter.controllers', [])
       } 
 
       if (result.length == 0) {
-        
+        return;
       } else if (result.length == 1) {
         $scope.orderAddr = result[0];
       } else {
         angular.forEach(result, function(value) {
-          if (value.defaults) {
-            $scope.orderAddr = value;
-            $scope.orderAddrText  = //value.province.split('(')[0] +
-                                    " " + value.city.split('(')[0] 
-                                    + " " + value.area.split('(')[0] 
-                                    + " " + value.detail.split('(')[0] ;
-          }
+          if (value.defaults) $scope.orderAddr = value;
         });
       }
 
-      
+      $scope.orderAddrText  = //value.province.split('(')[0] +
+                              " " + $scope.orderAddr.city.split('(')[0] 
+                              + " " + $scope.orderAddr.area.split('(')[0] 
+                              + " " + $scope.orderAddr.detail.split('(')[0] ;
     }, function(error) {
 
     });
