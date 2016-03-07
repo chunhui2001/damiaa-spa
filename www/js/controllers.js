@@ -40,7 +40,7 @@ angular.module('starter.controllers', [])
     // }
 
     $ionicViewSwitcher.nextDirection('forward'); // 'forward', 'back', etc.
-    $state.go('order', {'gid': '987657506927'});
+    $state.go('order', {'gid': '941174731905'});
   }
 })
 
@@ -111,7 +111,9 @@ angular.module('starter.controllers', [])
       }
 
       $scope.orderAddrText  = //value.province.split('(')[0] +
-                              " " + $scope.orderAddr.city.split('(')[0] 
+                              " " + $scope.orderAddr.linkMan
+                              + " " + $scope.orderAddr.linkPone
+                              + " " + $scope.orderAddr.city.split('(')[0] 
                               + " " + $scope.orderAddr.area.split('(')[0] 
                               + " " + $scope.orderAddr.detail.split('(')[0] ;
     }, function(error) {

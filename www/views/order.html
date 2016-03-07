@@ -13,11 +13,11 @@
 			<div style="float:left;min-width:65%;margin-top:1em">
 				<span style="color:#484848;" >品名：<i ng-bind-html="currentGoods.htmlName">{{currentGoods.htmlName}}</i></span><br />
 				<span ng-if="!isSpecial" style="color:#484848;display:block;">
-						单价：&yen; <i>{{marketPrice.toFixed(2)}}</i>/袋 (10kg)</span> 
+						单价：&yen; <i>{{marketPrice.toFixed(2)}}</i>/袋 ({{currentGoods.weight}})</span> 
 
 				<span ng-if="isSpecial" style="color:#484848;display:block;">
 						单价：<i style="text-decoration:line-through;font-style:oblique;">&yen; {{marketPrice.toFixed(2)}}</i> 
-							 <i style="color:red;font-weight:bold;">&yen; {{unitPrice.toFixed(2)}}</i>/袋 (10kg)</span> 
+							 <i style="color:red;font-weight:bold;">&yen; {{unitPrice.toFixed(2)}}</i>/袋 ({{currentGoods.weight}})</span> 
 				<span style="color:#484848;">
 						产地：黑龙江省绥化市双河镇</span>
 				<div style="color:#484848;">

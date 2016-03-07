@@ -1,10 +1,11 @@
-var http 			= require('http');
+var http 			  = require('http');
 var express 		= require('express');
-var path 			= require('path');
+var path 			  = require('path');
 var logger 			= require('morgan');
+
 var cookieParser 	= require('cookie-parser');
 var bodyParser 		= require('body-parser');
-var session 		= require('express-session');
+var session 		  = require('express-session');
 
 var captchap 		= require('./common/captchap').captchap;
 var genuuid 		= require('./common/gen-uuid');
