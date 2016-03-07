@@ -22,7 +22,7 @@ module.exports 	= {
 	    //&client_id=spa-clients&client_secret=spa&username=keesh.zhang&password=111111
 	    var endpoints_access_token 	= endpoints.get_access_token.replace('{{{username}}}', username).replace('{{{password}}}', passwd);
 	    var refresh_token 			= endpoints.refresh_token;
-
+	    
 	    httpClient(URL.parse(endpoints_access_token), null, 'get', null, function(error, result) {
 
 	    	if (error) {
