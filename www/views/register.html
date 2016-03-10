@@ -107,11 +107,15 @@
 			</div>
 <!-- 
 			<a href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxbfbeee15bbe621e6&redirect_uri=http%3A%2F%2Fwww.damiaa.com%2Fregister&response_type=code&scope=snsapi_base&state=asdfsfsd#wechat_redirect">OpenID</a> -->
-
+			
+			<div>nickname: {{wxUserInfo.nickname}}</div>
+			<div>headimgurl: {{wxUserInfo.headimgurl}}</div>
+			<div>unionid: {{wxUserInfo.unionid}}</div>
+			<div>openid: {{wxUserInfo.openid}}</div>
 			<div class="button-bar padding-top padding-bottom">
 				<button ng-click="register()"
 							class="button button-positive">
-					注册 {{openId}}
+					注册
 				</button>
 			</div>
 		</div>

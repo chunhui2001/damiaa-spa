@@ -32,7 +32,7 @@ module.exports 	= {
 	    	}
 
 	    	sendResult.data = result.data;
-	    	
+	    	console.log(sendResult, 666);
 			return res.json(sendResult);
 		});
 

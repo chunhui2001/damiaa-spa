@@ -319,11 +319,13 @@ angular.module('starter.controllers', [])
 
     $scope.wxOpenIDCode       = $location.search().code;
     $scope.wxOpenIDStateCode  = $location.search().state;
-    $scope.openId             = 1;
+    $scope.wxUserInfo         = 1;
 
     if ($scope.wxOpenIDCode && $scope.wxOpenIDStateCode) {
         WChatService.getWxUserInfo($scope.wxOpenIDCode, $scope.wxOpenIDStateCode, function(result) {
-            $scope.openId = result;
+            $scope.wxUserInfo = result;
+        }, function(err) {
+          
         });
     }
 

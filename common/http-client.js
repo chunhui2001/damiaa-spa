@@ -35,7 +35,7 @@ exports.httpClient = function(url, parmas, method, certificate, callback) {
             try {               
                 var info = JSON.parse(body);
 
-                if (info.message.indexOf('Invalid access token') != -1) {
+                if (info.message && info.message.indexOf('Invalid access token') != -1) {
                     return callback({error: true, message: info.message, data: null}, null);
                 }
 
