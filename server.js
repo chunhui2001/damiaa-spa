@@ -7,8 +7,12 @@ var cookieParser 	= require('cookie-parser');
 var bodyParser 		= require('body-parser');
 var session 		  = require('express-session');
 
-var captchap 		= require('./common/captchap').captchap;
-var genuuid 		= require('./common/gen-uuid');
+var captchap 		    = require('./common/captchap').captchap;
+var genuuid 		    = require('./common/gen-uuid');
+
+var GLOBAL_CONFIG   = require('./config/config-global');
+
+console.log(GLOBAL_CONFIG);
 
 var app = express();
 

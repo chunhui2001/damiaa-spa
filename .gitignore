@@ -8,3 +8,4 @@ resources/android
 resources/ios
 resources/*.png
 resources/*.jpg
+publish*

@@ -4,8 +4,15 @@ var bower = require('bower');
 var concat = require('gulp-concat');
 var sass = require('gulp-sass');
 var minifyCss = require('gulp-minify-css');
-var rename = require('gulp-rename');
-var sh = require('shelljs');
+var rename  = require('gulp-rename');
+var replace = require('gulp-replace');
+var sh      = require('shelljs');
+
+
+
+var GLOBAL_CONFIG   = require('./config/config-global');
+
+
 
 var paths = {
   sass: ['./scss/**/*.scss']
@@ -49,3 +56,13 @@ gulp.task('git-check', function(done) {
   }
   done();
 });
+
+gulp.task('replace', function () {
+  gulp.src('./www/build/index.html')
+      .pipe(replace(/<%=#STATIC_SERVER_HOSTNAME%>/g, GLOBAL_CONFIG.STATIC_SERVER_HOSTNAME))
+      .pipe(gulp.dest('./www/'));
+});
+
+
+
+gulp.task('default', ['replace']);

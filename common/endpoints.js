@@ -1,5 +1,7 @@
 
-var host 	= process.env.DAMIAA_API_HOSTNAME || 'http://api-staging.damiaa.com';
+var GLOBAL_CONFIG   = require('../config/config-global');
+
+var host 	= 'http://' + GLOBAL_CONFIG.DAMIAA_API_HOSTNAME;
 
 module.exports = {
 	get_access_token : host + '/oauth/token?grant_type=password&client_id=ios-clients&client_secret=ios&username={{{username}}}&password={{{password}}}',
