@@ -2,10 +2,42 @@ var URL 		= require('url');
 var _s 			= require("underscore.string");
 
 
-var httpClient 	= require('../common/http-client').httpClient;
-var endpoints 	= require('../common/endpoints');
+var httpClient 		= require('../common/http-client').httpClient;
+var endpoints 		= require('../common/endpoints');
+var ENDPOINTS_WX 	= require('../common/endpoints-wx');
+var GLOBAL_CONFIG	= require('../config/config-global');
 
 module.exports 	= { 
+	getWxUserInfo: function(req, res, next) {
+		var code 		= req.params.code;
+		var stateCode 	= req.params.state;
+
+	    var sendResult  = {error: false, message: null, data: code};
+
+	    if (GLOBAL_CONFIG.OPENID_STATE_CODE != stateCode) {
+	    	sendResult = true;
+	    	sendResult.data 	= "state code invalidate";
+
+	    	return res.json(sendResult);
+	    }
+
+		httpClient(ENDPOINTS_WX.get_openid.replace('{{{CODE}}}', code)
+				, null, 'get', {type: 'bearer', token: GLOBAL_CONFIG.WCHAT_TOKEN_CODE}
+				, function(error, result) {
+
+			if (error) {
+	    		sendResult.error 	= true;
+	    		sendResult.data 	= error;
+	    		return res.json(sendResult);
+	    	}
+
+	    	sendResult.data = result.data;
+	    	
+			return res.json(sendResult);
+		});
+
+	},
+
 	login: function (req, res, next) {
 		var username    = req.body.username;
 	    var passwd      = req.body.passwd;

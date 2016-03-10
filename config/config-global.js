@@ -30,6 +30,10 @@ var globalConfig 	= {
 	PORT: '8100',
 	DAMIAA_API_HOSTNAME: 'api-staging.damiaa.com',
 	STATIC_SERVER_HOSTNAME: 'static-local.damiaa.com',
+	WCHAT_SERVER_HOSTNAME: 'wchat.damiaa.com',
+	WCHAT_TOKEN_CODE: '9k95gXBkaFfj3zIgm6veQ9FXF0Rc5UeiLpPp9RduquVRGSZz',
+
+	OPENID_STATE_CODE: 'HbYFbj4CAlo72uPw',
 };
 
 

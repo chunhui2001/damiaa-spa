@@ -62,6 +62,8 @@ app.post('/resetpwd', accountController.resetPasswd);
 app.post('/register', accountController.register);
 app.post('/statistic', accountController.statistic);
 
+app.get('/wxuserinfo/:code/:state',   accountController.getWxUserInfo);
+
 
 app.post('/addr/list',  addrController.list);
 app.post('/addr/set',   addrController.set);

@@ -1,5 +1,14 @@
 <ion-view view-title="用户注册" ng-cloak>
 
+	<!-- https://open.weixin.qq.com/connect/oauth2/authorize?
+	appid=wxbfbeee15bbe621e6
+	&redirect_uri=http://www.damiaa.com/#/register
+	&response_type=code
+	&scope=snsapi_base
+	&state=asdfsfsd#wechat_redirect -->
+
+	<!-- https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxbfbeee15bbe621e6&redirect_uri=http://www.damiaa.com/#/register&response_type=code&scope=snsapi_base&state=asdfsfsd#wechat_redirect -->
+
 	<ion-nav-buttons side="primary">
 	  <a style="color:#039EB1;" class="button button-dark button-clear"
 	  		ui-sref="login">
@@ -96,12 +105,13 @@
 				</label>
 				<img src="/checkcode?t={{r}}" ng-click="refreshCode()" alt="img" />
 			</div>
-
+<!-- 
+			<a href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxbfbeee15bbe621e6&redirect_uri=http%3A%2F%2Fwww.damiaa.com%2Fregister&response_type=code&scope=snsapi_base&state=asdfsfsd#wechat_redirect">OpenID</a> -->
 
 			<div class="button-bar padding-top padding-bottom">
 				<button ng-click="register()"
 							class="button button-positive">
-					注册
+					注册 {{openId}}
 				</button>
 			</div>
 		</div>

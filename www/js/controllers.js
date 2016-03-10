@@ -309,14 +309,26 @@ angular.module('starter.controllers', [])
 
 
 
-.controller('register-controller', function($scope, $state, $timeout, $state, $ionicViewSwitcher, Auth) {
+.controller('register-controller', function($scope, $state, $timeout, $state
+                                            , $ionicViewSwitcher, $location
+                                            , Auth, WChatService) {
     $scope.r    = 1;
     $scope.regM = {};
     $scope.uploading  = false;
     $scope.regSuccess = false;
 
+    $scope.wxOpenIDCode       = $location.search().code;
+    $scope.wxOpenIDStateCode  = $location.search().state;
+    $scope.openId             = 1;
+
+    if ($scope.wxOpenIDCode && $scope.wxOpenIDStateCode) {
+        WChatService.getWxUserInfo($scope.wxOpenIDCode, $scope.wxOpenIDStateCode, function(result) {
+            $scope.openId = result;
+        });
+    }
+
     $scope.refreshCode = function() {
-      $scope.r = $scope.r + 1;
+        $scope.r = $scope.r + 1;
     }
 
     // $scope.sendSMS = function() {
@@ -400,7 +412,10 @@ angular.module('starter.controllers', [])
     }
 
     $scope.register = function() {
+      //https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxbfbeee15bbe621e6&redirect_uri=http%3A%2F%2Fwww.damiaa.com%2Fregister
       $state.go('register', {}, {reload: true});
+
+      //$location.path('https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxbfbeee15bbe621e6&redirect_uri=http%3A%2F%2Fwww.damiaa.com%2Fregister&response_type=code&scope=snsapi_base&state=asdfsfsd#wechat_redirect');
     }
 })
 
