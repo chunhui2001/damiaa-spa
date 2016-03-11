@@ -100,7 +100,6 @@ angular.module('starter')
       };
 
       angular.extend(formDataObj, formData);
-
       $http.post('/register', formDataObj)
         .success(function(data) {
           if (data.error) {

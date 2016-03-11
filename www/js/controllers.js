@@ -364,7 +364,10 @@ angular.module('starter.controllers', [])
         Auth.register({
           username: username,
           passwd: passwd,
-          checkcode: checkcode
+          checkcode: checkcode,
+          openid: $scope.wxUserInfo.openid,
+          unionid: $scope.wxUserInfo.unionid,
+          headimgurl: $scope.wxUserInfo.headimgurl
         }, function(result){
             $scope.regSuccess = true;
             //toolTip($scope, $timeout, "恭喜你, 注册成功! 现在去登陆吧.", 'info');

@@ -262,6 +262,10 @@ module.exports 	= {
 		var passwd 		= req.body.passwd;
 		var checkcode 	= req.body.checkcode;
 
+		var openid 		= req.body.openid;
+		var unionid 	= req.body.unionid;
+		var headimgurl 	= req.body.headimgurl;
+
 
 		var endpoints_user_register 	= URL.parse(endpoints.user_register);
 
@@ -274,8 +278,10 @@ module.exports 	= {
 
 			return res.json(sendResult);
 	    }
-
-	    httpClient(endpoints_user_register, {name: username, passwd: passwd}, 'post', null, function(error, result) {
+console.log({name: username, passwd: passwd, openId:openid, unionId:unionid, photo:headimgurl}, '777');
+	    httpClient(endpoints_user_register
+	    		, {name: username, passwd: passwd, openId:openid, unionId:unionid, photo:headimgurl}
+	    		, 'post', null, function(error, result) {
 
 			if (error) {
 	    		sendResult.error 	= true;
