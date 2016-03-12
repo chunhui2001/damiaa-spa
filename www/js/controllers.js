@@ -40,7 +40,7 @@ angular.module('starter.controllers', [])
     // }
 
     $ionicViewSwitcher.nextDirection('forward'); // 'forward', 'back', etc.
-    $state.go('order', {'gid': '305657400791'}); // '305657400791', '941174731905'
+    $state.go('order', {'gid': '941174731905'}); // '305657400791', '941174731905'
   }
 })
 

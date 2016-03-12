@@ -114,8 +114,8 @@ module.exports 	= {
 			    		return res.json(sendResult3);
 			    	}
 
-			    	sendResult3.data 		= newResult3;
-			    	sendResult3.data.id 	= order_id;
+			    	sendResult3 		= newResult3;
+			    	//sendResult3.data.id 	= order_id;
 					return res.json(sendResult3);
 
 			    });
@@ -182,17 +182,19 @@ module.exports 	= {
 	    updateOrder({orderid: req.params.orderid, action: 'updateStatus', status: req.body.status}
 	    			, req.body.user, function(err, result) {
 
-	    	if (error) {
+	    	var sendResult  			= {error: false, message: null, data: null};	
+	    	
+	    	if (err) {
 	    		sendResult.error 	= true;
-	    		sendResult.data 	= error.data;
-	    		sendResult.message 	= error.message;
+	    		sendResult.data 	= err.data;
+	    		sendResult.message 	= err.message;
 	    		return res.json(sendResult);
 	    	}
 
 	    	if (result) {
 		    	sendResult.data 	= result.data;
 		    	sendResult.message 	= result.message;
-		    	sendResult.error 	= result.error;
+		    	sendResult.error 	= result.err;
 	    	}
 
 			return res.json(sendResult);
