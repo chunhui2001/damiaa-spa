@@ -3,8 +3,9 @@ var _ 			= require("underscore");
 var _s 			= require("underscore.string");
 
 
-var httpClient 	= require('../common/http-client').httpClient;
-var endpoints 	= require('../common/endpoints');
+var httpClient 		= require('../common/http-client').httpClient;
+var endpoints 		= require('../common/endpoints');
+var endpoints_wx 	= require('../common/endpoints-wx');
 
 
 
@@ -12,6 +13,24 @@ var province 	= require('../json-data/region/province.json');
 var city 		= require('../json-data/region/city.json');
 var area 		= require('../json-data/region/area.json');
 
+
+
+function updateOrder(params, user, callback) {
+	var userToken 		= user.value;
+	var tokenType 		= user.tokenType;
+
+	var orderid 		= params.orderid;
+
+    var endpoints_order_detail 	= URL.parse(endpoints.order_detail.replace("{{{orderid}}}", orderid));
+
+    var reqBody 	= params;
+
+
+    httpClient(endpoints_order_detail, reqBody, 'put', {type: tokenType, token: userToken}, function(error, result) {
+
+		return callback(error, result);
+	});
+}
 
 
 
@@ -23,26 +42,86 @@ module.exports 	= {
 		var orderData 		= req.body.orderData;
 
 
-	    var sendResult  			= {error: false, message: null, data: null};	    
-		var endpoints_order_setup 	= URL.parse(endpoints.order_setup);
+	    var sendResult  				= {error: false, message: null, data: null};
+	    var sendResult2  				= {error: false, message: null, data: null};	
+	    var sendResult3  				= {error: false, message: null, data: null};		
+
+		var endpoints_order_setup 		= URL.parse(endpoints.order_setup);    
+		var endpoints_unified_order 	= URL.parse(endpoints_wx.unified_order);
 
 
 		httpClient(endpoints_order_setup, orderData, 'post', {type: tokenType, token: userToken}, function(error, result) {
 
 			if (error) {
 	    		sendResult.error 	= true;
-	    		sendResult.data 	= error.data;
-	    		sendResult.message 	= error.message;
+	    		sendResult.data 	= error;
+	    		sendResult.message 	= error;
 	    		return res.json(sendResult);
 	    	}
 
-	    	if (result) {
+	    	if (result.error) {
 		    	sendResult.data 	= result.data;
 		    	sendResult.message 	= result.message;
 		    	sendResult.error 	= result.error;
-	    	}
+	    		return res.json(sendResult);
+	    	} 
 
-			return res.json(sendResult);
+
+	    	var currentOrder 	= result.data;
+
+
+    		// 订单创建成功, 调用微信统一下单API
+    		// https://api.mch.weixin.qq.com/pay/unifiedorder
+    		var theParams 		= {
+				body 			: currentOrder, 			// 'AA精米 特级米 现磨现卖'
+				out_trade_no 	: currentOrder.id,			//
+				total_fee 		: 800,						//
+				userid 			: currentOrder.userId,		//
+				openid 			: currentOrder.openId		// 
+			};
+
+
+			httpClient(endpoints_unified_order, {orderParams: theParams}
+					, 'post', {type: tokenType, token: userToken}, function(newError, newResult) {
+
+				if (newError) {
+		    		sendResult2.error 	= true;
+		    		sendResult2.data 	= newError;
+		    		sendResult2.message = newError;
+		    		return res.json(sendResult2);
+		    	}
+
+		    	if (newResult.error) {
+			    	sendResult2.data 	= newResult.data;
+			    	sendResult2.message = newResult.message;
+			    	sendResult2.error 	= newResult.error;
+		    		return res.json(sendResult2);
+		    	} 
+
+		    	// 预订单创建成功, 订单号更新订单， 把 prepay_id 存储到订单表中
+				var userid 		= currentOrder.userId;
+				var order_id 	= currentOrder.id;
+				var prepay_id 	= newResult.data.prepay_id;
+
+
+				updateOrder({orderid: order_id, action: 'updatePrePayId', prepay_id: prepay_id}
+	    			, req.body.user, function(newError3, newResult3) {
+
+			    	if (newError3) {
+			    		sendResult3.error 	= true;
+			    		sendResult3.data 	= newError3;
+			    		sendResult3.message = newError3;
+			    		return res.json(sendResult3);
+			    	}
+
+			    	sendResult3.data 		= newResult3;
+			    	sendResult3.data.id 	= order_id;
+					return res.json(sendResult3);
+
+			    });
+
+			});
+    		
 		});
 	}, 
 	get: function(req, res, next) {		
@@ -100,24 +179,10 @@ module.exports 	= {
 		});
 	}, 
 	update: function(req, res, next) {
-		var userToken 		= req.body.user.value;
-		var tokenType 		= req.body.user.tokenType;
+	    updateOrder({orderid: req.params.orderid, action: 'updateStatus', status: req.body.status}
+	    			, req.body.user, function(err, result) {
 
-		var orderid 		= req.params.orderid;
-
-	    var sendResult  			= {error: false, message: null, data: null};	
-	    var endpoints_order_detail 	= URL.parse(endpoints.order_detail.replace("{{{orderid}}}", orderid));
-
-	    var reqBody 	= {};
-
-	    if (req.body.action == 'updateStatus') {
-	    	reqBody.action 	= 'updateStatus';
-	    	reqBody.status 	= req.body.status;
-	    }
-
-	    httpClient(endpoints_order_detail, reqBody, 'put', {type: tokenType, token: userToken}, function(error, result) {
-
-			if (error) {
+	    	if (error) {
 	    		sendResult.error 	= true;
 	    		sendResult.data 	= error.data;
 	    		sendResult.message 	= error.message;
@@ -131,7 +196,8 @@ module.exports 	= {
 	    	}
 
 			return res.json(sendResult);
-		});
+
+	    });
 	}, 
 	del: function(req, res, next) {
 		var userToken 		= req.body.user.value;

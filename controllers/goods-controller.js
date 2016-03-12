@@ -32,7 +32,7 @@ module.exports 	= {
 	    		sendResult.message 	= error.message;
 	    		return res.json(sendResult);
 	    	}
-
+	    	
 	    	if (result) {
 		    	sendResult.data 	= result.data;
 		    	sendResult.message 	= result.message;

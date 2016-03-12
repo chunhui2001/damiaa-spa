@@ -40,7 +40,7 @@ angular.module('starter.controllers', [])
     // }
 
     $ionicViewSwitcher.nextDirection('forward'); // 'forward', 'back', etc.
-    $state.go('order', {'gid': '941174731905'});
+    $state.go('order', {'gid': '305657400791'}); // '305657400791', '941174731905'
   }
 })
 
@@ -163,7 +163,7 @@ angular.module('starter.controllers', [])
         // forward to payment page
         $state.go('payment', {'oid': result.id});
       }, function(error) {
-
+        
       });
     }
 
@@ -340,6 +340,11 @@ angular.module('starter.controllers', [])
     // }
 
     $scope.register = function() {
+
+        if (!$scope.wxUserInfo) {
+          return;
+        }
+
         var username      = $scope.regM.username;
         var passwd        = $scope.regM.passwd;
         var checkcode     = $scope.regM.checkcode;
