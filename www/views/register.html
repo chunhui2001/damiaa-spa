@@ -59,6 +59,9 @@
 	</div>
 
 	<div ng-if="!regSuccess">
+		<div ng-if="wxUserInfo" style="margin-bottom:-1em;">			
+			<img style="width:50px;" ng-src="{{wxUserInfo.headimgurl}}" />
+		</div>
 		<div class="item item-divider" style="margin-top:1em;">用户基本信息</div>
 		<div class="list">
 
@@ -108,10 +111,10 @@
 <!-- 
 			<a href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxbfbeee15bbe621e6&redirect_uri=http%3A%2F%2Fwww.damiaa.com%2Fregister&response_type=code&scope=snsapi_base&state=asdfsfsd#wechat_redirect">OpenID</a> -->
 			
-			<div>nickname: {{wxUserInfo.nickname}}</div>
+			<!-- <div>nickname: {{wxUserInfo.nickname}}</div>
 			<div>headimgurl: {{wxUserInfo.headimgurl}}</div>
 			<div>unionid: {{wxUserInfo.unionid}}</div>
-			<div>openid: {{wxUserInfo.openid}}</div>
+			<div>openid: {{wxUserInfo.openid}}</div> -->
 			<div class="button-bar padding-top padding-bottom">
 				<button ng-click="register()"
 							class="button button-positive">
