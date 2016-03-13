@@ -73,9 +73,9 @@ module.exports 	= {
     		// 订单创建成功, 调用微信统一下单API
     		// https://api.mch.weixin.qq.com/pay/unifiedorder
     		var theParams 		= {
-				body 			: currentOrder, 			// 'AA精米 特级米 现磨现卖'
+				body 			: 'AA精米 特级米 现磨现卖', 			// 'AA精米 特级米 现磨现卖'
 				out_trade_no 	: currentOrder.id,			//
-				total_fee 		: 800,						//
+				total_fee 		: currentOrder.orderMoney * 100,	//
 				userid 			: currentOrder.userId,		//
 				openid 			: currentOrder.openId		// 
 			};
@@ -227,5 +227,39 @@ module.exports 	= {
 
 			return res.json(sendResult);
 		});
+	}, 
+	getPaySign: function(req, res, next) {
+		var userToken 		= req.body.user.value;
+		var tokenType 		= req.body.user.tokenType;
+
+		var prepayid 		= req.params.prepayid;
+
+// 		"appId" : "wx2421b1c4370ec43b",     //公众号名称，由商户传入     
+//      "timeStamp" :" 1395712654",         //时间戳，自1970年以来的秒数     
+//      "nonceStr" : "e61463f8efa94090b1f366cccfbbb444", //随机串     
+//      "package" : "prepay_id=" + currentOrder.prePayId,     
+//      "signType" : "MD5",         //微信签名方式：     
+//      "paySign" : "70EA570631E4BB79628FBCA90534C63FF7FADD89" //微信签名 
+		
+	    var sendResult  			= {error: false, message: null, data: null};	
+	    var endpoints_gen_paysign 	= endpoints_wx.gen_paysign.replace("{{{prepayid}}}", prepayid);
+
+	    httpClient(endpoints_gen_paysign, null, 'get', {type: tokenType, token: userToken}, function(error, result) {
+
+			if (error) {
+	    		sendResult.error 	= true;
+	    		sendResult.data 	= error.data;
+	    		sendResult.message 	= error.message;
+	    		return res.json(sendResult);
+	    	}
+
+	    	if (result) {
+		    	sendResult.data 	= result.data;
+		    	sendResult.message 	= result.message;
+		    	sendResult.error 	= result.error;
+	    	}
+
+			return res.json(sendResult);
+		});	
 	}
 }

@@ -110,6 +110,18 @@ angular.module('starter')
         .error(function(e) {
           return failed(e);
         });
+    },
+    getPaySign: function(user, prepay_id, success, failed) {
+        $http.post('/order/sign/' + prepay_id, {user: user})
+          .success(function(result) {   
+            if (result.error) {
+              return failed(result);
+            }
+            return success(result.data);
+          })
+          .error(function(e) {
+            return failed(e);
+        });
     }
   };
 });

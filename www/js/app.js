@@ -24,7 +24,6 @@ var starter = angular.module('starter', ['ionic', 'ngCookies', 'ngMessages', 'mg
 })
 
 .config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
-
   $ionicConfigProvider.views.maxCache(0);
   //$ionicConfigProvider.backButton.text('').icon('ion-ios7-arrow-left');
   //$ionicConfigProvider.backButton.previousTitleText(false);

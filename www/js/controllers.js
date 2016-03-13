@@ -181,7 +181,8 @@ angular.module('starter.controllers', [])
 
 .controller('payment-controller', function($scope, $rootScope, $state, $stateParams, $ionicViewSwitcher, Auth, OrderService) {
   
-    var oid   = $stateParams.oid;
+    var oid       = $stateParams.oid;
+    var prePayId  = false;
 
     if (!oid) return;
 
@@ -199,9 +200,57 @@ angular.module('starter.controllers', [])
     OrderService.detail(currentUser, oid, function(result) {
       $scope.currentOrder = result.order;
       $scope.orderItems   = result.orderItems;
+
+      prePayId  = result.order.prePayId;
     }, function(error) {
       
     });
+
+    function onBridgeReady(){
+       Auth.getPaySign(currentUser, $scope.currentOrder.prePayId, function(result){
+            if (result['package'].substring(result['package'].indexOf('=') + 1) != $scope.currentOrder.prePayId) {
+              alert('支付订单号不匹配，非法请求！');
+              return;
+            }
+ 
+            WeixinJSBridge.invoke(
+               'getBrandWCPayRequest', {
+                   "appId" : result.appId,     //公众号名称，由商户传入     
+                   "timeStamp" : result.timeStamp,         //时间戳，自1970年以来的秒数     
+                   "nonceStr" : result.nonceStr, //随机串     
+                   "package" : result['package'],     
+                   "signType" : result.signType,         //微信签名方式：     
+                   "paySign" : result.paySign //微信签名 
+               },
+               function(res){   
+
+                   if(res.err_msg == "get_brand_wcpay_request：ok" ) {
+
+                   } else {
+                     // alert(res);
+                   }
+               }
+           ); 
+
+       }, function(err) {
+          alert('错误，请联系管理员!');
+       });
+
+    }
+
+    $scope.onPaymentClick = function() {
+      if (typeof WeixinJSBridge == "undefined"){
+         // if( document.addEventListener ){
+         //     document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+         // }else if (document.attachEvent){
+         //     document.attachEvent('WeixinJSBridgeReady', onBridgeReady); 
+         //     document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+         // }
+         alert('请在微信浏览器内完成支付!');
+      }else{
+         onBridgeReady();
+      }
+    }
 })
 
 
