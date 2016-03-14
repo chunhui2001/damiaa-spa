@@ -68,6 +68,7 @@ module.exports 	= {
 
 
 	    	var currentOrder 	= result.data;
+	    	var isTest 			= ['ofnVVw9aVxkxSfvvW373yuMYT7fs'].indexOf(currentOrder.openId) != -1;
 
 
     		// 订单创建成功, 调用微信统一下单API
@@ -75,11 +76,10 @@ module.exports 	= {
     		var theParams 		= {
 				body 			: 'AA精米 特级米 现磨现卖', 			// 'AA精米 特级米 现磨现卖'
 				out_trade_no 	: currentOrder.id,			//
-				total_fee 		: currentOrder.orderMoney * 100,	//
+				total_fee 		: isTest ? 1 : currentOrder.orderMoney * 100,	//
 				userid 			: currentOrder.userId,		//
 				openid 			: currentOrder.openId		// 
 			};
-
 
 			httpClient(endpoints_unified_order, {orderParams: theParams}
 					, 'post', {type: tokenType, token: userToken}, function(newError, newResult) {

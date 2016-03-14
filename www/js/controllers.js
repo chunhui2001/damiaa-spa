@@ -223,11 +223,15 @@ angular.module('starter.controllers', [])
                    "paySign" : result.paySign //微信签名 
                },
                function(res){   
-
-                   if(res.err_msg == "get_brand_wcpay_request：ok" ) {
-
+                   // 支付完成
+                   if(res.err_msg == "get_brand_wcpay_request:ok" ) {
+                      alert('成功，跳转到支付成功页！');
+                      // 在新页面中:
+                      // 需调用api确认支付状态, 提示用户 "正在等待微信返回支付状态"
+                      // 2 秒后, 每 1 秒中调一次 api， 连调 15 次, 
+                      // 如果 15 次后都没有查到结果, 则提示用户不要再次支付、不要尝试刷新页面、请到历史订单页面查看支付状态, 或联系客服人员
                    } else {
-                     // alert(res);
+                      alert(res.err_msg);
                    }
                }
            ); 
@@ -240,12 +244,6 @@ angular.module('starter.controllers', [])
 
     $scope.onPaymentClick = function() {
       if (typeof WeixinJSBridge == "undefined"){
-         // if( document.addEventListener ){
-         //     document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
-         // }else if (document.attachEvent){
-         //     document.attachEvent('WeixinJSBridgeReady', onBridgeReady); 
-         //     document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
-         // }
          alert('请在微信浏览器内完成支付!');
       }else{
          onBridgeReady();
@@ -501,7 +499,7 @@ angular.module('starter.controllers', [])
     }
 
     $scope.doCancel = function(order) {
-      OrderService.cancel(currentUser, order, function(result) {        
+      OrderService.cancel(currentUser, order, function(result) {   
         angular.extend(order, result);
         order.statusText = '已取消';
       }, function(error) {
