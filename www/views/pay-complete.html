@@ -1,0 +1,21 @@
+<ion-view view-title="{{titleText}}">
+
+	<ion-content>
+
+		<div ng-if="!isComplete" style="padding-top:2em;">
+			<h3 style="text-align:center;">等待银行返回支付结果, 请耐心等待...</h3>
+			<h1 style="text-align:center;">{{currentTryCount}}</h1>
+		</div>
+
+		<div ng-if="paySuccess" style="padding-top:2em;">
+			<h1 style="text-align:center;">&yen;{{currentOrder.orderMoney.toFixed(2)}}</h1>
+			<h3 style="text-align:center;font-size:1.2em;padding:1em;line-height:1.45em;">
+请进入<a ng-click="orderList()" href="#/account-orders">历史订单</a>中查看发货状态, 如果对订单有疑问请咨询客服电话: 18500183080</h3>
+		</div>
+		<div ng-if="unKnow" style="padding: 1em; padding-top:2em;">
+			<h3 style="text-align:center;font-size:1.2em;line-height:1.45em;">状态未知, 请进入
+			<a ng-click="orderList()" href="#/account-orders">历史订单</a>
+			中关注支付状态, 如果对支付有疑问请咨询客服电话: 18500183080</h3>
+		</div>
+	</ion-content>
+</ion-view>

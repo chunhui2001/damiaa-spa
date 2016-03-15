@@ -179,8 +179,94 @@ angular.module('starter.controllers', [])
 
 
 
-.controller('payment-controller', function($scope, $rootScope, $state, $stateParams, $ionicViewSwitcher, Auth, OrderService) {
-  
+.controller('paymentComplete-controller', function(
+    $scope, $rootScope, $state, $stateParams, $ionicViewSwitcher
+    , $interval, $timeout, Auth, OrderService) {
+
+    // 在新页面中:
+    // 需调用api确认支付状态, 提示用户 "正在等待微信返回支付状态"
+    // 2 秒后, 每 1 秒中调一次 api， 连调 15 次, 
+    // 如果 15 次后都没有查到结果, 则提示用户不要再次支付、不要尝试刷新页面、请到历史订单页面查看支付状态, 或联系客服人员
+
+    var oid         = $stateParams.oid;
+    var inProgress  = false;
+
+    $scope.maxTryCount      = 25;
+    $scope.currentTryCount  = 25;
+    $scope.currentOrder     = {};
+    $scope.paySuccess       = false;
+    //$scope.isFailed         = false;  // 暂时不关注失败状态
+    $scope.unKnow           = false;
+    $scope.isComplete       = false;
+    $scope.titleText        = '等待返回支付结果';
+
+
+    if (!oid) return;
+
+    if (!Auth.islogin()) {
+      $state.go('login', {'b':'payment/' + oid}, {reload: true});
+      return;
+    }
+
+    var currentUser   = $rootScope.currentUser;
+
+
+
+    var currentIntervalId = $interval(function () {
+        if ($scope.paySuccess || $scope.currentTryCount <= 0) { // || $scope.isFailed) {
+
+            if ($scope.paySuccess) {
+                $scope.isComplete   = true;
+                $scope.titleText    = '支付成功';
+            } else {
+                // 25 秒以后还没有成功或失败的话，说明微信还没有返回支付状态
+                $scope.unKnow       = !$scope.paySuccess;// && $scope.isFailed;
+                $scope.titleText    = '支付状态未知';
+                $scope.isComplete   = true;
+            }
+
+            $interval.cancel(currentIntervalId);
+        }
+
+        $scope.currentTryCount  = $scope.currentTryCount - 1;
+
+        if ($scope.currentTryCount < ($scope.maxTryCount - 2) && $scope.currentTryCount % 3 == 0 && !inProgress) {
+            inProgress = true;
+
+            OrderService.detail(currentUser, oid, function(result) {
+
+                inProgress  = false;
+
+                $scope.currentOrder   = result.order;
+                $scope.paySuccess     = result.order.status == 'CASHED';
+                //$scope.isFailed       = true;
+                //$scope.paySuccess = true;
+                if ($scope.paySuccess) {
+                    $scope.isComplete   = true;
+                }
+            }, function(error) {
+              
+            });
+
+        }
+    }, 1000);
+
+
+    
+
+    $scope.orderList = function() {        
+        // $ionicViewSwitcher.nextDirection('forward'); // 'forward', 'back', etc.
+        // $state.go('account-orders', {}, {reload: true});
+        $location.path('/account-orders' + oid);
+    }
+})
+
+
+
+.controller('payment-controller', function(
+    $scope, $rootScope, $state, $stateParams, $ionicViewSwitcher, $location, Auth, OrderService) {
+
+    // $state.go('paymentComplete', {'oid': '941174731905'});
     var oid       = $stateParams.oid;
     var prePayId  = false;
 
@@ -225,13 +311,13 @@ angular.module('starter.controllers', [])
                function(res){   
                    // 支付完成
                    if(res.err_msg == "get_brand_wcpay_request:ok" ) {
-                      alert('成功，跳转到支付成功页！');
+                      $state.go('paymentComplete', {'oid': oid});
                       // 在新页面中:
                       // 需调用api确认支付状态, 提示用户 "正在等待微信返回支付状态"
                       // 2 秒后, 每 1 秒中调一次 api， 连调 15 次, 
                       // 如果 15 次后都没有查到结果, 则提示用户不要再次支付、不要尝试刷新页面、请到历史订单页面查看支付状态, 或联系客服人员
                    } else {
-                      alert(res.err_msg);
+                      //alert(res.err_msg);
                    }
                }
            ); 

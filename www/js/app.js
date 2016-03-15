@@ -68,6 +68,17 @@ var starter = angular.module('starter', ['ionic', 'ngCookies', 'ngMessages', 'mg
     }
   })
 
+  
+  .state('paymentComplete', {
+    url: '/pay-complete/:oid',
+    views: {
+      'paymentComplete': {
+        templateUrl: 'views/pay-complete.html',
+        controller: 'paymentComplete-controller'
+      }
+    }
+  })
+
 
   .state('account', {
     url: '/account',
@@ -75,6 +86,17 @@ var starter = angular.module('starter', ['ionic', 'ngCookies', 'ngMessages', 'mg
       'account': {
         templateUrl: 'views/account.html',
         controller: 'account-controller'
+      }
+    }
+  })
+
+
+  .state('accountOrders', {
+    url: '/account-orders',
+    views: {
+      'accountOrders': {
+        templateUrl: 'views/account-orders.html',
+        controller: 'account-orders-controller'
       }
     }
   })

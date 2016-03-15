@@ -20,9 +20,11 @@
 		<div style="padding:1.5em 1em;background-color:#F3F3F3;font-weight:bold;color:#060606;
 					border-top:solid #E4E4E4 1px;">
 			<span style="color:#383838">订单编号:</span> <br />
-			<span>{{currentOrder.id}}</span> <span style="float:right;">待付款</span>
+			<span>{{currentOrder.id}}</span> 
+
+				<span style="float:right;">{{currentOrder.status == 'PENDING' ? '待付款' : currentOrder.status}}</span>
 			<br />
-			<div style="text-align:right;color:gray;font-style:oblique;">创建于 {{currentOrder.createTime}}</div>
+			<div style="text-align:right;color:gray;font-style:oblique;">{{currentOrder.lastEvent}}</div>
 		</div>
 
 		<!-- <div style="background-color:white;text-align:center;padding:1px;
@@ -115,7 +117,7 @@
 		</div>
 
 
-		<div class="button-bar padding" style="margin-bottom:4em;">
+		<div ng-if="currentOrder.status == 'PENDING'" class="button-bar padding" style="margin-bottom:4em;">
 		  <button ng-click="onPaymentClick()"
 		  			class="button button-assertive">
 		  	<span style="color:#5BCA00;font-weight:bold;font-style:oblique;">
