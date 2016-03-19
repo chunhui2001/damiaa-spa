@@ -59,6 +59,10 @@ angular.module('starter.controllers', [])
     $scope.orderAddrText        = '';
     $scope.nowrapNormal         = false;
 
+    $scope.inProgress1          = true;
+    $scope.inProgress2          = true;
+    $scope.inProgress3          = false;
+
     var goodsId   = $stateParams.gid;
 
     if (!Auth.islogin()) {
@@ -75,8 +79,8 @@ angular.module('starter.controllers', [])
 
 
     GoodsService.get(currentUser, goodsId, function(result) {
-
-      $scope.currentGoods = result.goods;
+      $scope.inProgress1          = false;
+      $scope.currentGoods         = result.goods;
 
       if (result.specialPrice) {
         $scope.unitPrice            = result.specialPrice;
@@ -96,6 +100,8 @@ angular.module('starter.controllers', [])
     });
 
     AddrService.list(currentUser, function(result) {
+      $scope.inProgress2          = false;
+
       if (result.length == 1) {
         $scope.orderAddr = result[0];
       } 
@@ -144,6 +150,7 @@ angular.module('starter.controllers', [])
     }
 
     $scope.setupOrder = function() {
+      $scope.inProgress3          = true;
 
       if (!$scope.orderAddr) {
         toolTip($scope, $timeout, "请添加收货地址", 'danger');
@@ -159,6 +166,7 @@ angular.module('starter.controllers', [])
       orderData[goodsId]  = buyCount;
 
       OrderService.setup(currentUser, orderData, function(result) {
+        $scope.inProgress3          = false;
         // success
         // forward to payment page
         $state.go('payment', {'oid': result.id});
@@ -279,11 +287,15 @@ angular.module('starter.controllers', [])
 
 
     var currentUser   = $rootScope.currentUser;
+
     $scope.currentOrder   = {};
     $scope.orderItems     = {};
+    $scope.inProgress     = true;
+    $scope.inProgress2    = false;
 
 
     OrderService.detail(currentUser, oid, function(result) {
+      $scope.inProgress   = false;
       $scope.currentOrder = result.order;
       $scope.orderItems   = result.orderItems;
 
@@ -293,8 +305,11 @@ angular.module('starter.controllers', [])
     });
 
     function onBridgeReady(){
+       $scope.inProgress2    = true;
+
        Auth.getPaySign(currentUser, $scope.currentOrder.prePayId, function(result){
             if (result['package'].substring(result['package'].indexOf('=') + 1) != $scope.currentOrder.prePayId) {
+              $scope.inProgress2    = false;
               alert('支付订单号不匹配，非法请求！');
               return;
             }
@@ -309,6 +324,8 @@ angular.module('starter.controllers', [])
                    "paySign" : result.paySign //微信签名 
                },
                function(res){   
+                   $scope.inProgress2    = false;
+                   
                    // 支付完成
                    if(res.err_msg == "get_brand_wcpay_request:ok" ) {
                       $state.go('paymentComplete', {'oid': oid});
@@ -343,14 +360,22 @@ angular.module('starter.controllers', [])
     $scope.logedin  = Auth.islogin();
     $scope.logout   = Auth.logout;
 
+    $scope.inProgress1  = false;
+    $scope.inProgress2  = false;
+
     if ($scope.logedin) {
+        $scope.inProgress1  = true;
+        $scope.inProgress2  = true;
+
         Auth.loginUser( function(userInfo) {
-          $scope.loginUser  = userInfo;
+          $scope.inProgress1  = false;
+          $scope.loginUser    = userInfo;
         }, function(error) {
 
         });
 
         UserService.statistic($rootScope.currentUser, function(result) {
+            $scope.inProgress2  = false;
             $scope.loginUserStatistic = {};
             angular.extend($scope.loginUserStatistic, result);
         }, function(error) {
@@ -524,22 +549,33 @@ angular.module('starter.controllers', [])
 
 .controller('login-controller', function($scope, $stateParams, $rootScope, $ionicViewSwitcher, $state, $location, $ionicPopup, $timeout, Auth) {
 
-  if (Auth.islogin()) {
-      $state.go('account', {}, {reload: true});
-      return;
+    if (Auth.islogin()) {
+        $state.go('account', {}, {reload: true});
+        return;
     }
 
 
     $scope.b          = $stateParams.b;
     $scope.tabIndex   = 1;
     $scope.logM       = {};
+    $scope.inProgress   = false;
 
     $scope.tabClick = function(tabIndex) {
       $scope.tabIndex = tabIndex;
     }
 
     $scope.login = function() {
+
+      if (!$scope.logM.username || !$scope.logM.passwd) {
+        toolTip($scope, $timeout, "请输入用户名和密码!", 'danger');
+          return;
+      }
+
+      $scope.inProgress = true;
+
       Auth.login({username: $scope.logM.username, passwd: $scope.logM.passwd}, function(error, result) {
+        $scope.inProgress   = false;
+
         if (result.error) {
           toolTip($scope, $timeout, result.message, 'danger');
           return;
@@ -572,10 +608,13 @@ angular.module('starter.controllers', [])
     }
 
     var currentUser         = $rootScope.currentUser;
+
     $scope.userOrderList    = [];
+    $scope.inProgress       = true;
 
     OrderService.list(currentUser, function(result) {
-      $scope.userOrderList = result;
+      $scope.inProgress       = false;
+      $scope.userOrderList    = result;
     }, function(error) {
 
     });
@@ -610,6 +649,7 @@ angular.module('starter.controllers', [])
 
     $scope.userAddrList   = [];
     $scope.isNewAddr      = false;
+    $scope.inProgress     = true;
 
     if (!Auth.islogin()) {
         $state.go('login', {'b':'account-addr'});
@@ -619,7 +659,8 @@ angular.module('starter.controllers', [])
     var currentUser   = $rootScope.currentUser;
 
     AddrService.list(currentUser, function(data) {
-      $scope.userAddrList = data;
+      $scope.inProgress     = false;
+      $scope.userAddrList   = data;
     }, function(error) {
       if (error.data == '4000') {
         $state.go('login', {'b':'account-addr'});

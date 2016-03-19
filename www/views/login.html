@@ -45,7 +45,9 @@
 			<div class="button-bar padding-top padding-bottom">
 			  <button ng-click="login()"
 			  			class="button button-positive">
-			  	登陆
+			  	登陆 <i ng-if="inProgress" style="display:inline-block;width:20px;height:20px;
+			  					background-size:100%;background-repeat:no-repeat;
+			  					background-image:url('//static.damiaa.com/img/loading/loading52.gif');"></i>
 			  </button>
 			</div>
 		</div>
@@ -67,7 +69,8 @@
     					<i class="icon ion-android-textsms placeholder-icon"></i>
 						<input type="password" placeholder="请输入短信验证码" />
 					</label>
-					<button style="padding: 0 1.5em;" class="button button-right button-small activated button-positive">
+					<button style="padding: 0 1.5em;" 
+							class="button button-right button-small activated button-positive">
 					  	发送短信
 					 </button>
 				 </div>

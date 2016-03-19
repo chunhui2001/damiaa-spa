@@ -15,8 +15,16 @@
 	</ion-nav-buttons>
 
 	<ion-content class="" style="background-color:#f5f5f5;">
+
+	<div ng-if="inProgress1 || inProgress2" 
+			style="width:100%;height:200px;
+  					background-size:auto 50%;background-repeat:no-repeat;
+  					background-position:center;
+  					background-image:url('//static.damiaa.com/img/loading/loading52.gif');">
+		
+	</div>
 	
-	<div ng-show="{{logedin}}">
+	<div ng-show="{{logedin}} && !inProgress1 && !inProgress2">
 		<!-- <ion-list>
 			<ion-item class="item-thumbnail-left">
 				<img src="http://placehold.it/5x5" />
