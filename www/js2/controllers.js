@@ -325,7 +325,6 @@ angular.module('starter.controllers', [])
                },
                function(res){   
                    $scope.inProgress2    = false;
-                   
                    // 支付完成
                    if(res.err_msg == "get_brand_wcpay_request:ok" ) {
                       $state.go('paymentComplete', {'oid': oid});
@@ -334,12 +333,14 @@ angular.module('starter.controllers', [])
                       // 2 秒后, 每 1 秒中调一次 api， 连调 15 次, 
                       // 如果 15 次后都没有查到结果, 则提示用户不要再次支付、不要尝试刷新页面、请到历史订单页面查看支付状态, 或联系客服人员
                    } else {
+                      $scope.inProgress2    = false;
                       //alert(res.err_msg);
                    }
                }
            ); 
 
        }, function(err) {
+          $scope.inProgress2    = false;
           alert('错误，请联系管理员!');
        });
 
