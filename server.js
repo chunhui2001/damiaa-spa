@@ -76,7 +76,7 @@ app.get('/region/:name/:code',   regionController.list);
 app.post('/order',  orderController.list);
 app.post('/order/setup',  orderController.setup);
 app.post('/order/:orderid',  orderController.get);
-app.put('/order/:orderid',  orderController.update);
+app.post('/order/cancel/:orderid',  orderController.update);
 app.post('/order/del/:orderid',  orderController.del);
 app.post('/order/sign/:prepayid',  orderController.getPaySign);
 

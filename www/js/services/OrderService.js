@@ -40,7 +40,7 @@ angular.module('starter')
       });
     }, 
     cancel: function(user, order, success, failed) {
-      $http.put('/order/' + order.id, {user: user, action: 'updateStatus', status: 'CANCEL'})
+      $http.post('/order/cancel/' + order.id, {user: user, action: 'updateStatus', status: 'CANCEL'})
         .success(function(result) {   
           if (result.error) {
             return failed(result);
