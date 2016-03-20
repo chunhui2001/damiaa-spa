@@ -336,6 +336,8 @@ angular.module('starter.controllers', [])
                       $scope.inProgress2    = false;
                       //alert(res.err_msg);
                    }
+
+                   alert(res.err_msg);
                }
            ); 
 
