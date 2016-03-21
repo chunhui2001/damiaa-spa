@@ -46,11 +46,11 @@
     <script src="//static.damiaa.com/js/services/GoodsService.js"></script>
     <script src="//static.damiaa.com/js/services.js"></script>
     <script type="text/javascript">
-      var currentNonceStr   = '5715246590';
-      var currentTimeStamp  = '1458553583';
+      var currentNonceStr   = '5782821854';
+      var currentTimeStamp  = '1458558083';
       var currentAppId      = 'wxbfbeee15bbe621e6';
       var isDebug           = false;
-      var currentSignature  = 'c6b1457094264fa947fbd2f648683e4a04861370';
+      var currentSignature  = 'b3e53719a7978fac627dd3691e86f876908be7f7';
       var jsapi_ticket      = 'kgt8ON7yVITDhtdwci0qeVZjKbFfUtFJsvbWSS2X0obJ7yGHd6GGL32-b-rKGlxLb-UVuXEQXiAg6OfmEGBHFQ';
 
       wx.config({
@@ -62,7 +62,7 @@
           nonceStr: currentNonceStr,   // 必填，生成签名的随机串
           signature: currentSignature,  // 必填，签名，见附录1
           //jsapi_ticket: jsapi_ticket,
-          jsApiList: ['chooseImage']   // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+          jsApiList: ['chooseImage', 'chooseWXPay']   // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
       });
 
       wx.ready(function(){

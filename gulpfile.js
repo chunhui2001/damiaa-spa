@@ -104,6 +104,8 @@ gulp.task('replace', function () {
       .pipe(replace(/<%=#currentSignature%>/g, currentSignature))
       .pipe(replace(/<%=#currentAppId%>/g, currentAppId))
       .pipe(replace(/<%=#jsapi_ticket%>/g, jsapi_ticket))
+     // .pipe(replace(/<!--[\d\D]{1,}?-->/g, ''))
+     // .pipe(replace(/\/\/\s{1,}[\d\D]{1,}?$/g, ''))
       .pipe(gulp.dest('./www/'));
 });
 
