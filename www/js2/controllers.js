@@ -272,7 +272,7 @@ angular.module('starter.controllers', [])
 
 
 .controller('payment-controller', function(
-    $scope, $rootScope, $state, $stateParams, $ionicViewSwitcher, $location, Auth, OrderService) {
+    $scope, $rootScope, $state, $stateParams, $ionicViewSwitcher, $location, $window, Auth, OrderService) {
 
     // $state.go('paymentComplete', {'oid': '941174731905'});
     var oid       = $stateParams.oid;
@@ -287,6 +287,14 @@ angular.module('starter.controllers', [])
 
 
     var currentUser   = $rootScope.currentUser;
+
+    //http://damiaa.com/pay/8555074241827141919/bearer/3d4694c2-8a51-4aa9-a4a9-dd956e5b0b8b
+
+    $window.location.href = 'http://damiaa.com/pay/' 
+                    + oid + '-' + currentUser.tokenType + '-' + currentUser.value;
+    // $location.path('http://damiaa.com/pay/' 
+    //                 + oid + '/' + currentUser.tokenType + '/' + currentUser.value);
+    return;
 
     $scope.currentOrder   = {};
     $scope.orderItems     = {};
