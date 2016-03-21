@@ -314,17 +314,41 @@ angular.module('starter.controllers', [])
               return;
             }
  
-            WeixinJSBridge.invoke(
-               'getBrandWCPayRequest', {
-                   "appId" : result.appId,     //公众号名称，由商户传入     
-                   "timeStamp" : result.timeStamp,         //时间戳，自1970年以来的秒数     
-                   "nonceStr" : result.nonceStr, //随机串     
-                   "package" : result['package'],     
-                   "signType" : result.signType,         //微信签名方式：     
-                   "paySign" : result.paySign //微信签名 
-               },
-               function(res){   
-                   $scope.inProgress2    = false;
+           //  WeixinJSBridge.invoke(
+           //     'getBrandWCPayRequest', {
+           //         "appId" : result.appId,     //公众号名称，由商户传入     
+           //         "timeStamp" : result.timeStamp,         //时间戳，自1970年以来的秒数     
+           //         "nonceStr" : result.nonceStr, //随机串     
+           //         "package" : result['package'],     
+           //         "signType" : result.signType,         //微信签名方式：     
+           //         "paySign" : result.paySign //微信签名 
+           //     },
+           //     function(res){   
+           //         $scope.inProgress2    = false;
+           //         // 支付完成
+           //         if(res.err_msg == "get_brand_wcpay_request:ok" ) {
+           //            $state.go('paymentComplete', {'oid': oid});
+           //            // 在新页面中:
+           //            // 需调用api确认支付状态, 提示用户 "正在等待微信返回支付状态"
+           //            // 2 秒后, 每 1 秒中调一次 api， 连调 15 次, 
+           //            // 如果 15 次后都没有查到结果, 则提示用户不要再次支付、不要尝试刷新页面、请到历史订单页面查看支付状态, 或联系客服人员
+           //         } else {
+           //            $scope.inProgress2    = false;
+           //            //alert(res.err_msg);
+           //         }
+
+           //         //alert(res.err_msg);
+           //     }
+           // ); 
+
+          wx.chooseWXPay({
+              timestamp: result.timeStamp, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
+              nonceStr: result.nonceStr, // 支付签名随机串，不长于 32 位
+              package: result['package'], // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=***）
+              signType: result.signType, // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
+              paySign: result.paySign, // 支付签名
+              success: function (res) {
+                  $scope.inProgress2    = false;
                    // 支付完成
                    if(res.err_msg == "get_brand_wcpay_request:ok" ) {
                       $state.go('paymentComplete', {'oid': oid});
@@ -336,10 +360,8 @@ angular.module('starter.controllers', [])
                       $scope.inProgress2    = false;
                       //alert(res.err_msg);
                    }
-
-                   alert(res.err_msg);
-               }
-           ); 
+              }
+          });
 
        }, function(err) {
           $scope.inProgress2    = false;
