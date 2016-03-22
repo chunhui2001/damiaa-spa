@@ -750,6 +750,7 @@ angular.module('starter.controllers', [])
     }
 
     $scope.onDeleteAddr = function(addr) {
+
       if (addr.defaults) {
         toolTip($scope, $timeout, '默认地址无法删除！', 'danger');
         return;
@@ -764,7 +765,7 @@ angular.module('starter.controllers', [])
           });
         }
       }, function(error) {
-
+        
       });
     }
 

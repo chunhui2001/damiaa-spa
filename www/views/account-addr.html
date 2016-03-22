@@ -105,10 +105,10 @@
 		</div>
 
 		<ion-list class="addr-list">
-			<ion-item ng-click="setDefault(addr.id)" class="item item-checkbox checkbox-balanced"
+			<ion-item class="item item-checkbox checkbox-balanced"
 					  ng-repeat="addr in userAddrList"
 					  style="padding-left:0px;">
-				<label class="checkbox">
+				<label class="checkbox" ng-click="setDefault(addr.id)">
 					<input ng-if="addr.defaults" type="radio" name="address" checked />
 					<input ng-if="!addr.defaults" type="radio" name="address" />
 				</label>

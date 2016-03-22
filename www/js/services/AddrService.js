@@ -28,7 +28,7 @@ angular.module('starter')
         });
     },
     del: function(user, addr, success, failed) {
-      $http.delete('/addr/' + addr.id, {params: {token: user.value, tokenType: user.tokenType}})
+      $http.post('/addr/' + addr.id + '/del', {user: user})
         .success(function(result) {
           if (result.error) {
             return failed(result);

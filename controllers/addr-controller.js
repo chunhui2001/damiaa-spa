@@ -108,8 +108,8 @@ module.exports 	= {
 		});
 	},	
 	del: function (req, res, next) {	
-		var userToken 		= req.query.token;
-		var tokenType 		= req.query.tokenType;
+		var userToken 		= req.body.user.value;
+		var tokenType 		= req.body.user.tokenType;
 		var addrid 			= req.params.addrid;
 
 

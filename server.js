@@ -68,7 +68,7 @@ app.get('/wxuserinfo/:code/:state',   accountController.getWxUserInfo);
 app.post('/addr/list',  addrController.list);
 app.post('/addr/set',   addrController.set);
 app.post('/addr/add',   addrController.add);
-app.delete('/addr/:addrid',   addrController.del);
+app.post('/addr/:addrid/del',   addrController.del);
 
 app.get('/region/:name/:code',   regionController.list);
 
