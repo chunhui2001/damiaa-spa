@@ -1,4 +1,4 @@
-<ion-view ng-if="1==2" view-title="订单详情" ng-cloak>
+<ion-view view-title="订单详情" ng-cloak>
 
 	<!-- <ion-nav-buttons side="primary">
 	  <button style="color:#039EB1;" class="button button-dark button-clear" 
@@ -26,7 +26,7 @@
 						background-position:bottom;
 						padding:.5em 0;
 						margin:0;
-						background-size:35px;">订单创建成功 ...</h4>
+						background-size:35px;">请核对订单信息 ...</h4>
 			<div style="padding:1.5em 1em;background-color:#F3F3F3;font-weight:bold;color:#060606;
 						border-top:solid #E4E4E4 1px;">
 				<span style="color:#383838">订单编号:</span> <br />
@@ -130,7 +130,7 @@
 			  <button ng-click="onPaymentClick()"
 			  			class="button button-assertive">
 			  	<span style="color:#5BCA00;font-weight:bold;font-style:oblique;">
-			  		需付：&yen; {{currentOrder.orderMoney.toFixed(2)}}</span> &nbsp;&nbsp;微信安全支付
+			  		需付：&yen; {{currentOrder.orderMoney.toFixed(2)}}</span> &nbsp;&nbsp;现在去支付
 			  		<i ng-if="inProgress2" style="display:inline-block;width:20px;height:20px;
 			  					background-size:100%;background-repeat:no-repeat;
 			  					background-image:url('//static.damiaa.com/img/loading/loading52.gif');"></i>
