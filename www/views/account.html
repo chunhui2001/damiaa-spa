@@ -44,6 +44,24 @@
 			<i class="icon ion-ios-arrow-forward" style="color:#505050;"></i>
 		</a>
 
+
+		<div ng-if="loginUser.isAdmin" 
+				class="item item-divider" style="padding:0;min-height:15px;"></div>
+
+		<div ng-if="loginUser.isAdmin" 
+				style="padding: 0 .6em;background-color:white;border-bottom:solid 1px #ddd;border-top:solid 1px #ddd;">
+			<a ng-click="userOrders()" 
+					class="item item-icon-left item-icon-right" 
+					style="border-left:none;border-right:none;">
+				<i class="icon ion-leaf" style="color:#CE1FB4;font-size:30px;"></i>
+				<span class="item-content" style="color:gray;">待发货订单</span>
+				<span class="badge badge-assertive" 
+						style="right:16px;background-color:#3591E0;">
+						{{loginUserStatistic.orderCount_WaitingSend}}</span>
+			</a>
+		</div>
+
+
 		<div class="item item-divider" style="padding:0;min-height:15px;"></div>
 
 		<div style="padding: 0 .6em;background-color:white;border-bottom:solid 1px #ddd;border-top:solid 1px #ddd;">

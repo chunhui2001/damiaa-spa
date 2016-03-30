@@ -412,6 +412,11 @@ angular.module('starter.controllers', [])
         $ionicViewSwitcher.nextDirection('forward'); // 'forward', 'back', etc.
         $state.go('account-orders', {}, {reload: true});
     }
+
+    $scope.userOrders = function() {        
+        $ionicViewSwitcher.nextDirection('forward'); // 'forward', 'back', etc.
+        $state.go('account-uorders', {}, {reload: true});
+    }
 })
 
 
@@ -599,6 +604,29 @@ angular.module('starter.controllers', [])
 
       //$location.path('https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxbfbeee15bbe621e6&redirect_uri=http%3A%2F%2Fwww.damiaa.com%2Fregister&response_type=code&scope=snsapi_base&state=asdfsfsd#wechat_redirect');
     }
+})
+
+.controller('account-uorders-controller', function(
+      $scope, $rootScope, $ionicViewSwitcher, $state, $ionicPopup, $timeout, $filter, $location
+      , Auth, OrderService) {
+
+    if (!Auth.islogin()) {
+        $state.go('login', {'b':'account-orders'});
+      return;
+    }
+
+    var currentUser         = $rootScope.currentUser;
+
+    $scope.userOrderList    = [];
+    $scope.inProgress       = true;
+
+    OrderService.listUserOrders(currentUser, 'CASHED', function(result) {
+      $scope.inProgress       = false;
+      $scope.userOrderList    = result;
+    }, function(error) {
+
+    });
+
 })
 
 .controller('account-orders-controller', function(

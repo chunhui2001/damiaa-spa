@@ -81,6 +81,9 @@ app.post('/order/del/:orderid',  orderController.del);
 app.post('/order/sign/:prepayid',  orderController.getPaySign);
 
 
+app.post('/user-orders/:status',  orderController.listUserOrders);
+
+
 app.post('/goods/:goodsid',  goodsController.get);
 
 

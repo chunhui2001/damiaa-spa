@@ -39,6 +39,18 @@ angular.module('starter')
           return failed(e);
       });
     }, 
+    listUserOrders: function(user, status, success, failed) {
+      $http.post('/user-orders/' + status, {user: user})
+        .success(function(result) {   
+          if (result.error) {
+            return failed(result);
+          }
+          return success(result.data);
+        })
+        .error(function(e) {
+          return failed(e);
+      });
+    }, 
     cancel: function(user, order, success, failed) {
       $http.post('/order/cancel/' + order.id, {user: user, action: 'updateStatus', status: 'CANCEL'})
         .success(function(result) {   

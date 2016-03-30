@@ -178,6 +178,33 @@ module.exports 	= {
 			return res.json(sendResult);
 		});
 	}, 
+	listUserOrders: function(req, res, next) {
+		var userToken 		= req.body.user.value;
+		var tokenType 		= req.body.user.tokenType;
+		var orderStatus 	= req.params.status;
+
+
+	    var sendResult  				= {error: false, message: null, data: null};	
+	    var endpoints_list_user_orders 	= URL.parse(endpoints.list_user_orders.replace('{{{orderStatus}}}', orderStatus));
+	
+	    httpClient(endpoints_list_user_orders, null, 'get', {type: tokenType, token: userToken}, function(error, result) {
+
+			if (error) {
+	    		sendResult.error 	= true;
+	    		sendResult.data 	= error.data;
+	    		sendResult.message 	= error.message;
+	    		return res.json(sendResult);
+	    	}
+
+	    	if (result) {
+		    	sendResult.data 	= result.data;
+		    	sendResult.message 	= result.message;
+		    	sendResult.error 	= result.error;
+	    	}
+	    	
+			return res.json(sendResult);
+		});
+	},
 	update: function(req, res, next) {
 	    updateOrder({orderid: req.params.orderid, action: 'updateStatus', status: req.body.status}
 	    			, req.body.user, function(err, result) {
