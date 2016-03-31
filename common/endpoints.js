@@ -21,6 +21,7 @@ module.exports = {
 	order_setup: host + '/order/',
 	order_list: host + '/order/',
 	order_detail: host + '/order/{{{orderid}}}',
+	order_flush: host + '/flush-order/',
 
 
 

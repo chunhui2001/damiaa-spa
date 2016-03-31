@@ -288,5 +288,47 @@ module.exports 	= {
 
 			return res.json(sendResult);
 		});	
+	},
+	flush: function(req, res, next) {
+
+		var userToken 		= req.body.user.value;
+		var tokenType 		= req.body.user.tokenType;
+
+		var orderid 				= req.params.orderid;
+		var deliveryCompany 		= req.body.postData.deliveryCompany;
+		var deliveryNo 				= req.body.postData.deliveryNo;
+		var userid 					= req.body.postData.userid;
+		var openid 					= req.body.postData.openid;
+
+
+
+	    var sendResult  			= {error: false, message: null, data: null};	
+
+	    var endpoints_order_flush 	= URL.parse(endpoints.order_flush);
+	    console.log(endpoints_order_flush, 'endpoints_order_flush');
+	    httpClient(endpoints_order_flush
+	    		, {
+	    			userid: userid,
+	    			openid: openid,
+	    			orderid: orderid,
+	    			delivery_company: deliveryCompany,
+	    			delivery_no: deliveryNo
+	    		}, 'post', {type: tokenType, token: userToken}, function(error, result) {
+
+			if (error) {
+	    		sendResult.error 	= true;
+	    		sendResult.data 	= error.data;
+	    		sendResult.message 	= error.message;
+	    		return res.json(sendResult);
+	    	}
+
+	    	if (result) {
+		    	sendResult.data 	= result.data;
+		    	sendResult.message 	= result.message;
+		    	sendResult.error 	= result.error;
+	    	}
+
+			return res.json(sendResult);
+		});
 	}
 }

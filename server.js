@@ -79,6 +79,7 @@ app.post('/order/:orderid',  orderController.get);
 app.post('/order/cancel/:orderid',  orderController.update);
 app.post('/order/del/:orderid',  orderController.del);
 app.post('/order/sign/:prepayid',  orderController.getPaySign);
+app.post('/order/flush/:orderid',  orderController.flush);
 
 
 app.post('/user-orders/:status',  orderController.listUserOrders);

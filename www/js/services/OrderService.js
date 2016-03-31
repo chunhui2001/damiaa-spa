@@ -74,6 +74,18 @@ angular.module('starter')
         .error(function(e) {
           return failed(e);
       });
+    },
+    flushOrder: function(user, params, success, failed) {
+        $http.post('/order/flush/' + params.orderid, {user: user, postData: params})
+          .success(function(result) {   
+            if (result.error) {
+              return failed(result);
+            }
+            return success(result.data);
+          })
+          .error(function(e) {
+            return failed(e);
+        });
     }
   };
 });
