@@ -17,7 +17,7 @@
 					  ng-repeat="order in userOrderList">
 			<div class="item item-divider" style="font-size:.9em;">
 				<span>订单编号: </span>
-				<span>{{order.id}}</span>
+				<span>{{order.id | format:3}}</span>
 				<span style="float:right;">{{order.statusText}}</span>
 			</div>
 
