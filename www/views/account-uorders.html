@@ -33,7 +33,8 @@
 				<!-- <i class="icon ion-ios-arrow-forward" style="color:#505050;font-size:1.5em;"></i> -->
 			</div>
 			<div class="item item-divider" style="font-size:.9em;">
-				<span>金额: </span><span>&yen; {{order.orderMoney.toFixed(2)}}</span>
+				<span ng-if="order.status != 'SENDED'">金额: &yen; {{order.orderMoney.toFixed(2)}}</span>
+				<span ng-if="order.status == 'SENDED'">发货单号: <b>{{order.deliveryNo}} [{{order.deliveryCompany}}]</b></span>
 
 				<button ng-if="order.status == 'PENDING'" ng-click="goPay(order.id)" style="float:right;min-height:21px;line-height:0;"
 							class="button button-small button-positive">
@@ -53,7 +54,7 @@
 				</button>
 
 
-				<button ng-if="order.status == 'CASHED'"
+				<button ng-click="showModel(order)" ng-if="order.status == 'CASHED'"
 							style="float:right;min-height:21px;line-height:0;margin-right:.2em;"
 							class="button button-small button-positive">
 					<span style="color:white;">发货</span>

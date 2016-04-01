@@ -1,0 +1,38 @@
+<div style="position:relative;">
+	<span ng-click="closeModal();" style="font-weight:bold;border-radius:12px; background-color:green;color:white;cursor:pointer;
+				padding: 0 5px; top:-29px;right:-5px;display:inline-block;position:absolute;">X</span>
+
+	<label class="item item-input" style="margin-top:1.5em;">
+		<span class="input-label">订单号:</span>
+		<!-- <span class="input-label"><b style="font-size:1.15em;">{{currentOrderId}}</b></span> -->
+		<input type="text" disabled="disabled" ng-model='deliveryM.currentOrderId' 
+				style="text-align:right;background-color:white;font-size:1.2em;font-weight:bold;font-style:italic;"/>
+	</label>
+
+	<label class="item item-input item-select">
+	    <div class="input-label">
+	      承运商:
+	    </div>
+	    <select ng-model="deliveryM.selectedItem" 
+	    		ng-change="deliveryChange(deliveryM.selectedItem)">
+	      <option value="YOUZHENG" selected>邮政快递</option>
+	      <option value="SHENTONG">申通</option>
+	      <option value="SHUNFENG">顺丰</option>
+	      <option value="ZHONGTONG">中通</option>
+	    </select>
+	</label>
+
+	<label class="item item-input" style="margin-bottom:1em;">
+		<span class="input-label">发货单号:</span>
+		<input type="text" placeholder="请输入发货单号" ng-model='deliveryM.deliveryNo' 
+				style="text-align:right;background-color:white;font-size:1em;font-weight:bold;color:red;"/>
+	</label>
+
+	<div>		
+		<button ng-click="saveModal()"
+					style="float:right;min-height:21px;line-height:0;margin-right:.2em;"
+					class="button button-positive">
+			<span style="color:white;">保存</span>
+		</button>
+	</div>
+</div>

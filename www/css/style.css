@@ -82,5 +82,20 @@ body .pane, .menu, .view, .list, .item       {
 }
 
 .submit-validate-error {
-  color:red !important;
+    color:red !important;
+}
+
+.modal-backdrop {
+    background-color: rgba(0,0,0,.6);
+}
+
+.modal-wrapper {
+    background-color: white;
+    margin: 2.5em;
+    text-align: center;
+    padding: 1em; 
+    margin-top: calc(50% - 100px);
+    min-height: 200px;
+    max-height: 350px;
+    overflow: overlay;
 }

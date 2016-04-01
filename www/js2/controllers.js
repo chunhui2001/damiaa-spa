@@ -607,7 +607,8 @@ angular.module('starter.controllers', [])
 })
 
 .controller('account-uorders-controller', function(
-      $scope, $rootScope, $ionicViewSwitcher, $state, $ionicPopup, $timeout, $filter, $location
+      $scope, $rootScope, $ionicViewSwitcher, $state
+      , $timeout, $filter, $location, $ionicModal
       , Auth, OrderService) {
 
     if (!Auth.islogin()) {
@@ -619,14 +620,69 @@ angular.module('starter.controllers', [])
 
     $scope.userOrderList    = [];
     $scope.inProgress       = true;
+    $scope.deliveryM        = { selectedItem: 'YOUZHENG', deliveryNo: null, currentOrderId: null, userid: null, openid: null };
+    $scope.currentOrder     = null;
 
-    OrderService.listUserOrders(currentUser, 'CASHED', function(result) {
-      $scope.inProgress       = false;
-      $scope.userOrderList    = result;
+
+
+    $scope.showModel  = function(order) {
+      $scope.currentOrder               = order;
+      $scope.deliveryM.userid           = order.userId;
+      $scope.deliveryM.openid           = order.openId;
+      $scope.deliveryM.currentOrderId   = order.id;
+      $scope.deliveryM.deliveryNo       = null;
+      $scope.modal.show();
+    }
+
+    $scope.closeModal  = function(orderid) {
+      $scope.modal.hide();
+    }
+
+    $scope.saveModal  = function() {
+
+        if (!$scope.deliveryM.deliveryNo) {
+          return;
+        }
+
+        var deliveryCompany   = $scope.deliveryM.selectedItem;
+        var deliveryNo        = $scope.deliveryM.deliveryNo;
+        var orderid           = $scope.deliveryM.currentOrderId;
+        var userid            = $scope.deliveryM.userid;
+        var openid            = $scope.deliveryM.openid;
+
+        OrderService.flushOrder(currentUser
+              , { deliveryCompany:deliveryCompany, deliveryNo: deliveryNo, orderid: orderid, userid:userid, openid:openid }
+              , function(result) {
+                
+            angular.extend($scope.currentOrder, result);
+
+            $scope.modal.hide();
+
+        }, function(error) {
+
+        });
+
+        
+    }
+
+    $scope.deliveryChange   = function(deliverySelectedItem) {
+        $scope.deliveryM.selectedItem = deliverySelectedItem;
+    }
+
+    OrderService.listUserOrders(currentUser, 'CASHED,SENDED', function(result) {
+        $scope.inProgress       = false;
+        $scope.userOrderList    = result;
     }, function(error) {
 
     });
 
+
+    $ionicModal.fromTemplateUrl('modals/my-modal.html', {
+        scope: $scope,
+        animation: 'slide-in-up'
+    }).then(function(modal) {
+        $scope.modal = modal;
+    });
 })
 
 .controller('account-orders-controller', function(
