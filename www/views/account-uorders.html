@@ -59,6 +59,13 @@
 							class="button button-small button-positive">
 					<span style="color:white;">发货</span>
 				</button>
+
+
+				<button ng-click="cancelSended(order)" ng-if="order.status == 'SENDED'"
+							style="float:right;min-height:21px;line-height:0;margin-right:.2em;"
+							class="button button-small button-positive">
+					<span style="color:white;">取消发货</span>
+				</button>
 			</div>
 		</div>
 	</ion-content>

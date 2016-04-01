@@ -86,6 +86,18 @@ angular.module('starter')
           .error(function(e) {
             return failed(e);
         });
+    },
+    cancelSended: function(user, params, success, failed) {
+        $http.post('/order/cancel-sended/' + params.userid + '/' + params.orderid, {user: user})
+          .success(function(result) {   
+            if (result.error) {
+              return failed(result);
+            }
+            return success(result.data);
+          })
+          .error(function(e) {
+            return failed(e);
+        });
     }
   };
 });

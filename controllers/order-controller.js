@@ -305,7 +305,7 @@ module.exports 	= {
 	    var sendResult  			= {error: false, message: null, data: null};	
 
 	    var endpoints_order_flush 	= URL.parse(endpoints.order_flush);
-	    console.log(endpoints_order_flush, 'endpoints_order_flush');
+
 	    httpClient(endpoints_order_flush
 	    		, {
 	    			userid: userid,
@@ -314,6 +314,39 @@ module.exports 	= {
 	    			delivery_company: deliveryCompany,
 	    			delivery_no: deliveryNo
 	    		}, 'post', {type: tokenType, token: userToken}, function(error, result) {
+
+			if (error) {
+	    		sendResult.error 	= true;
+	    		sendResult.data 	= error.data;
+	    		sendResult.message 	= error.message;
+	    		return res.json(sendResult);
+	    	}
+
+	    	if (result) {
+		    	sendResult.data 	= result.data;
+		    	sendResult.message 	= result.message;
+		    	sendResult.error 	= result.error;
+	    	}
+
+			return res.json(sendResult);
+		});
+	},
+	cancelSended: function(req, res, next) {
+
+		var userToken 		= req.body.user.value;
+		var tokenType 		= req.body.user.tokenType;
+
+		var userid 			= req.params.userid;
+		var orderid 		= req.params.orderid;
+
+		var sendResult  					= {error: false, message: null, data: null};	
+	    var endpoints_order_cancel_send 	= URL.parse(endpoints.order_cancel_sended.replace('{{{userid}}}',userid).replace('{{{orderid}}}',orderid));
+
+	console.log(endpoints_order_cancel_send, 'cancelSended');
+
+
+	    httpClient(endpoints_order_cancel_send
+	    		, null, 'get', {type: tokenType, token: userToken}, function(error, result) {
 
 			if (error) {
 	    		sendResult.error 	= true;

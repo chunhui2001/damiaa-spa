@@ -660,13 +660,24 @@ angular.module('starter.controllers', [])
 
         }, function(error) {
 
-        });
-
-        
+        });        
     }
 
     $scope.deliveryChange   = function(deliverySelectedItem) {
         $scope.deliveryM.selectedItem = deliverySelectedItem;
+    }
+
+    $scope.cancelSended     = function(order) {
+        var orderid     = order.id;
+        var userid      = order.userId;
+
+        OrderService.cancelSended(currentUser, {
+            orderid:orderid, userid:userid
+        }, function(result){
+            angular.extend(order, result);
+        }, function(err){
+            debugger;
+        });
     }
 
     OrderService.listUserOrders(currentUser, 'CASHED,SENDED', function(result) {

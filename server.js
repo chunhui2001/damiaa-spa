@@ -80,6 +80,7 @@ app.post('/order/cancel/:orderid',  orderController.update);
 app.post('/order/del/:orderid',  orderController.del);
 app.post('/order/sign/:prepayid',  orderController.getPaySign);
 app.post('/order/flush/:orderid',  orderController.flush);
+app.post('/order/cancel-sended/:userid/:orderid',  orderController.cancelSended);
 
 
 app.post('/user-orders/:status',  orderController.listUserOrders);
