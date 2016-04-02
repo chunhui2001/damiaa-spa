@@ -417,6 +417,10 @@ angular.module('starter.controllers', [])
         $ionicViewSwitcher.nextDirection('forward'); // 'forward', 'back', etc.
         $state.go('account-uorders', {}, {reload: true});
     }
+
+    $scope.fansList   = function() {
+        alert('fansList');
+    }
 })
 
 

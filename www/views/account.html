@@ -39,7 +39,10 @@
 		<div class="item item-divider" style="padding:0;min-height:15px;"></div>
 		<a href="javascript:void(this);" class="item item-icon-left item-icon-right" 
 			style="padding:25px;padding-left:70px">
-			<i class="icon ion-ios-people-outline" style="width:50px;height:50px;top:10px;color:#505050;/*background-color:red;*/"></i>
+			<i class="icon" 
+				style="width:50px;height:50px;top:10px;color:#505050;
+				background-image:url('{{loginUser.photo}}');
+				background-size:100%;border-radius:25px;"></i>
 			<span class="item-content">{{loginUser.name ? loginUser.name : '&nbsp;' }}</span>
 			<i class="icon ion-ios-arrow-forward" style="color:#505050;"></i>
 		</a>
@@ -58,6 +61,16 @@
 				<span class="badge badge-assertive" 
 						style="right:16px;background-color:#3591E0;">
 						{{loginUserStatistic.orderCount_WaitingSend}}</span>
+			</a>
+
+			<a ng-click="fansList()" 
+					class="item item-icon-left item-icon-right" 
+					style="border-left:none;border-right:none;">
+				<i class="icon ion-person-stalker" style="color:#FF9800;font-size:30px;"></i>
+				<span class="item-content" style="color:gray;">关注者列表</span>
+				<span class="badge badge-assertive" 
+						style="right:16px;background-color:#3591E0;">
+						***</span>
 			</a>
 		</div>
 
