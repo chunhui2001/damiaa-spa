@@ -700,10 +700,13 @@ angular.module('starter.controllers', [])
 
 
     $scope.showEvents  = function(order) {
+      order.inProgress2 = true;
 
       OrderService.orderEvents(currentUser, order.id, function(result) {
           $scope.currentOrder   = order;
           $scope.orderEvents    = result;
+          order.inProgress2     = false;
+          
           $scope.orderEventsModal.show();
       }, function(error) {
 
@@ -711,6 +714,7 @@ angular.module('starter.controllers', [])
     }
 
     $scope.closeModal  = function(orderid) {
+      $scope.modal.hide();
       $scope.orderEventsModal.hide();
     }
 
@@ -736,7 +740,7 @@ angular.module('starter.controllers', [])
 
     $scope.userOrderList    = [];
     $scope.inProgress       = true;
-    $scope.currentOrder   = null;
+    $scope.currentOrder     = null;
     $scope.orderEvents      = null;
 
     OrderService.list(currentUser, function(result) {
@@ -769,11 +773,15 @@ angular.module('starter.controllers', [])
     }
 
     $scope.showEvents  = function(order) {
+      order.inProgress2 = true;
 
       OrderService.orderEvents(currentUser, order.id, function(result) {
           $scope.currentOrder   = order;
           $scope.orderEvents    = result;
+          order.inProgress2    = false;
+
           $scope.orderEventsModal.show();
+
       }, function(error) {
 
       });
