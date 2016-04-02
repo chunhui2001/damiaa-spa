@@ -98,6 +98,18 @@ angular.module('starter')
           .error(function(e) {
             return failed(e);
         });
+    },
+    orderEvents: function(user, orderid, success, failed) {
+        $http.post('/order/' + orderid + '/events', {user: user})
+          .success(function(result) {   
+            if (result.error) {
+              return failed(result);
+            }
+            return success(result.data);
+          })
+          .error(function(e) {
+            return failed(e);
+        });
     }
   };
 });

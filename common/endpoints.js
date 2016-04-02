@@ -23,11 +23,9 @@ module.exports = {
 	order_detail: host + '/order/{{{orderid}}}',
 	order_flush: host + '/flush-order/',
 	order_cancel_sended: host + '/console/order/cancel-sended/{{{userid}}}/{{{orderid}}}',
-
-
+	order_events: host + '/console/order/{{{orderid}}}/events',
 
 	goods_detail: host + '/goods/{{{goodsid}}}',
-
 
 	list_user_orders: host + '/console/user-orders/{{{orderStatus}}}',
 }

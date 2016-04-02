@@ -1,0 +1,25 @@
+<div style="position:relative;">
+	<span ng-click="closeModal();" 
+			style="font-weight:bold;border-radius:12px; 
+				background-color:green;color:white;cursor:pointer;
+				padding: 0 5px;top:-29px;right:-5px;display:inline-block;position:absolute;">X</span>
+
+	<span style="margin-top:1.7em;display:block;text-align:left;">
+			发货单位: {{currentOrder.deliveryCompanyName}}</span> 
+	<span style="display:block;text-align:left;">
+			快递单号: {{currentOrder.deliveryNo | format:4}}</span>
+	<ion-scroll style="overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;height: 230px;border: solid 1px gray;margin: 1em 0;padding: 0 .5em;padding-bottom:1.5em;">
+		<h6 style="text-align:left;color:gray;" 
+			ng-repeat="event in orderEvents">{{event.message}}</h6>
+		<h6 style="text-align:left;color:gray;">&nbsp;</h6>
+	</ion-scroll>
+
+	<!-- <div>		
+		<button ng-click="saveModal()"
+					style="float:right;min-height:21px;line-height:0;margin-right:.2em;"
+					class="button button-positive">
+			<span style="color:white;">确认收货</span>
+		</button>
+	</div> -->
+</div>

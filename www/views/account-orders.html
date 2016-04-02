@@ -15,9 +15,12 @@
 
 		<div class="list list-inset"
 					  ng-repeat="order in userOrderList">
-			<div class="item item-divider" style="font-size:.9em;">
-				<span>订单编号: </span>
-				<span>{{order.id | format:3}}</span>
+			<div class="item item-divider" 
+					style="font-size:.9em;border-top-left-radius:12px;border-top-right-radius:12px;">
+				<span>
+					<i class="icon ion-star" style="font-size:1.2em;margin-right:.1em;"></i>
+					订单编号: </span>
+				<span>{{order.id | format:4}}</span>
 				<span style="float:right;">{{order.statusText}}</span>
 			</div>
 
@@ -30,10 +33,17 @@
 				<span style="font-weight: bold;">({{item.goods.weight}})</span> 
 				<span style="font-style: oblique;color: crimson;font-weight: bold;">
 					x{{item.count}}{{item.goods.unit}}</span>
-				<!-- <i class="icon ion-ios-arrow-forward" style="color:#505050;font-size:1.5em;"></i> -->
+				<i ng-click="showEvents(order)" 
+						ng-if="order.status == 'SENDED' || order.status == 'SIGNED'" 
+					class="icon ion-ios-arrow-forward" style="color:#505050;font-size:2.5em;"></i>
 			</div>
 			<div class="item item-divider" style="font-size:.9em;">
-				<span>金额: </span><span>&yen; {{order.orderMoney.toFixed(2)}}</span>
+				<span ng-if="order.status != 'SENDED' && order.status != 'SIGNED'">
+					金额: &yen; {{order.orderMoney.toFixed(2)}}</span>
+
+				<span ng-if="order.status == 'SENDED' || order.status == 'SIGNED'">
+				发货单号: <b>{{order.deliveryNo | format:4}}</b> 
+				<b style="color:gray;">[{{order.deliveryCompanyName}}]</b></span>
 
 				<button ng-if="order.status == 'PENDING'" ng-click="goPay(order.id)" style="float:right;min-height:21px;line-height:0;"
 							class="button button-small button-positive">

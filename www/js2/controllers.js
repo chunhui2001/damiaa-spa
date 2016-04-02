@@ -622,6 +622,7 @@ angular.module('starter.controllers', [])
     $scope.inProgress       = true;
     $scope.deliveryM        = { selectedItem: 'YOUZHENG', deliveryNo: null, currentOrderId: null, userid: null, openid: null };
     $scope.currentOrder     = null;
+    $scope.orderEvents      = null;
 
 
 
@@ -694,10 +695,36 @@ angular.module('starter.controllers', [])
     }).then(function(modal) {
         $scope.modal = modal;
     });
+
+
+
+
+    $scope.showEvents  = function(order) {
+
+      OrderService.orderEvents(currentUser, order.id, function(result) {
+          $scope.currentOrder   = order;
+          $scope.orderEvents    = result;
+          $scope.orderEventsModal.show();
+      }, function(error) {
+
+      });
+    }
+
+    $scope.closeModal  = function(orderid) {
+      $scope.orderEventsModal.hide();
+    }
+
+    $ionicModal.fromTemplateUrl('modals/order-events-modal.html', {
+        scope: $scope,
+        animation: 'slide-in-up'
+    }).then(function(modal) {
+        $scope.orderEventsModal = modal;
+    });
 })
 
 .controller('account-orders-controller', function(
-      $scope, $rootScope, $ionicViewSwitcher, $state, $ionicPopup, $timeout, $filter, $location
+      $scope, $rootScope, $ionicViewSwitcher, $state
+      , $ionicPopup, $ionicModal, $timeout, $filter, $location
       , Auth, OrderService) {
 
     if (!Auth.islogin()) {
@@ -709,6 +736,8 @@ angular.module('starter.controllers', [])
 
     $scope.userOrderList    = [];
     $scope.inProgress       = true;
+    $scope.currentOrder   = null;
+    $scope.orderEvents      = null;
 
     OrderService.list(currentUser, function(result) {
       $scope.inProgress       = false;
@@ -738,6 +767,29 @@ angular.module('starter.controllers', [])
 
       });
     }
+
+    $scope.showEvents  = function(order) {
+
+      OrderService.orderEvents(currentUser, order.id, function(result) {
+          $scope.currentOrder   = order;
+          $scope.orderEvents    = result;
+          $scope.orderEventsModal.show();
+      }, function(error) {
+
+      });
+    }
+
+    $scope.closeModal  = function(orderid) {
+      $scope.orderEventsModal.hide();
+    }
+
+    $ionicModal.fromTemplateUrl('modals/order-events-modal.html', {
+        scope: $scope,
+        animation: 'slide-in-up'
+    }).then(function(modal) {
+        $scope.orderEventsModal = modal;
+    });
+
 })
 
 

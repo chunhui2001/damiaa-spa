@@ -4,9 +4,9 @@
 
 	<label class="item item-input" style="margin-top:1.5em;">
 		<span class="input-label">订单号:</span>
-		<!-- <span class="input-label"><b style="font-size:1.15em;">{{currentOrderId}}</b></span> -->
-		<input type="text" readonly ng-model='deliveryM.currentOrderId' 
-				style="color:#003FFF;text-align:right;background-color:white;font-size:1.2em;font-weight:bold;font-style:italic;"/>
+		<span class="input-label">
+			<b style="font-size:1.15em;color:blue;">
+			{{deliveryM.currentOrderId | format:4}}</b></span>
 	</label>
 
 	<label class="item item-input item-select">

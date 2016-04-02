@@ -342,10 +342,38 @@ module.exports 	= {
 		var sendResult  					= {error: false, message: null, data: null};	
 	    var endpoints_order_cancel_send 	= URL.parse(endpoints.order_cancel_sended.replace('{{{userid}}}',userid).replace('{{{orderid}}}',orderid));
 
-	console.log(endpoints_order_cancel_send, 'cancelSended');
-
 
 	    httpClient(endpoints_order_cancel_send
+	    		, null, 'get', {type: tokenType, token: userToken}, function(error, result) {
+
+			if (error) {
+	    		sendResult.error 	= true;
+	    		sendResult.data 	= error.data;
+	    		sendResult.message 	= error.message;
+	    		return res.json(sendResult);
+	    	}
+
+	    	if (result) {
+		    	sendResult.data 	= result.data;
+		    	sendResult.message 	= result.message;
+		    	sendResult.error 	= result.error;
+	    	}
+
+			return res.json(sendResult);
+		});
+	},
+	events: function(req, res, next) {
+
+		var userToken 		= req.body.user.value;
+		var tokenType 		= req.body.user.tokenType;
+
+		var orderid 		= req.params.orderid;
+
+		var sendResult  					= {error: false, message: null, data: null};	
+	    var endpoints_order_events 	= URL.parse(endpoints.order_events.replace('{{{orderid}}}',orderid));
+
+
+	    httpClient(endpoints_order_events
 	    		, null, 'get', {type: tokenType, token: userToken}, function(error, result) {
 
 			if (error) {

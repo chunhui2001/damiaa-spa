@@ -97,5 +97,4 @@ body .pane, .menu, .view, .list, .item       {
     margin-top: calc(50% - 100px);
     min-height: 200px;
     max-height: 350px;
-    overflow: overlay;
 }
