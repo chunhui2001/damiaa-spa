@@ -1,0 +1,22 @@
+<ion-view view-title="粉丝列表">
+
+	<ion-content>
+		<ion-list>
+	      <ion-item class="item-remove-animate item-avatar item-icon-right" 
+	            ng-repeat="fans in fansList" type="item-text-wrap">
+	        <img ng-src="{{fans.headimgurl}}">
+	        <h2>{{fans.nickname}}</h2>
+	        <p>{{fans.city || fans.province}}, {{fans.subscribe_time}}</p>
+	        <i ng-if="fans.partnerType" style="font-size:1.5em;color:#009688;" ng-click="showPartnerDetail(fans)"
+	        		 class="icon ion-chevron-right icon-accessory"></i>
+
+	        <ion-option-button class="button-positive" ng-click="showModel(fans)">
+	          编辑
+	        </ion-option-button>
+	        <!-- <ion-option-button  ng-if="fans.partnerType" class="button-assertive" ng-click="delPartner(fans)">
+	          删除
+	        </ion-option-button> -->
+	      </ion-item>
+	    </ion-list>
+	</ion-content>
+</ion-view>

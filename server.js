@@ -47,6 +47,7 @@ var addrController        = require('./controllers/addr-controller');
 var regionController      = require('./controllers/region-controller');
 var orderController       = require('./controllers/order-controller');
 var goodsController       = require('./controllers/goods-controller');
+var partnerController       = require('./controllers/partner-controller');
 
 
 app.get('/checkcode', function(req, res, next) {
@@ -61,9 +62,10 @@ app.post('/userinfo', accountController.userinfo);
 app.post('/resetpwd', accountController.resetPasswd);
 app.post('/register', accountController.register);
 app.post('/statistic', accountController.statistic);
+app.post('/fanslist', accountController.fansList);
+app.post('/partner', partnerController.savePartner);
 
 app.get('/wxuserinfo/:code/:state',   accountController.getWxUserInfo);
-
 
 app.post('/addr/list',  addrController.list);
 app.post('/addr/set',   addrController.set);
@@ -71,7 +73,6 @@ app.post('/addr/add',   addrController.add);
 app.post('/addr/:addrid/del',   addrController.del);
 
 app.get('/region/:name/:code',   regionController.list);
-
 
 app.post('/order',  orderController.list);
 app.post('/order/setup',  orderController.setup);
@@ -83,9 +84,7 @@ app.post('/order/flush/:orderid',  orderController.flush);
 app.post('/order/cancel-sended/:userid/:orderid',  orderController.cancelSended);
 app.post('/order/:orderid/events',  orderController.events);
 
-
 app.post('/user-orders/:status',  orderController.listUserOrders);
-
 
 app.post('/goods/:goodsid',  goodsController.get);
 

@@ -419,8 +419,77 @@ angular.module('starter.controllers', [])
     }
 
     $scope.fansList   = function() {
-        alert('fansList');
+        $ionicViewSwitcher.nextDirection('forward'); // 'forward', 'back', etc.
+        $state.go('account-fans', {}, {reload: true});
     }
+})
+
+
+
+.controller('account-fans-controller', function(
+    $scope, $rootScope, $state, $ionicModal, $ionicViewSwitcher
+    , Auth, UserService, PartnerService) {
+
+    $scope.logedin  = Auth.islogin();
+    $scope.logout   = Auth.logout;
+    $scope.fansList = Auth.logout;
+    $scope.defaultType  = 'CANGMAI';
+    $scope.currentFans  = null;
+    $scope.originFans   = null;
+
+
+    if (!$scope.logedin) {
+      return;
+    }
+
+    UserService.fansList($rootScope.currentUser, function(result) {
+        $scope.fansList = result;
+    }, function(error) {
+
+    });
+
+    $scope.selectChange = function(type) {
+        $scope.currentFans.partnerType = type;
+    }
+
+    $scope.showModel  = function(fans) {
+        $scope.originFans   = fans;
+        $scope.currentFans  = angular.copy(fans);
+        if (!$scope.currentFans.partnerType) $scope.currentFans.partnerType = $scope.defaultType;
+        $scope.modal.show();
+    }
+
+    $scope.closeModal  = function() {
+        $scope.modal.hide();
+    }
+
+    $scope.saveModal  = function() {
+        var thePartner   = $scope.currentFans;
+        if (!thePartner.partnerType) thePartner.partnerType = $scope.defaultType;
+
+        PartnerService.saveParter($rootScope.currentUser, thePartner, function(result) {
+            $scope.originFans.partnerType   = result.type;
+            $scope.modal.hide();   
+        }, function(error) {
+
+        });   
+    }
+
+    $scope.showPartnerDetail = function(partner) {
+      alert(partner.openid);
+    }
+
+    $scope.delPartner   = function(partner) {
+      alert(partner.openid);
+    }
+
+
+    $ionicModal.fromTemplateUrl('modals/fans-form-modal.html', {
+        scope: $scope,
+        animation: 'slide-in-up'
+    }).then(function(modal) {
+        $scope.modal = modal;
+    });
 })
 
 

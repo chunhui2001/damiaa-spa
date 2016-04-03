@@ -278,10 +278,36 @@ module.exports 	= {
 
 			return res.json(sendResult);
 	    }
-console.log({name: username, passwd: passwd, openId:openid, unionId:unionid, photo:headimgurl}, '777');
+
 	    httpClient(endpoints_user_register
 	    		, {name: username, passwd: passwd, openId:openid, unionId:unionid, photo:headimgurl}
 	    		, 'post', null, function(error, result) {
+
+			if (error) {
+	    		sendResult.error 	= true;
+	    		sendResult.data 	= error;
+	    		sendResult.message 	= error.message;
+	    		return res.json(sendResult);
+	    	}
+
+	    	if (result) {
+		    	sendResult.data 	= result.data;
+		    	sendResult.message 	= result.message;
+		    	sendResult.error 	= result.error;
+	    	}
+
+			return res.json(sendResult);
+		});
+	},
+	fansList: function(req, res, next) {
+		var tokenType 	= req.body.tokenType;
+		var token 		= req.body.value;
+
+		var endpoints_get_fans_list 	= URL.parse(ENDPOINTS_WX.get_fans_list);
+
+	    var sendResult  = {error: false, message: null, data: null};
+
+	    httpClient(endpoints_get_fans_list, null, 'get', {type: tokenType, token: token}, function(error, result) {
 
 			if (error) {
 	    		sendResult.error 	= true;

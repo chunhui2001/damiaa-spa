@@ -1,0 +1,36 @@
+<div style="position:relative;">
+	<span ng-click="closeModal();" style="font-weight:bold;border-radius:12px; background-color:green;color:white;cursor:pointer;
+				padding: 0 5px; top:-29px;right:-5px;display:inline-block;position:absolute;">X</span>
+
+	<label class="item item-input" style="margin-top:1.5em;">
+		<div class="input-label">
+	      <img style="height:35px;" ng-src="{{currentFans.headimgurl}}">
+	    </div>
+		<span class="input-label">
+			{{currentFans.nickname}}</span>
+	</label>
+
+	<label class="item item-input item-select" style="margin-bottom:1em;">
+	    <div class="input-label">
+	      身份
+	    </div>
+	    <select ng-model="currentFans.partnerType" 
+	    		ng-change="selectChange(currentFans.partnerType)">
+	      <option value="CANGMAI" 
+	      			ng-selected="currentFans.partnerType == 'CANGMAI'">仓买</option>
+	      <option value="CHAOSHI" 
+	      			ng-selected="currentFans.partnerType == 'CHAOSHI'">超市</option>
+	      <option value="SHANGCHANG" 
+	      			ng-selected="currentFans.partnerType == 'SHANGCHANG'">商场</option>
+	    </select>
+	</label>
+
+	<div>		
+		<button ng-click="saveModal()"
+					style="float:right;min-height:21px;line-height:0;margin-right:.2em;"
+					class="button button-positive">
+			<span style="color:white;">保存</span>
+		</button>
+		<div style="float:none;clear:both;"></div>
+	</div>
+</div>

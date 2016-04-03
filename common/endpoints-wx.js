@@ -7,4 +7,7 @@ module.exports = {
 	get_openid : host + '/openid/{{{CODE}}}/authorization_code',	
 	unified_order: host + '/unifiedorder',
 	gen_paysign: host + '/gen-paysign/{{{prepayid}}}',
+
+
+	get_fans_list: host + '/fanslist',
 }

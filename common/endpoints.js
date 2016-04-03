@@ -28,4 +28,6 @@ module.exports = {
 	goods_detail: host + '/goods/{{{goodsid}}}',
 
 	list_user_orders: host + '/console/user-orders/{{{orderStatus}}}',
+
+	partners: host + '/partners',
 }
