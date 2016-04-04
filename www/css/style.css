@@ -98,3 +98,9 @@ body .pane, .menu, .view, .list, .item       {
     min-height: 200px;
     max-height: 350px;
 }
+
+
+.qrcode-list .item-content{
+    max-width:300px;
+    margin:auto;
+}

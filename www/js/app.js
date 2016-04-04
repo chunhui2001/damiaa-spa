@@ -69,6 +69,17 @@ var starter = angular.module('starter', ['ionic', 'ngCookies', 'ngMessages', 'mg
   })
 
   
+  .state('partner', {
+    url: '/partner/:partnerId/:img',
+    views: {
+      'partner': {
+        templateUrl: 'views/partner.html',
+        controller: 'partner-controller'
+      }
+    }
+  })
+
+  
   .state('paymentComplete', {
     url: '/pay-complete/:oid',
     views: {

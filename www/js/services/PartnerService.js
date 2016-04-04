@@ -14,6 +14,18 @@ angular.module('starter')
         .error(function(e) {
             return failed(e);
         });
+    },
+    getPartner: function(user, partnerid, success, failed) {
+        $http.post('/partner/' + partnerid, {user: user})
+        .success(function(result) {   
+          if (result.error) {
+            return failed(result);
+          }
+          return success(result.data);
+        })
+        .error(function(e) {
+            return failed(e);
+        });
     }
   };
 });

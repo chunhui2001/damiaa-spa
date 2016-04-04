@@ -430,9 +430,9 @@ angular.module('starter.controllers', [])
     $scope, $rootScope, $state, $ionicModal, $ionicViewSwitcher
     , Auth, UserService, PartnerService) {
 
-    $scope.logedin  = Auth.islogin();
-    $scope.logout   = Auth.logout;
-    $scope.fansList = Auth.logout;
+    $scope.logedin      = Auth.islogin();
+    $scope.logout       = Auth.logout;
+    $scope.fansList     = null;
     $scope.defaultType  = 'CANGMAI';
     $scope.currentFans  = null;
     $scope.originFans   = null;
@@ -469,14 +469,18 @@ angular.module('starter.controllers', [])
 
         PartnerService.saveParter($rootScope.currentUser, thePartner, function(result) {
             $scope.originFans.partnerType   = result.type;
+            $scope.originFans.partnerId     = result.id;
             $scope.modal.hide();   
         }, function(error) {
-
+            debugger;
         });   
     }
 
     $scope.showPartnerDetail = function(partner) {
-      alert(partner.openid);
+        if (!partner.partnerId) return;
+
+        $ionicViewSwitcher.nextDirection('forward'); // 'forward', 'back', etc.
+        $state.go('partner', { partnerId: partner.partnerId, img: partner.headimgurl }, {reload: true});
     }
 
     $scope.delPartner   = function(partner) {
@@ -490,6 +494,38 @@ angular.module('starter.controllers', [])
     }).then(function(modal) {
         $scope.modal = modal;
     });
+})
+
+
+
+.controller('partner-controller', function(
+        $scope, $rootScope, $state, $timeout, $ionicViewSwitcher
+        , $stateParams, Auth, PartnerService) {
+   
+    $scope.partnerId          = $stateParams.partnerId;
+    $scope.img                = $stateParams.img;
+    $scope.logedin            = Auth.islogin();
+    $scope.currentPartner     = null;
+    $scope.isShowQrcode       = false;
+
+    if (!$scope.logedin) {
+      return;
+    }
+
+    PartnerService.getPartner($rootScope.currentUser, $scope.partnerId, function(result) {
+        $scope.currentPartner   = result;
+    }, function(error) {
+        debugger;
+    });  
+
+    $scope.backToFansPage = function() {
+        $ionicViewSwitcher.nextDirection('back'); // 'forward', 'back', etc.
+        $state.go('account-fans', { }, {reload: true});
+    }
+
+    $scope.showQrcode = function() {
+        $scope.isShowQrcode = !$scope.isShowQrcode;
+    }
 })
 
 

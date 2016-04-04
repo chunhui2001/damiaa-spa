@@ -1,0 +1,151 @@
+<ion-view view-title="合作伙伴详情">
+
+
+	<ion-nav-buttons side="primary">
+	  <button class="button back-button ion-chevron-left button-clear button-dark" 
+	  			style="font-size:1.8em;"
+	  			ng-click="backToFansPage()">
+	  </button>
+	</ion-nav-buttons>
+
+	<ion-content class="padding">
+		<div style="text-align:center;">
+			<img style="height:50px;border-radius:25px;" ng-src="{{img}}">
+			<img style="height:50px;" 
+			ng-src="https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=gQHK8DoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL0lUZ21HSTNseWRLdzhEMFNlQlM2AAIEtlfyVgMEAAAAAA==">
+		</div>
+
+		<div class="list">
+
+			<label class="item item-input">
+				<span class="input-label" style="text-align:right;">昵称</span>
+				<span>{{currentPartner.nickname}}</span>
+			</label>
+
+			<label class="item item-input">
+				<span class="input-label" style="text-align:right;">合作伙伴编号</span>
+				<span>{{partnerId}}</span>
+			</label>
+
+			<label class="item item-input">
+				<span class="input-label" style="text-align:right;">类型</span>
+				<span>{{currentPartner.partnerTypeName}}</span>
+			</label>
+
+			<label class="item item-input">
+				<span class="input-label" style="text-align:right;">加入时间</span>
+				<span>{{currentPartner.joinTime}}</span>
+			</label>
+
+			<label class="item item-input">
+				<span class="input-label" style="text-align:right;">合作伙伴名称</span>
+				<input type="text" placeholder="请输入合作伙伴名称" ng-model="currentPartner.partnerName">
+			</label>
+
+			<label class="item item-input">
+				<span class="input-label" style="text-align:right;">联系电话</span>
+				<input type="text" placeholder="请输入联系电话" ng-model="currentPartner.photo">
+			</label>
+
+			<label class="item item-input">
+				<span class="input-label" style="text-align:right;">联系地址</span>
+				<input type="text" placeholder="请输入联系地址" ng-model="currentPartner.address">
+			</label>
+
+			<ion-item class="item item-input">
+				<span class="input-label" style="text-align:right;">二维码</span>
+				<i class="button icon-right" ng-click="showQrcode()"
+					ng-class='{"ion-chevron-right": !isShowQrcode, "ion-chevron-down": isShowQrcode}'
+					style="background-color:white;font-size:1.2em;color:#009688;">
+					选择二维码</i>
+			</ion-item>
+
+			<ion-list ng-if="isShowQrcode" class="addr-list qrcode-list">
+				<ion-item class="item item-checkbox checkbox-balanced"
+						  style="padding-left:0px;">
+					<label class="checkbox" ng-click="setDefault(addr.id)">
+						<input ng-if="addr.defaults" type="radio" name="address" checked />
+						<input ng-if="!addr.defaults" type="radio" name="address" />
+					</label>
+
+					<span class="input-label">
+						移除二维码
+					</span>
+
+					<ion-option-button  ng-if="1==2" class="button-assertive">
+						&nbsp;
+					</ion-option-button>
+				</ion-item>
+				<ion-item class="item item-checkbox checkbox-balanced"
+						  style="padding-left:0px;">
+					<label class="checkbox" ng-click="setDefault(addr.id)">
+						<input ng-if="addr.defaults" type="radio" name="address" checked />
+						<input ng-if="!addr.defaults" type="radio" name="address" />
+					</label>
+
+					<img style="height:50px;" 
+			ng-src="https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=gQHK8DoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL0lUZ21HSTNseWRLdzhEMFNlQlM2AAIEtlfyVgMEAAAAAA==">
+					<span style="position: absolute;top: 50%;right: 8px;left: 116px;z-index: 3;margin-top: -13px;overflow: visible;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;">
+						gQHK8DoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL0lUZ21HSTNseWRLdzhEMFNlQlM2AAIEtlfyVgMEAAAAAA==
+					</span>
+
+					<ion-option-button  ng-if="1==2" class="button-assertive">
+						&nbsp;
+					</ion-option-button>
+				</ion-item>
+				<ion-item class="item item-checkbox checkbox-balanced"
+						  style="padding-left:0px;">
+					<label class="checkbox" ng-click="setDefault(addr.id)">
+						<input ng-if="addr.defaults" type="radio" name="address" checked />
+						<input ng-if="!addr.defaults" type="radio" name="address" />
+					</label>
+
+					<img style="height:50px;" 
+			ng-src="https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=gQEi8DoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL09qZzdBRmJsX05LQktDWW1aUlM2AAIEW1nyVgMEAAAAAA==">
+					<span style="position: absolute;top: 50%;right: 8px;left: 116px;z-index: 3;margin-top: -13px;overflow: visible;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;">
+						gQEi8DoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL09qZzdBRmJsX05LQktDWW1aUlM2AAIEW1nyVgMEAAAAAA==
+					</span>
+
+					<ion-option-button  ng-if="1==2" class="button-assertive">
+						&nbsp;
+					</ion-option-button>
+				</ion-item>
+				<ion-item class="item item-checkbox checkbox-balanced"
+						  style="padding-left:0px;">
+					<label class="checkbox" ng-click="setDefault(addr.id)">
+						<input ng-if="addr.defaults" type="radio" name="address" checked />
+						<input ng-if="!addr.defaults" type="radio" name="address" />
+					</label>
+
+					<img style="height:50px;" 
+			ng-src="https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=gQHi7zoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL0p6aHdwZTdsZ3RMN0tEdXlMaFM2AAIE11nyVgMEAAAAAA==">
+					<span style="position: absolute;top: 50%;right: 8px;left: 116px;z-index: 3;margin-top: -13px;overflow: visible;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;">
+						gQHi7zoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL0p6aHdwZTdsZ3RMN0tEdXlMaFM2AAIE11nyVgMEAAAAAA==
+					</span>
+
+					<ion-option-button  ng-if="1==2" class="button-assertive">
+						&nbsp;
+					</ion-option-button>
+				</ion-item>
+			</ion-list>
+
+			<label class="item item-input">
+				<div style="text-align:center;margin:auto;">
+					<img style="height:50px;border-radius:25px;" ng-src="{{img}}">
+					<img style="height:50px;border-radius:25px;" ng-src="{{img}}">
+					<img style="height:50px;border-radius:25px;" ng-src="{{img}}">
+					<img style="height:50px;border-radius:25px;" ng-src="{{img}}">
+					<img style="height:50px;border-radius:25px;" ng-src="{{img}}">
+					<img style="height:50px;border-radius:25px;" ng-src="{{img}}">
+				</div>
+			</label>
+
+			<div class="button-bar padding-top padding-bottom" style="margin-bottom:2em;">
+				<button ng-click="register()"
+							class="button button-positive">
+					保存
+				</button>
+			</div>
+		</div>
+	</ion-content>
+</ion-view>

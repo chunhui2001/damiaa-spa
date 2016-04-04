@@ -64,6 +64,7 @@ app.post('/register', accountController.register);
 app.post('/statistic', accountController.statistic);
 app.post('/fanslist', accountController.fansList);
 app.post('/partner', partnerController.savePartner);
+app.post('/partner/:partnerId', partnerController.getPartner);
 
 app.get('/wxuserinfo/:code/:state',   accountController.getWxUserInfo);
 
