@@ -526,6 +526,32 @@ angular.module('starter.controllers', [])
     $scope.showQrcode = function() {
         $scope.isShowQrcode = !$scope.isShowQrcode;
     }
+
+    $scope.updatePartner = function() {
+
+        // var thePartner   = $scope.currentFans;
+
+        // if (!thePartner.partnerType) thePartner.partnerType = $scope.defaultType;
+
+        // PartnerService.saveParter($rootScope.currentUser, thePartner, function(result) {
+        //     $scope.originFans.partnerType   = result.type;
+        //     $scope.originFans.partnerId     = result.id;
+        //     $scope.modal.hide();   
+        // }, function(error) {
+        //     debugger;
+        // });   
+
+        if (!$scope.currentPartner) {
+          return ;
+        }
+
+        PartnerService.updateParter($rootScope.currentUser, $scope.currentPartner, function(result) {
+            
+            debugger;
+        }, function(error) {
+            debugger;
+        });   
+    }
 })
 
 

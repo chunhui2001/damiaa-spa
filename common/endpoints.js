@@ -30,5 +30,5 @@ module.exports = {
 	list_user_orders: host + '/console/user-orders/{{{orderStatus}}}',
 
 	partners: host + '/partners',
-	get_partners: host + '/partners/{{{partnerId}}}',
+	partners_with_id: host + '/partners/{{{partnerId}}}',
 }

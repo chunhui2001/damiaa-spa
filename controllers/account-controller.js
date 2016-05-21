@@ -32,7 +32,7 @@ module.exports 	= {
 	    	}
 
 	    	sendResult.data = result.data;
-	    	console.log(sendResult, 666);
+	    	
 			return res.json(sendResult);
 		});
 
@@ -63,7 +63,7 @@ module.exports 	= {
 	    		return res.json(sendResult);
 	    	}
 
-	    	if (!result || result.httpErrorCode == 400) {
+	    	if (!result || result.httpErrorCode == 400 || result.error) {
 	    		sendResult.error 	= true;
 	    		sendResult.data 	= result;
 	    		sendResult.message 	= '用户名或密码错误!';

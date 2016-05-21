@@ -26,6 +26,18 @@ angular.module('starter')
         .error(function(e) {
             return failed(e);
         });
+    },
+    updateParter: function(user, partner, success, failed) {
+        $http.put('/partner/' + partner.id, {user: user, partner: partner})
+        .success(function(result) {   
+          if (result.error) {
+            return failed(result);
+          }
+          return success(result.data);
+        })
+        .error(function(e) {
+            return failed(e);
+        });
     }
   };
 });
