@@ -31,4 +31,5 @@ module.exports = {
 
 	partners: host + '/partners',
 	partners_with_id: host + '/partners/{{{partnerId}}}',
+	partners_qrcode: host + '/partners/{{{partnerId}}}/qrcode',
 }

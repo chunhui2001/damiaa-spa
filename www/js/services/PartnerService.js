@@ -38,6 +38,18 @@ angular.module('starter')
         .error(function(e) {
             return failed(e);
         });
+    },
+    qrcode: function(user, partnerid, qrcodeid, action, success, failed) {
+        $http.put('/partner/' + partnerid + '/qrcode', {user: user, qrcodeid: qrcodeid, action: action})
+        .success(function(result) {   
+          if (result.error) {
+            return failed(result);
+          }
+          return success(result.data);
+        })
+        .error(function(e) {
+            return failed(e);
+        });
     }
   };
 });

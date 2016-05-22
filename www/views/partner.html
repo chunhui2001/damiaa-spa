@@ -63,7 +63,7 @@
 			<ion-list ng-if="isShowQrcode" class="addr-list qrcode-list">
 				<ion-item class="item item-checkbox checkbox-balanced"
 						  style="padding-left:0px;">
-					<label class="checkbox" ng-click="setDefault(addr.id)">
+					<label class="checkbox" ng-click="removeQrcode(currentPartner.id, currentPartner.qrcode)">
 						<input ng-if="addr.defaults" type="radio" name="address" checked />
 						<input ng-if="!addr.defaults" type="radio" name="address" />
 					</label>
@@ -76,51 +76,17 @@
 						&nbsp;
 					</ion-option-button>
 				</ion-item>
-				<ion-item class="item item-checkbox checkbox-balanced"
+				<ion-item ng-repeat="qrcode in qrcodeList" class="item item-checkbox checkbox-balanced"
 						  style="padding-left:0px;">
-					<label class="checkbox" ng-click="setDefault(addr.id)">
+					<label class="checkbox" ng-click="setqrcode(qrcode.qrcodeId, 'set')">
 						<input ng-if="addr.defaults" type="radio" name="address" checked />
 						<input ng-if="!addr.defaults" type="radio" name="address" />
 					</label>
 
 					<img style="height:50px;" 
-			ng-src="https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=gQHK8DoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL0lUZ21HSTNseWRLdzhEMFNlQlM2AAIEtlfyVgMEAAAAAA==">
+			ng-src="{{qrcode.img}}">
 					<span style="position: absolute;top: 50%;right: 8px;left: 116px;z-index: 3;margin-top: -13px;overflow: visible;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;">
-						gQHK8DoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL0lUZ21HSTNseWRLdzhEMFNlQlM2AAIEtlfyVgMEAAAAAA==
-					</span>
-
-					<ion-option-button  ng-if="1==2" class="button-assertive">
-						&nbsp;
-					</ion-option-button>
-				</ion-item>
-				<ion-item class="item item-checkbox checkbox-balanced"
-						  style="padding-left:0px;">
-					<label class="checkbox" ng-click="setDefault(addr.id)">
-						<input ng-if="addr.defaults" type="radio" name="address" checked />
-						<input ng-if="!addr.defaults" type="radio" name="address" />
-					</label>
-
-					<img style="height:50px;" 
-			ng-src="https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=gQEi8DoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL09qZzdBRmJsX05LQktDWW1aUlM2AAIEW1nyVgMEAAAAAA==">
-					<span style="position: absolute;top: 50%;right: 8px;left: 116px;z-index: 3;margin-top: -13px;overflow: visible;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;">
-						gQEi8DoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL09qZzdBRmJsX05LQktDWW1aUlM2AAIEW1nyVgMEAAAAAA==
-					</span>
-
-					<ion-option-button  ng-if="1==2" class="button-assertive">
-						&nbsp;
-					</ion-option-button>
-				</ion-item>
-				<ion-item class="item item-checkbox checkbox-balanced"
-						  style="padding-left:0px;">
-					<label class="checkbox" ng-click="setDefault(addr.id)">
-						<input ng-if="addr.defaults" type="radio" name="address" checked />
-						<input ng-if="!addr.defaults" type="radio" name="address" />
-					</label>
-
-					<img style="height:50px;" 
-			ng-src="https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=gQHi7zoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL0p6aHdwZTdsZ3RMN0tEdXlMaFM2AAIE11nyVgMEAAAAAA==">
-					<span style="position: absolute;top: 50%;right: 8px;left: 116px;z-index: 3;margin-top: -13px;overflow: visible;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;">
-						gQHi7zoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL0p6aHdwZTdsZ3RMN0tEdXlMaFM2AAIE11nyVgMEAAAAAA==
+						{{qrcode.ticket}}
 					</span>
 
 					<ion-option-button  ng-if="1==2" class="button-assertive">

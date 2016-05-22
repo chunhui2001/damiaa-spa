@@ -507,6 +507,23 @@ angular.module('starter.controllers', [])
     $scope.logedin            = Auth.islogin();
     $scope.currentPartner     = null;
     $scope.isShowQrcode       = false;
+    $scope.qrcodeList         = [
+            {
+                ticket: 'gQHK8DoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL0lUZ21HSTNseWRLdzhEMFNlQlM2AAIEtlfyVgMEAAAAAA==',
+                img: 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=gQHK8DoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL0lUZ21HSTNseWRLdzhEMFNlQlM2AAIEtlfyVgMEAAAAAA==',
+                qrcodeId: '1'
+            },
+            {
+                ticket: 'gQHK8DoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL0lUZ21HSTNseWRLdzhEMFNlQlM2AAIEtlfyVgMEAAAAAA==',
+                img: 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=gQHK8DoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL0lUZ21HSTNseWRLdzhEMFNlQlM2AAIEtlfyVgMEAAAAAA==',
+                qrcodeId: '2'
+            },
+            {
+                ticket: 'gQHK8DoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL0lUZ21HSTNseWRLdzhEMFNlQlM2AAIEtlfyVgMEAAAAAA==',
+                img: 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=gQHK8DoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL0lUZ21HSTNseWRLdzhEMFNlQlM2AAIEtlfyVgMEAAAAAA==',
+                qrcodeId: '3'
+            }
+    ];
 
     if (!$scope.logedin) {
       return;
@@ -529,18 +546,6 @@ angular.module('starter.controllers', [])
 
     $scope.updatePartner = function() {
 
-        // var thePartner   = $scope.currentFans;
-
-        // if (!thePartner.partnerType) thePartner.partnerType = $scope.defaultType;
-
-        // PartnerService.saveParter($rootScope.currentUser, thePartner, function(result) {
-        //     $scope.originFans.partnerType   = result.type;
-        //     $scope.originFans.partnerId     = result.id;
-        //     $scope.modal.hide();   
-        // }, function(error) {
-        //     debugger;
-        // });   
-
         if (!$scope.currentPartner) {
           return ;
         }
@@ -552,6 +557,24 @@ angular.module('starter.controllers', [])
             debugger;
         });   
     }
+
+    $scope.setqrcode  = function(qrcodeid, action) {
+        PartnerService.qrcode($rootScope.currentUser, $scope.currentPartner.id, qrcodeid, action, function(result) {
+            
+            debugger;
+        }, function(error) {
+            debugger;
+        }); 
+    }
+
+    $scope.removeQrcode = function(partnerid, qrcodeid) {
+      PartnerService.qrcode($rootScope.currentUser, $scope.currentPartner.id, qrcodeid, 'remove', function(result) {
+          debugger;
+      }, function(error) {
+          debugger;
+      }); 
+    }
+
 })
 
 

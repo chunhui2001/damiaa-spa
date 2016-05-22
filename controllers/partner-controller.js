@@ -94,9 +94,38 @@ module.exports 	= {
 
 			return res.json(sendResult);
 		});
-
-		//return res.json(sendResult);
 	
+	},
+	qrcode: function(req, res, next) {
+
+		var partnerId 		= req.params.partnerId;
+		var userToken 		= req.body.user.value;
+		var tokenType 		= req.body.user.tokenType;
+		var qrcodeid 		= req.body.qrcodeid;
+		var action 			= req.body.action;
+
+		var sendResult  				= {error: false, message: null, data: action};
+
+	    var endpoints_partners_qrcode 	= URL.parse(endpoints.partners_qrcode.replace("{{{partnerId}}}", partnerId));
+
+		httpClient(endpoints_partners_qrcode, {qrcodeid: qrcodeid, action: action},
+						 'put', {type: tokenType, token: userToken}, function(error, result) {
+
+			if (error) {
+	    		sendResult.error 	= true;
+	    		sendResult.data 	= error.data;
+	    		sendResult.message 	= error.message;
+	    		return res.json(sendResult);
+	    	}
+
+	    	if (result) {
+		    	sendResult.data 	= result.data;
+		    	sendResult.message 	= result.message;
+		    	sendResult.error 	= result.error;
+	    	}
+
+			return res.json(sendResult);
+		});
 	}
 
 
