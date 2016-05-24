@@ -11,8 +11,8 @@
 	<ion-content class="padding">
 		<div style="text-align:center;">
 			<img style="height:50px;border-radius:25px;" ng-src="{{img}}">
-			<img style="height:50px;" 
-			ng-src="https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=gQHK8DoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL0lUZ21HSTNseWRLdzhEMFNlQlM2AAIEtlfyVgMEAAAAAA==">
+			<img ng-if="currentPartner.gen" style="height:50px;" 
+			ng-src="{{currentPartner.gen}}">
 		</div>
 
 		<div class="list">

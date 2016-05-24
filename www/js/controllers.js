@@ -532,7 +532,7 @@ angular.module('starter.controllers', [])
     PartnerService.getPartner($rootScope.currentUser, $scope.partnerId, function(result) {
         $scope.currentPartner   = result;
     }, function(error) {
-        debugger;
+
     });  
 
     $scope.backToFansPage = function() {
@@ -552,16 +552,16 @@ angular.module('starter.controllers', [])
 
         PartnerService.updateParter($rootScope.currentUser, $scope.currentPartner, function(result) {
             
-            debugger;
         }, function(error) {
-            debugger;
+
         });   
     }
 
     $scope.setqrcode  = function(qrcodeid, action) {
         PartnerService.qrcode($rootScope.currentUser, $scope.currentPartner.id, qrcodeid, action, function(result) {
             
-            debugger;
+            $scope.currentPartner.qrcode     = result.id;
+            $scope.currentPartner.gen        = result.gen;
         }, function(error) {
             debugger;
         }); 
@@ -569,7 +569,8 @@ angular.module('starter.controllers', [])
 
     $scope.removeQrcode = function(partnerid, qrcodeid) {
       PartnerService.qrcode($rootScope.currentUser, $scope.currentPartner.id, qrcodeid, 'remove', function(result) {
-          debugger;
+          $scope.currentPartner.qrcode     = null;
+          $scope.currentPartner.gen        = null;
       }, function(error) {
           debugger;
       }); 
