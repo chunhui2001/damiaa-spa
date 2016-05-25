@@ -47,7 +47,8 @@ var addrController        = require('./controllers/addr-controller');
 var regionController      = require('./controllers/region-controller');
 var orderController       = require('./controllers/order-controller');
 var goodsController       = require('./controllers/goods-controller');
-var partnerController       = require('./controllers/partner-controller');
+var partnerController     = require('./controllers/partner-controller');
+var qrcodeController      = require('./controllers/qrcode-controller');
 
 
 app.get('/checkcode', function(req, res, next) {
@@ -67,6 +68,8 @@ app.post('/partner', partnerController.savePartner);
 app.post('/partner/:partnerId', partnerController.getPartner);
 app.put('/partner/:partnerId', partnerController.updatePartner);
 app.put('/partner/:partnerId/qrcode', partnerController.qrcode);
+
+app.post('/qrcode/random', qrcodeController.random);
 
 app.get('/wxuserinfo/:code/:state',   accountController.getWxUserInfo);
 

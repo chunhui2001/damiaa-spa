@@ -500,34 +500,26 @@ angular.module('starter.controllers', [])
 
 .controller('partner-controller', function(
         $scope, $rootScope, $state, $timeout, $ionicViewSwitcher
-        , $stateParams, Auth, PartnerService) {
+        , $stateParams, Auth, PartnerService, QrcodeService) {
    
     $scope.partnerId          = $stateParams.partnerId;
     $scope.img                = $stateParams.img;
     $scope.logedin            = Auth.islogin();
     $scope.currentPartner     = null;
     $scope.isShowQrcode       = false;
-    $scope.qrcodeList         = [
-            {
-                ticket: 'gQHK8DoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL0lUZ21HSTNseWRLdzhEMFNlQlM2AAIEtlfyVgMEAAAAAA==',
-                img: 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=gQHK8DoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL0lUZ21HSTNseWRLdzhEMFNlQlM2AAIEtlfyVgMEAAAAAA==',
-                qrcodeId: '1'
-            },
-            {
-                ticket: 'gQHK8DoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL0lUZ21HSTNseWRLdzhEMFNlQlM2AAIEtlfyVgMEAAAAAA==',
-                img: 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=gQHK8DoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL0lUZ21HSTNseWRLdzhEMFNlQlM2AAIEtlfyVgMEAAAAAA==',
-                qrcodeId: '2'
-            },
-            {
-                ticket: 'gQHK8DoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL0lUZ21HSTNseWRLdzhEMFNlQlM2AAIEtlfyVgMEAAAAAA==',
-                img: 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=gQHK8DoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL0lUZ21HSTNseWRLdzhEMFNlQlM2AAIEtlfyVgMEAAAAAA==',
-                qrcodeId: '3'
-            }
-    ];
+    $scope.qrcodeList         = [ ];
 
     if (!$scope.logedin) {
       return;
     }
+
+
+
+    QrcodeService.random($rootScope.currentUser, function(result) {
+        $scope.qrcodeList = result;
+    }, function(error) {
+
+    });  
 
     PartnerService.getPartner($rootScope.currentUser, $scope.partnerId, function(result) {
         $scope.currentPartner   = result;

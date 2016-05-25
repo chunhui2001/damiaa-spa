@@ -78,13 +78,13 @@
 				</ion-item>
 				<ion-item ng-repeat="qrcode in qrcodeList" class="item item-checkbox checkbox-balanced"
 						  style="padding-left:0px;">
-					<label class="checkbox" ng-click="setqrcode(qrcode.qrcodeId, 'set')">
+					<label class="checkbox" ng-click="setqrcode(qrcode.id, 'set')">
 						<input ng-if="addr.defaults" type="radio" name="address" checked />
 						<input ng-if="!addr.defaults" type="radio" name="address" />
 					</label>
 
 					<img style="height:50px;" 
-			ng-src="{{qrcode.img}}">
+			ng-src="{{qrcode.gen}}">
 					<span style="position: absolute;top: 50%;right: 8px;left: 116px;z-index: 3;margin-top: -13px;overflow: visible;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;">
 						{{qrcode.ticket}}
 					</span>
