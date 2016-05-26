@@ -3,8 +3,11 @@
 	<ion-content>
 		<ion-list>
 	      <ion-item class="item-remove-animate item-avatar item-icon-right" 
+	      			ng-class='{"has-qrcode": fans.qrcode}'
 	            ng-repeat="fans in fansList" type="item-text-wrap">
 	        <img ng-click="showPartnerDetail(fans)" ng-src="{{fans.headimgurl}}">
+	        <img ng-if="fans.qrcode" style="position: absolute;top: 16px;left: 59px;max-width: 40px;
+	        		max-height: 40px;width: 100%;height: 100%;" ng-src="{{fans.gen}}">
 	        <h2 ng-click="showPartnerDetail(fans)">{{fans.nickname}}</h2>
 	        <p ng-click="showPartnerDetail(fans)">{{fans.city || fans.province}}, {{fans.subscribe_time}}</p>
 	        <i ng-if="fans.partnerType" style="font-size:1.5em;color:#009688;" ng-click="showPartnerDetail(fans)"

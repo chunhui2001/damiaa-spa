@@ -104,3 +104,7 @@ body .pane, .menu, .view, .list, .item       {
     max-width:300px;
     margin:auto;
 }
+
+.has-qrcode .item-content{
+    padding-left:105px;
+}
