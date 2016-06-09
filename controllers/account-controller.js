@@ -306,9 +306,9 @@ module.exports 	= {
 		var endpoints_get_fans_list 	= URL.parse(ENDPOINTS_WX.get_fans_list);
 
 	    var sendResult  = {error: false, message: null, data: null};
-
+	    
 	    httpClient(endpoints_get_fans_list, null, 'get', {type: tokenType, token: token}, function(error, result) {
-
+	    	
 			if (error) {
 	    		sendResult.error 	= true;
 	    		sendResult.data 	= error;
