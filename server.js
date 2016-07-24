@@ -75,6 +75,7 @@ app.get('/wxuserinfo/:code/:state',   accountController.getWxUserInfo);
 
 app.post('/addr/list',  addrController.list);
 app.post('/addr/set',   addrController.set);
+app.post('/addr/updateAddr',   addrController.updateAddr);
 app.post('/addr/add',   addrController.add);
 app.post('/addr/:addrid/del',   addrController.del);
 

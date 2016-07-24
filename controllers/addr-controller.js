@@ -72,6 +72,36 @@ module.exports 	= {
 			return res.json(sendResult);
 		});
 	},	
+	updateAddr: function (req, res, next) {		
+		var userToken 		= req.body.user.value;
+		var tokenType 		= req.body.user.tokenType;
+		var addrId 			= req.body.addrid;
+		var orderId 		= req.body.orderId;
+
+
+	    var sendResult  				= {error: false, message: null, data: null};	    
+		var endpoints_user_update_addr 	= URL.parse(endpoints.user_update_addr);
+
+
+		httpClient(endpoints_user_update_addr, {addrid:addrId, orderId:orderId}, 'post'
+			, {type: tokenType, token: userToken}, function(newError, newResult) {
+
+			if (newError) {
+	    		sendResult.error 	= true;
+	    		sendResult.data 	= newError;
+	    		sendResult.message 	= newError.message;
+	    		return res.json(sendResult);
+	    	}
+
+	    	if (newResult) {
+		    	sendResult.data 	= newResult.data;
+		    	sendResult.message 	= newResult.message;
+		    	sendResult.error 	= newResult.error;
+	    	}
+
+			return res.json(sendResult);
+		});
+	},	
 	add: function (req, res, next) {		
 		var userToken 		= req.body.user.value;
 		var tokenType 		= req.body.user.tokenType;

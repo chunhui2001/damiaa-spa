@@ -4,7 +4,7 @@ exports.captchap=function (req, res, next) {
     var width   =!isNaN(parseInt(req.query.width))?parseInt(req.query.width):100;
     var height  =!isNaN(parseInt(req.query.height))?parseInt(req.query.height):30;
 
-    var code    = parseInt(Math.random()*9000+100000);
+    var code    = parseInt(Math.random()*9000+10000);
 
     req.session.checkcode = code;
 

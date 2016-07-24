@@ -15,6 +15,7 @@ module.exports = {
 
 	user_addr_list: host + '/addr/list',
 	user_addr_set: host + '/addr/set',
+	user_update_addr: host + '/addr/update_addr',
 	user_addr_add: host + '/addr',
 	user_addr_del: host + '/addr/:addrid',
 
