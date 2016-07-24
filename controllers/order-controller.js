@@ -71,6 +71,8 @@ module.exports 	= {
 	    	var isTest 			= ['ofnVVw9aVxkxSfvvW373yuMYT7fs'].indexOf(currentOrder.openId) != -1;
 
 
+	    	// TODO, need to be remove
+
     		// 订单创建成功, 调用微信统一下单API
     		// https://api.mch.weixin.qq.com/pay/unifiedorder
     		var theParams 		= {
@@ -121,6 +123,7 @@ module.exports 	= {
 			    });
 
 			});
+			// end TODO, need to be remove
     		
 		});
 	}, 
