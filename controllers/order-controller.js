@@ -66,7 +66,10 @@ module.exports 	= {
 	    		return res.json(sendResult);
 	    	} 
 
-	    	return res.json(result.data);
+	    	
+	    	sendResult.data 	= result.data;
+
+	    	return res.json(sendResult);
 
 	  //   	var currentOrder 	= result.data;
 	  //   	var isTest 			= ['ofnVVw9aVxkxSfvvW373yuMYT7fs'].indexOf(currentOrder.openId) != -1;
