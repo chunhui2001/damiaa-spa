@@ -66,64 +66,65 @@ module.exports 	= {
 	    		return res.json(sendResult);
 	    	} 
 
+	    	return res.json(result.data);
 
-	    	var currentOrder 	= result.data;
-	    	var isTest 			= ['ofnVVw9aVxkxSfvvW373yuMYT7fs'].indexOf(currentOrder.openId) != -1;
-
-
-	    	// TODO, need to be remove
-
-    		// 订单创建成功, 调用微信统一下单API
-    		// https://api.mch.weixin.qq.com/pay/unifiedorder
-    		var theParams 		= {
-				body 			: 'AA精米 特级米 现磨现卖', 			// 'AA精米 特级米 现磨现卖'
-				out_trade_no 	: currentOrder.id,			//
-				total_fee 		: isTest ? 1 : currentOrder.orderMoney * 100,	//
-				userid 			: currentOrder.userId,		//
-				openid 			: currentOrder.openId		// 
-			};
-
-			httpClient(endpoints_unified_order, {orderParams: theParams}
-					, 'post', {type: tokenType, token: userToken}, function(newError, newResult) {
-
-				if (newError) {
-		    		sendResult2.error 	= true;
-		    		sendResult2.data 	= newError;
-		    		sendResult2.message = newError;
-		    		return res.json(sendResult2);
-		    	}
-
-		    	if (newResult.error) {
-			    	sendResult2.data 	= newResult.data;
-			    	sendResult2.message = newResult.message;
-			    	sendResult2.error 	= newResult.error;
-		    		return res.json(sendResult2);
-		    	} 
-
-		    	// 预订单创建成功, 订单号更新订单， 把 prepay_id 存储到订单表中
-				var userid 		= currentOrder.userId;
-				var order_id 	= currentOrder.id;
-				var prepay_id 	= newResult.data.prepay_id;
+	  //   	var currentOrder 	= result.data;
+	  //   	var isTest 			= ['ofnVVw9aVxkxSfvvW373yuMYT7fs'].indexOf(currentOrder.openId) != -1;
 
 
-				updateOrder({orderid: order_id, action: 'updatePrePayId', prepay_id: prepay_id}
-	    			, req.body.user, function(newError3, newResult3) {
+	  //   	// TODO, need to be remove
 
-			    	if (newError3) {
-			    		sendResult3.error 	= true;
-			    		sendResult3.data 	= newError3;
-			    		sendResult3.message = newError3;
-			    		return res.json(sendResult3);
-			    	}
+   //  		// 订单创建成功, 调用微信统一下单API
+   //  		// https://api.mch.weixin.qq.com/pay/unifiedorder
+   //  		var theParams 		= {
+			// 	body 			: 'AA精米 特级米 现磨现卖', 			// 'AA精米 特级米 现磨现卖'
+			// 	out_trade_no 	: currentOrder.id,			//
+			// 	total_fee 		: isTest ? 1 : currentOrder.orderMoney * 100,	//
+			// 	userid 			: currentOrder.userId,		//
+			// 	openid 			: currentOrder.openId		// 
+			// };
 
-			    	sendResult3 		= newResult3;
-			    	//sendResult3.data.id 	= order_id;
-					return res.json(sendResult3);
+			// httpClient(endpoints_unified_order, {orderParams: theParams}
+			// 		, 'post', {type: tokenType, token: userToken}, function(newError, newResult) {
 
-			    });
+			// 	if (newError) {
+		 //    		sendResult2.error 	= true;
+		 //    		sendResult2.data 	= newError;
+		 //    		sendResult2.message = newError;
+		 //    		return res.json(sendResult2);
+		 //    	}
 
-			});
-			// end TODO, need to be remove
+		 //    	if (newResult.error) {
+			//     	sendResult2.data 	= newResult.data;
+			//     	sendResult2.message = newResult.message;
+			//     	sendResult2.error 	= newResult.error;
+		 //    		return res.json(sendResult2);
+		 //    	} 
+
+		 //    	// 预订单创建成功, 订单号更新订单， 把 prepay_id 存储到订单表中
+			// 	var userid 		= currentOrder.userId;
+			// 	var order_id 	= currentOrder.id;
+			// 	var prepay_id 	= newResult.data.prepay_id;
+
+
+			// 	updateOrder({orderid: order_id, action: 'updatePrePayId', prepay_id: prepay_id}
+	  //   			, req.body.user, function(newError3, newResult3) {
+
+			//     	if (newError3) {
+			//     		sendResult3.error 	= true;
+			//     		sendResult3.data 	= newError3;
+			//     		sendResult3.message = newError3;
+			//     		return res.json(sendResult3);
+			//     	}
+
+			//     	sendResult3 		= newResult3;
+			//     	//sendResult3.data.id 	= order_id;
+			// 		return res.json(sendResult3);
+
+			//     });
+
+			// });
+			// // end TODO, need to be remove
     		
 		});
 	}, 
