@@ -1,0 +1,64 @@
+<div style="position:relative;">
+	<span ng-click="closeModal();" 
+			style="font-weight:bold;border-radius:12px; 
+				background-color:green;color:white;cursor:pointer;
+				padding: 0 5px;top:-29px;right:0;display:inline-block;position:absolute;">X</span>
+
+	<ion-scroll style="overflow-y: scroll;
+					    -webkit-overflow-scrolling: touch;height: 385px;
+					    padding-bottom:1.5em;">
+	
+	<div class="item item-divider">收货地址列表 
+		<span style="font-size: .85em;font-style: oblique;color: #28a54c;float:right;">单击设为默认地址</span>
+	</div>
+
+
+	<div ng-if="inProgress" 
+			style="width:100%;height:200px;
+						background-size:auto 50%;background-repeat:no-repeat;
+						background-position:center;
+						background-image:url('//static.damiaa.com/img/loading/loading52.gif');">
+		
+	</div>
+
+	<ion-list class="addr-list">
+		<ion-item class="item item-checkbox checkbox-balanced"
+				  ng-repeat="addr in userAddrList"
+				  style="padding-left:0px;">
+			<label class="checkbox" ng-click="setDefault(addr.id)">
+				<input ng-if="addr.defaults" type="radio" name="address" checked />
+				<input ng-if="!addr.defaults" type="radio" name="address" />
+			</label>
+
+			<span style="text-align:left;" class="input-label"><strong>{{addr.linkMan}}</strong> 
+			<strong style="color:#5D5DFF;font-style:oblique;"> {{addr.linkPone}}</strong><br />
+			{{addr.province.split('(')[0]}} 
+			{{addr.city.split('(')[0]}} 
+			{{addr.area.split('(')[0]}} 
+			{{addr.street}}<br />
+			{{addr.detail}}</span>
+
+			<!-- <ion-option-button class="button-balanced" 
+					ng-click="onDeleteAddr()">
+				设为默认
+			</ion-option-button> -->
+			<ion-option-button  ng-if="!addr.defaults" class="button-assertive" 
+					ng-click="onDeleteAddr({{addr}})">
+				删除
+			</ion-option-button>
+		</ion-item>
+	</ion-list>
+    </ion-scroll>
+
+</div>
+
+<style type="text/css">
+	.modal-wrapper {
+		height:450px;
+		padding-top:3.5em;
+		margin-top: calc(50% - 115px);
+		max-height:none;
+	}
+
+</style>
+

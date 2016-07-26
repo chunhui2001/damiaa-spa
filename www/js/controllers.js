@@ -150,12 +150,13 @@ angular.module('starter.controllers', [])
     }
 
     $scope.setupOrder = function() {
-      $scope.inProgress3          = true;
 
       if (!$scope.orderAddr) {
         toolTip($scope, $timeout, "请添加收货地址", 'danger');
         return;
       }
+
+      $scope.inProgress3          = true;
 
       var buyCount  = $scope.countSelectedVal;
       var orderData   = {
@@ -272,8 +273,8 @@ angular.module('starter.controllers', [])
 
 
 .controller('payment-controller', function(
-    $scope, $rootScope, $state, $stateParams, $ionicViewSwitcher, $location, $window,
-    $ionicModal, Auth, OrderService, RegionService, AddrService) {
+    $scope, $timeout, $rootScope, $state, $stateParams, $ionicViewSwitcher, $location, $window,
+    $ionicModal, $filter, Auth, OrderService, RegionService, AddrService) {
 
     // $state.go('paymentComplete', {'oid': '941174731905'});
     var oid       = $stateParams.oid;
@@ -295,7 +296,9 @@ angular.module('starter.controllers', [])
     $scope.inProgress     = true;
     $scope.inProgress2    = false;
     $scope.addrFormModal  = null;
+    $scope.addrListModal  = null;
     $scope.userAddrList   = [];
+    $scope.isAddrErr      = false;
 
 
     OrderService.detail(currentUser, oid, function(result) {
@@ -318,6 +321,15 @@ angular.module('starter.controllers', [])
     });
 
     $scope.onPaymentClick = function() {
+
+      $scope.isAddrErr = false;
+
+      if (!$scope.currentOrder.address) {
+        $scope.isAddrErr = true;
+        toolTip($scope, $timeout, '请选择收货地址', 'danger');
+        return;
+      }
+
       //http://damiaa.com/pay/8555074241827141919/bearer/3d4694c2-8a51-4aa9-a4a9-dd956e5b0b8b
       $window.location.href = 'http://damiaa.com/pay/' 
                       + oid + '-' + currentUser.tokenType + '-' + currentUser.value;
@@ -325,8 +337,62 @@ angular.module('starter.controllers', [])
     }
 
 
+    $scope.onDeleteAddr = function(addr) {
+
+      AddrService.del(currentUser, addr, function(affectRowCount) {
+        if (affectRowCount > 0) {
+          // $scope.userAddrList.splice($scope.userAddrList.indexOf(addr), 1);
+          // $scope.userAddrList = $filter('filter')($scope.userAddrList, {id: addr.id})
+          $scope.userAddrList = $scope.userAddrList.filter(function(item) {
+              return item.id !== addr.id;
+          });
+        }
+      }, function(error) {
+        
+      });
+    }
 
 
+
+    $scope.setDefault = function(addr_id) {
+
+      var currentAddrEntry  = $filter('filter')($scope.userAddrList, function (d) {return d.id === addr_id;})[0];
+
+
+      AddrService.updateAddress(currentUser, currentAddrEntry.id, oid, function(rtnOrder) {
+
+        $scope.currentOrder.receiveMan  = rtnOrder.receiveMan;
+        $scope.currentOrder.phone       = rtnOrder.phone;
+        $scope.currentOrder.address     = rtnOrder.address;
+
+
+        
+        $scope.isAddrErr = false;
+        $scope.addrListModal.hide();
+
+      }, function(error) {
+
+      });
+  
+
+
+      if (currentAddrEntry.defaults) return;
+
+      AddrService.setdefault(currentUser, addr_id, function(data) {
+
+          angular.forEach($scope.userAddrList, function(value, key) {
+            value.defaults = false;
+          });
+
+          currentAddrEntry.defaults = true;
+      }, function(error) {
+        
+      });
+    }
+
+    $scope.showAddrList = function() {
+      $scope.addrListModal.show();
+    }
 
     $scope.onSelAddrClick  = function(order) {
       $scope.addrFormModal.show();
@@ -334,6 +400,7 @@ angular.module('starter.controllers', [])
 
     $scope.closeModal  = function(orderid) {
       $scope.addrFormModal.hide();
+      $scope.addrListModal.hide();
     }
 
     $ionicModal.fromTemplateUrl('modals/addr-form-modal.html', {
@@ -341,6 +408,13 @@ angular.module('starter.controllers', [])
         animation: 'slide-in-up'
     }).then(function(modal) {
         $scope.addrFormModal = modal;
+    });
+
+    $ionicModal.fromTemplateUrl('modals/addr-list-modal.html', {
+        scope: $scope,
+        animation: 'slide-in-up'
+    }).then(function(modal) {
+        $scope.addrListModal = modal;
     });
 
 
@@ -406,11 +480,6 @@ angular.module('starter.controllers', [])
     }
 
     $scope.onDeleteAddr = function(addr) {
-
-      if (addr.defaults) {
-        toolTip($scope, $timeout, '默认地址无法删除！', 'danger');
-        return;
-      }
 
       AddrService.del(currentUser, addr, function(affectRowCount) {
         if (affectRowCount > 0) {
@@ -487,6 +556,8 @@ angular.module('starter.controllers', [])
             $scope.currentOrder.phone       = rtnOrder.phone;
             $scope.currentOrder.address     = rtnOrder.address;
 
+
+            $scope.isAddrErr = false;
             $scope.addrFormModal.hide();
 
           }, function(error) {

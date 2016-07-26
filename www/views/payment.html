@@ -26,15 +26,16 @@
 						background-position:bottom;
 						padding:.5em 0;
 						margin:0;
-						background-size:35px;">请核对订单信息 ...</h4>
-			<div style="padding:1.5em 1em;background-color:#F3F3F3;font-weight:bold;color:#060606;
+						background-size:35px;">&nbsp;&nbsp;&nbsp;请核对订单信息 ...</h4>
+			<div style="padding:1em 1em;background-color:#F3F3F3;font-weight:bold;color:#060606;
 						border-top:solid #E4E4E4 1px;">
 				<span style="color:#383838">订单编号:</span> <br />
 				<span>{{currentOrder.id}}</span> 
 
-					<span style="float:right;">{{currentOrder.status == 'PENDING' ? '待付款' : currentOrder.status}}</span>
+					<span ng-if="currentOrder.status == 'PENDING'" style="float:right;">待付款</span>
+					<span ng-if="currentOrder.status == 'CASHED'" style="float:right;">已付款</span>
 				<br />
-				<div style="text-align:right;color:gray;font-style:oblique;">{{currentOrder.lastEvent}}</div>
+				<div style="text-align:left;color:gray;font-style:oblique;    margin-top: .5em;">{{currentOrder.lastEvent}}</div>
 			</div>
 
 			<!-- <div style="background-color:white;text-align:center;padding:1px;
@@ -66,20 +67,23 @@
 				</div>
 
 				<div>
-					<i class="icon " 
+					<i class="icon " ng-class='{"submit-validate-error": isAddrErr}'
 						style="padding:.8em;font-size:1em;float:left;width:30%;color:gray;">收货地址</i>
 					<div  class="item item-icon-right" 
 						style="font-size:1em;border:none;float:left;width:70%;text-align:left;
 								border-bottom:solid 1px #EAEAEA;margin-bottom:1px;
 								padding-top:.8em;padding-bottom:.8em;padding-left:.6em;">
 						<span ng-if="currentOrder.address" class="item-content" style="white-space:normal;margin-bottom: .5em;display: block;">
-							{{currentOrder.receiveMan}} ({{currentOrder.phone}})<br />
+							{{currentOrder.receiveMan}}（{{currentOrder.phone}}）<br />
 							{{currentOrder.address}} 
 						</span>
-						<a class="item-content"  ng-click="onSelAddrClick()"
-						   style="float:left; color:red;">新增收货地址</a>
-						<a ng-if="userAddrList && userAddrList.length > 1" class="item-content"  ng-click="onSelAddrClick()"
-						   style="float:left;margin-left:1.5em;color:green;">选择收货地址</a>
+						<span ng-if="!currentOrder.address" class="item-content" style="white-space:normal;margin-bottom: .5em;display: block;">
+							请选择收货地址
+						</span>
+						<a  ng-click="showAddrList()" ng-if="userAddrList && userAddrList.length > 1 && currentOrder.status == 'PENDING'" class="item-content"  ng-click="onSelAddrClick()"
+						   style="float:left;color:green;text-decoration: underline;font-style: oblique;margin-right:1em;">选择收货地址</a>
+						<a ng-if="currentOrder.status == 'PENDING'" class="item-content"  ng-click="onSelAddrClick()"
+						   style="float:left; color:#2196F3;text-decoration: underline;font-style: oblique;">新增收货地址</a>
 					</div>
 				</div>
 
@@ -133,7 +137,7 @@
 
 			<div ng-if="currentOrder.status == 'PENDING'" class="button-bar padding" style="margin-bottom:4em;">
 			  <button ng-click="onPaymentClick()"
-			  			class="button button-assertive">
+			  			class="button button-assertive" style="background-color: #673AB7;">
 			  	<span style="color:#5BCA00;font-weight:bold;font-style:oblique;">
 			  		需付：&yen; {{currentOrder.orderMoney.toFixed(2)}}</span> &nbsp;&nbsp;现在去支付
 			  		<i ng-if="inProgress2" style="display:inline-block;width:20px;height:20px;
@@ -142,6 +146,10 @@
 			  </button>
 			</div>
 		</div>
-
+		
+		<div class="status flash-modal" 
+			ng-class='{"modal-info": isInfo, "modal-danger": isDanger, "modal-error": isError}'>
+			<div>{{message}}</div>
+		</div>
 	</ion-content>
 </ion-view>
