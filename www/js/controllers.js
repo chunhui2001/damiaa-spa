@@ -964,7 +964,7 @@ angular.module('starter.controllers', [])
 
 
 
-.controller('login-controller', function($scope, $stateParams, $rootScope, $ionicViewSwitcher, $state, $location, $ionicPopup, $timeout, Auth) {
+.controller('login-controller', function($scope, $stateParams, $rootScope, $ionicViewSwitcher, $state, $location, $window, $ionicPopup, $timeout, Auth) {
 
     if (Auth.islogin()) {
         $state.go('account', {}, {reload: true});
@@ -972,7 +972,27 @@ angular.module('starter.controllers', [])
     }
 
 
-    $scope.b          = $stateParams.b;
+    $scope.openid     = $location.search().openid;
+    $scope.b          = $stateParams.b || $location.search().b;
+
+    // if ($scope.openid) {
+    //   alert($scope.openid);
+    //   if ($scope.b) {
+    //     alert($scope.b);
+    //   }
+    //   return ;
+    // }
+
+
+    // var _redirect_uri  = 'http%3A%2F%2Fwww.damiaa.com%2Fauthorized_back';
+    // $scope._state         = 'HbYFbj4CAlo72uPw__' + $scope.b;
+
+
+    // $window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxbfbeee15bbe621e6&redirect_uri='
+    //                 + _redirect_uri + '&response_type=code&scope=snsapi_base&state=' + $scope._state + '#wechat_redirect';
+    
+    // return;
+
     $scope.tabIndex   = 1;
     $scope.logM       = {};
     $scope.inProgress   = false;

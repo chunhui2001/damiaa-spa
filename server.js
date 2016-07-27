@@ -55,6 +55,32 @@ app.get('/checkcode', function(req, res, next) {
     captchap(req, res, next);
 });
 
+app.get('/authorized_back', function(req, res) {
+
+    var wxOpenIDCode       = req.query['code'];
+    var wxOpenIDStateCode  = req.query['state'].split('__')[0];
+    var return_url         = req.query['state'].split('__')[1];
+
+    console.log(req.query['state'], 'req.query[state]');
+
+    if (GLOBAL_CONFIG.OPENID_STATE_CODE != wxOpenIDStateCode) {
+        return res.status(200).end('invalid request!');
+    }
+
+    // get openid by wxOpenIDCode
+    // TODO
+
+    var redirect  = '/#/login/' + '?openid=' + wxOpenIDCode + '::' + wxOpenIDStateCode;
+    if (return_url && return_url.length > 0) {
+        redirect = redirect + '&b=' + return_url;
+        console.log(return_url, 'return_url');
+    }
+
+    res.redirect(redirect);
+});
+
+// https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxbfbeee15bbe621e6&redirect_uri=
+// http%3A%2F%2Fwww.damiaa.com%2Fregister&response_type=code&scope=snsapi_base&state=HbYFbj4CAlo72uPw#wechat_redirect
 
 
 app.post('/login', accountController.login);
