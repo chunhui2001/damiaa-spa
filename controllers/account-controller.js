@@ -37,7 +37,37 @@ module.exports 	= {
 		});
 
 	},
+	wxUserInfo: function(code, state, callback) {
+		var stateCode 	= state;
 
+	    var sendResult  = {error: false, message: null, data: code};
+
+	    if (GLOBAL_CONFIG.OPENID_STATE_CODE != stateCode) {
+	    	sendResult.error = true;
+	    	sendResult.message 	= "state code invalidate";
+
+	    	return sendResult;
+	    }
+
+	    console.log(ENDPOINTS_WX.get_openid.replace('{{{CODE}}}', code), 'ddddd');
+	    console.log(GLOBAL_CONFIG.WCHAT_TOKEN_CODE, 'GLOBAL_CONFIG.WCHAT_TOKEN_CODE');
+
+		httpClient(ENDPOINTS_WX.get_openid.replace('{{{CODE}}}', code)
+				, null, 'get', {type: 'bearer', token: GLOBAL_CONFIG.WCHAT_TOKEN_CODE}
+				, function(error, result) {
+
+			if (error) {
+	    		sendResult.error 	= true;
+	    		sendResult.data 	= error;
+	    		return sendResult;
+	    	}
+
+	    console.log(result.data, 'GLOBAL_CONFIG.WCHAT_TOKEN_CODE2');
+	    	sendResult.data = result.data;
+	    	
+			return sendResult;
+		});
+	},
 	login: function (req, res, next) {
 		var username    = req.body.username;
 	    var passwd      = req.body.passwd;

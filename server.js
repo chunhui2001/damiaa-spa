@@ -68,15 +68,26 @@ app.get('/authorized_back', function(req, res) {
     }
 
     // get openid by wxOpenIDCode
-    // TODO
+    accountController.wxUserInfo(wxOpenIDCode, wxOpenIDStateCode, function(result) {
 
-    var redirect  = '/#/login/' + '?openid=' + wxOpenIDCode + '::' + wxOpenIDStateCode;
-    if (return_url && return_url.length > 0) {
-        redirect = redirect + '&b=' + return_url;
-        console.log(return_url, 'return_url');
-    }
+        if (result.error) {
+            return res.status(200).end(result.message || result.data);
+        }
 
-    res.redirect(redirect);
+        console.log(result, 'accountController.wxUserInfo');
+
+        var redirect  = '/#/login/' + '?openid=' + wxOpenIDCode + '::' + wxOpenIDStateCode;
+        
+        if (return_url && return_url.length > 0) {
+            redirect = redirect + '&b=' + return_url;
+            console.log(return_url, 'return_url');
+        }
+
+        res.redirect(redirect);
+
+    });
+
+    
 });
 
 // https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxbfbeee15bbe621e6&redirect_uri=
