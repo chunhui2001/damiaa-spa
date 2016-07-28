@@ -46,7 +46,7 @@ module.exports 	= {
 	    	sendResult.error = true;
 	    	sendResult.message 	= "state code invalidate";
 
-	    	return sendResult;
+	    	return callback(sendResult);
 	    }
 
 	    console.log(ENDPOINTS_WX.get_openid.replace('{{{CODE}}}', code), 'ddddd');
@@ -59,13 +59,15 @@ module.exports 	= {
 			if (error) {
 	    		sendResult.error 	= true;
 	    		sendResult.data 	= error;
-	    		return sendResult;
+
+	    		return callback(sendResult);
 	    	}
 
-	    console.log(result.data, 'GLOBAL_CONFIG.WCHAT_TOKEN_CODE2');
+	    	console.log(result.data, 'GLOBAL_CONFIG.WCHAT_TOKEN_CODE2');
+	    	
 	    	sendResult.data = result.data;
 	    	
-			return sendResult;
+			return callback(sendResult);
 		});
 	},
 	login: function (req, res, next) {
