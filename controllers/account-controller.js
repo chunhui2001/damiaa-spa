@@ -49,9 +49,6 @@ module.exports 	= {
 	    	return callback(sendResult);
 	    }
 
-	    console.log(ENDPOINTS_WX.get_openid.replace('{{{CODE}}}', code), 'ddddd');
-	    console.log(GLOBAL_CONFIG.WCHAT_TOKEN_CODE, 'GLOBAL_CONFIG.WCHAT_TOKEN_CODE');
-
 		httpClient(ENDPOINTS_WX.get_openid.replace('{{{CODE}}}', code)
 				, null, 'get', {type: 'bearer', token: GLOBAL_CONFIG.WCHAT_TOKEN_CODE}
 				, function(error, result) {
@@ -63,7 +60,6 @@ module.exports 	= {
 	    		return callback(sendResult);
 	    	}
 
-	    	console.log(result.data, 'GLOBAL_CONFIG.WCHAT_TOKEN_CODE2');
 	    	
 	    	sendResult.data = result.data;
 	    	

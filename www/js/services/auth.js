@@ -1,6 +1,6 @@
 angular.module('starter')
 .factory('Auth',
-  function($http, $rootScope, $cookieStore, $alert) {
+  function($http, $rootScope, $cookieStore, $window, $alert) {
 
   return {
     login: function(user, callback) {
@@ -15,23 +15,36 @@ angular.module('starter')
     },
     loginSuccess: function(user, callback) {
 
-      var expireDate = new Date();
-      expireDate.setDate(expireDate.getDate() + 7);
+      // var expireDate = new Date();
+      // expireDate.setDate(expireDate.getDate() + 7);
 
-      $cookieStore.put('user', user, {'expires': expireDate});
-      $rootScope.currentUser = $cookieStore.get('user');
+      // $cookieStore.put('user', user, {'expires': expireDate});
+      // $rootScope.currentUser = $cookieStore.get('user');
+
+      $window.localStorage['user']  = angular.toJson(user);
+      $rootScope.currentUser  = JSON.parse($window.localStorage['user']);
 
       if (!callback) return;
 
       callback();
     },
     logout: function(success, failed) {
-      return $http.post('/logout', $cookieStore.get('user')).success(function(data) {
+
+      var user  = null;
+
+      if ($window.localStorage['user']) {
+        user  = JSON.parse($window.localStorage['user']);
+      }
+
+      return $http.post('/logout', user).success(function(data) {
         $rootScope.currentUser  = null;
         $rootScope.userInfo     = null;
 
-        $cookieStore.remove('user');
-        $cookieStore.remove('userInfo');
+        // $cookieStore.remove('user');
+        // $cookieStore.remove('userInfo');
+
+        $window.localStorage['user'] = null;
+        $window.localStorage['userInfo'] = null;
 
         if (success) success();
       }).error(function(e) {
@@ -39,15 +52,31 @@ angular.module('starter')
       });
     },
     islogin: function() {      
-      $rootScope.currentUser  = $cookieStore.get('user');
-      //$rootScope.userInfo     = $cookieStore.get('userInfo');
+      // $rootScope.currentUser  = $cookieStore.get('user');
+
+      $rootScope.currentUser  = null;
+
+      if ($window.localStorage['user']) {
+        $rootScope.currentUser  = JSON.parse($window.localStorage['user']);
+      }
 
       return $rootScope.currentUser != null;
     },
     loginUser: function(success, failed) {
 
-      $rootScope.currentUser  = $cookieStore.get('user');
-      $rootScope.userInfo     = $cookieStore.get('userInfo');
+      // $rootScope.currentUser  = $cookieStore.get('user');
+      // $rootScope.userInfo     = $cookieStore.get('userInfo');
+
+      $rootScope.currentUser  = null;
+      $rootScope.userInfo     = null;
+
+      if ($window.localStorage['user']) {
+        $rootScope.currentUser  = JSON.parse($window.localStorage['user']);
+      }
+
+      if ($window.localStorage['userInfo']) {
+        $rootScope.userInfo  = JSON.parse($window.localStorage['userInfo']);
+      }
 
       if ($rootScope.currentUser != null && $rootScope.userInfo != null) 
           return success($rootScope.userInfo);
@@ -58,11 +87,14 @@ angular.module('starter')
 
       $http.post('/userinfo', $rootScope.currentUser)
         .success(function(data) {
-            var expireDate = new Date();
-            expireDate.setDate(expireDate.getDate() + 7);
+            // var expireDate = new Date();
+            // expireDate.setDate(expireDate.getDate() + 7);
 
-            $cookieStore.put('userInfo', data.data, {'expires': expireDate});
-            $rootScope.userInfo = $cookieStore.get('userInfo');
+            // $cookieStore.put('userInfo', data.data, {'expires': expireDate});
+            // $rootScope.userInfo = $cookieStore.get('userInfo');
+
+            $window.localStorage['userInfo']  = angular.toJson(data.data);
+            $rootScope.userInfo                 = data.data;
 
             if (success) return success(data.data);
         })

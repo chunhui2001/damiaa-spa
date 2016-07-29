@@ -964,8 +964,9 @@ angular.module('starter.controllers', [])
 
 
 
-.controller('login-controller', function($scope, $stateParams, $rootScope, $ionicViewSwitcher, $state, $location, $window, $ionicPopup, $timeout, Auth) {
+.controller('login-controller', function($scope, $stateParams, $rootScope, $ionicViewSwitcher, $state, $location, $window, $cookieStore, $ionicPopup, $timeout, Auth) {
 
+    // alert(Auth.islogin());
     if (Auth.islogin()) {
         $state.go('account', {}, {reload: true});
         return;
@@ -976,10 +977,25 @@ angular.module('starter.controllers', [])
     $scope.b          = $stateParams.b || $location.search().b;
 
     // if ($scope.openid) {
-    //   alert($scope.openid);
-    //   if ($scope.b) {
-    //     alert($scope.b);
-    //   }
+
+    //   Auth.login({username: $scope.openid, passwd: '111111'}, function(error, result) {
+    //     $scope.inProgress   = false;
+
+    //     if (result.error) {
+    //       toolTip($scope, $timeout, result.message, 'danger');
+    //       return;
+    //     }
+
+    //     Auth.loginSuccess(result.data, function() {
+
+    //       alert(Auth.islogin() + ' ' + $scope.openid);
+    //       $ionicViewSwitcher.nextDirection('forward'); // 'forward', 'back', etc.
+    //       //$state.go($scope.b ? $scope.b : 'account', {}, {reload: true});
+
+    //       $location.path('/' + $scope.b ? $scope.b : 'account');
+    //     });
+    //   });
+
     //   return ;
     // }
 
@@ -988,6 +1004,7 @@ angular.module('starter.controllers', [])
     // $scope._state         = 'HbYFbj4CAlo72uPw__' + $scope.b;
 
 
+    // alert(Auth.islogin() + "88866");
     // $window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxbfbeee15bbe621e6&redirect_uri='
     //                 + _redirect_uri + '&response_type=code&scope=snsapi_base&state=' + $scope._state + '#wechat_redirect';
     

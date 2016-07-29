@@ -61,8 +61,6 @@ app.get('/authorized_back', function(req, res) {
     var wxOpenIDStateCode  = req.query['state'].split('__')[0];
     var return_url         = req.query['state'].split('__')[1];
 
-    console.log(req.query['state'], 'req.query[state]');
-
     if (GLOBAL_CONFIG.OPENID_STATE_CODE != wxOpenIDStateCode) {
         return res.status(200).end('invalid request!');
     }
@@ -74,10 +72,19 @@ app.get('/authorized_back', function(req, res) {
             return res.status(200).end(result.message || result.data);
         }
 
-        console.log(result, 'accountController.wxUserInfo');
+        var user_info   = result.data;
 
-        var redirect  = '/#/login/' + '?openid=' + wxOpenIDCode + '::' + wxOpenIDStateCode;
+        var redirect  = '/#/login/' + '?openid=' + user_info.openid;
         
+
+        // 1. invoke account controller . login openid, 111111
+
+        // 2. get result 
+
+        // 3. put result.data to cookie.user
+
+        //$cookieStore.put('user', user, {'expires': expireDate});
+
         if (return_url && return_url.length > 0) {
             redirect = redirect + '&b=' + return_url;
             console.log(return_url, 'return_url');
