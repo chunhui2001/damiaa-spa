@@ -141,7 +141,13 @@ module.exports 	= {
 	    var sendResult  			= {error: false, message: null, data: null};	
 	    var endpoints_order_detail 	= URL.parse(endpoints.order_detail.replace("{{{orderid}}}", orderid));
 
+	    console.log(endpoints.order_detail.replace("{{{orderid}}}", orderid), 'endpoints_order_detail');
+	    console.log(userToken, 'userToken');
+	    console.log(tokenType, 'tokenType');
+
 		httpClient(endpoints_order_detail, null, 'get', {type: tokenType, token: userToken}, function(error, result) {
+
+			console.log(error || result, 'error, result');
 
 			if (error) {
 	    		sendResult.error 	= true;
@@ -155,6 +161,7 @@ module.exports 	= {
 		    	sendResult.message 	= result.message;
 		    	sendResult.error 	= result.error;
 	    	}
+
 
 			return res.json(sendResult);
 		});

@@ -190,7 +190,7 @@ angular.module('starter.controllers', [])
 
 .controller('paymentComplete-controller', function(
     $scope, $rootScope, $state, $stateParams, $ionicViewSwitcher
-    , $interval, $timeout, Auth, OrderService) {
+    , $interval, $timeout, $window, Auth, OrderService) {
 
     // 在新页面中:
     // 需调用api确认支付状态, 提示用户 "正在等待微信返回支付状态"
@@ -217,8 +217,8 @@ angular.module('starter.controllers', [])
       return;
     }
 
-    var currentUser   = $rootScope.currentUser;
 
+    var currentUser   = $rootScope.currentUser; //$rootScope.currentUser;
 
 
     var currentIntervalId = $interval(function () {
@@ -245,7 +245,7 @@ angular.module('starter.controllers', [])
             OrderService.detail(currentUser, oid, function(result) {
 
                 inProgress  = false;
-
+                
                 $scope.currentOrder   = result.order;
                 $scope.paySuccess     = result.order.status == 'CASHED';
                 //$scope.isFailed       = true;
@@ -254,7 +254,7 @@ angular.module('starter.controllers', [])
                     $scope.isComplete   = true;
                 }
             }, function(error) {
-              
+                alert(error);
             });
 
         }
@@ -1039,7 +1039,8 @@ angular.module('starter.controllers', [])
           $ionicViewSwitcher.nextDirection('forward'); // 'forward', 'back', etc.
           //$state.go($scope.b ? $scope.b : 'account', {}, {reload: true});
 
-          $location.path('/' + $scope.b ? $scope.b : 'account');
+         $location.path('/' + $scope.b ? $scope.b : 'account');
+         // $state.go('order', {'gid': '941174731905'}); // '305657400791', '941174731905'
         });
       });
     }

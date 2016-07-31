@@ -83,8 +83,11 @@ module.exports 	= {
 	    var endpoints_access_token 	= endpoints.get_access_token.replace('{{{username}}}', username).replace('{{{password}}}', passwd);
 	    var refresh_token 			= endpoints.refresh_token;
 	    
+	    console.log(endpoints_access_token, 'endpoints_access_token');
+	    
 	    httpClient(URL.parse(endpoints_access_token), null, 'get', null, function(error, result) {
 
+	    	console.log(error || result, 'error, result');
 	    	if (error) {
 	    		sendResult.error 	= true;
 	    		sendResult.data 	= error;
