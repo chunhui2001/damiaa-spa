@@ -55,7 +55,24 @@ app.get('/checkcode', function(req, res, next) {
     captchap(req, res, next);
 });
 
-app.get('/authorized_back', function(req, res) {
+app.get('/testc', function(req, res) {
+
+    var user  =  {
+          value:"a6226ba6-6d16-4a6b-808b-ddba7f660c24",
+          tokenType:"bearer",
+          refreshToken:{
+            value:"09c62a84-d946-4461-815e-6795762a739b"
+          },
+          scope:["read","write","trust"],
+          expiresIn:349623273
+    };
+
+    res.cookie('user', JSON.stringify(user));
+
+    res.status(200).end('test cookie');
+});
+
+app.get('/authorized_back', function(req, res, next) {
 
     var wxOpenIDCode       = req.query['code'];
     var wxOpenIDStateCode  = req.query['state'].split('__')[0];
@@ -74,23 +91,33 @@ app.get('/authorized_back', function(req, res) {
 
         var user_info   = result.data;
 
-        var redirect  = '/#/login/' + '?openid=' + user_info.openid;
+        req.openid      = user_info.openid;
+        req.passwd      = '111111';
+
+        var redirect  = '/#/';
         
+        accountController.login(req, res, next, function(err, result) {
 
-        // 1. invoke account controller . login openid, 111111
+            if (err) return res.json(err);
 
-        // 2. get result 
+            var user  = result.data;
 
-        // 3. put result.data to cookie.user
+            console.log(user, 'authorized_back');
 
-        //$cookieStore.put('user', user, {'expires': expireDate});
+            res.cookie('user', JSON.stringify(user), { expires: new Date(Date.now() + 90000000), httpOnly: true });
+            res.cookie('user', JSON.stringify(user), { expires: new Date(Date.now() + 90000000)});
 
-        if (return_url && return_url.length > 0) {
-            redirect = redirect + '&b=' + return_url;
-            console.log(return_url, 'return_url');
-        }
+            if (return_url == 'undefined') return_url = 'account';
 
-        res.redirect(redirect);
+            if (return_url && return_url.length > 0) {
+                redirect = redirect + return_url;
+                console.log(return_url, 'return_url');
+            }
+
+            console.log(redirect, 'redirect');
+
+            res.redirect(redirect);
+        });        
 
     });
 

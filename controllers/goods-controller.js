@@ -24,8 +24,13 @@ module.exports 	= {
 
 	    var endpoints_goods_detail 	= URL.parse(endpoints.goods_detail.replace("{{{goodsid}}}", goodsid));
 
-		httpClient(endpoints_goods_detail, null, 'get', {type: tokenType, token: userToken}, function(error, result) {
+	    console.log(userToken, 'userToken');
+	    console.log(tokenType, 'tokenType');
+	    
 
+	    console.log(endpoints_goods_detail, 'endpoints_goods_detail');
+		httpClient(endpoints_goods_detail, null, 'get', {type: tokenType, token: userToken}, function(error, result) {
+			console.log(error || result, 'error || result');
 			if (error) {
 	    		sendResult.error 	= true;
 	    		sendResult.data 	= error.data;

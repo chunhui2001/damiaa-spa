@@ -1,6 +1,6 @@
-<ion-view view-title="用户登陆" ng-cloak>
+<ion-view ng-if="true" view-title="用户登陆" ng-cloak>
 
-	<ion-nav-buttons side="primary">
+	<ion-nav-buttons ng-if="false" side="primary">
 	  <!-- <button style="color:#039EB1;" class="button button-dark button-clear" 
 	  	ng-click="register()">
 	    新用户，去注册
@@ -14,12 +14,12 @@
 
 
 
-	<ion-content class="padding">
+	<ion-content ng-if="true" class="padding">
 		<div class="button-bar padding-top padding-bottom">
 		  <button ng-click="tabClick(1)" 
 		  			ng-class="{'activated ion-checkmark current-tab':tabIndex==1}"
 		  			class="button button-positive icon-right">
-		  	用户名密码登陆
+		  	自动登陆进行中 ....
 		  </button>
 		  <!-- <button ng-click="tabClick(2)" 
 		  			ng-class="{'activated ion-checkmark current-tab':tabIndex==2}"

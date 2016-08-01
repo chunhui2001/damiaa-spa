@@ -617,7 +617,7 @@ angular.module('starter.controllers', [])
 
 
 
-.controller('account-controller', function($scope, $rootScope, $state, $ionicViewSwitcher, Auth, UserService) {
+.controller('account-controller', function($scope, $rootScope, $state, $cookieStore, $ionicViewSwitcher, Auth, UserService) {
     $scope.logedin  = Auth.islogin();
     $scope.logout   = Auth.logout;
 
@@ -966,15 +966,16 @@ angular.module('starter.controllers', [])
 
 .controller('login-controller', function($scope, $stateParams, $rootScope, $ionicViewSwitcher, $state, $location, $window, $cookieStore, $ionicPopup, $timeout, Auth) {
 
-    // alert(Auth.islogin());
-    if (Auth.islogin()) {
-        $state.go('account', {}, {reload: true});
-        return;
-    }
-
-
     $scope.openid     = $location.search().openid;
     $scope.b          = $stateParams.b || $location.search().b;
+
+    // if (Auth.islogin()) {
+    //     //$state.go('account', {}, {reload: true});
+    //     $location.path('/' + ($scope.b ? $scope.b : 'account'));
+    //     return;
+    // }
+
+
 
     // if ($scope.openid) {
 
@@ -999,16 +1000,14 @@ angular.module('starter.controllers', [])
     //   return ;
     // }
 
+    var _redirect_uri  = 'http%3A%2F%2Fwww.damiaa.com%2Fauthorized_back';
+    $scope._state         = 'HbYFbj4CAlo72uPw__' + $scope.b;
 
-    // var _redirect_uri  = 'http%3A%2F%2Fwww.damiaa.com%2Fauthorized_back';
-    // $scope._state         = 'HbYFbj4CAlo72uPw__' + $scope.b;
 
-
-    // alert(Auth.islogin() + "88866");
-    // $window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxbfbeee15bbe621e6&redirect_uri='
-    //                 + _redirect_uri + '&response_type=code&scope=snsapi_base&state=' + $scope._state + '#wechat_redirect';
+    $window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxbfbeee15bbe621e6&redirect_uri='
+                    + _redirect_uri + '&response_type=code&scope=snsapi_base&state=' + $scope._state + '#wechat_redirect';
     
-    // return;
+    return;
 
     $scope.tabIndex   = 1;
     $scope.logM       = {};
@@ -1039,7 +1038,7 @@ angular.module('starter.controllers', [])
           $ionicViewSwitcher.nextDirection('forward'); // 'forward', 'back', etc.
           //$state.go($scope.b ? $scope.b : 'account', {}, {reload: true});
 
-         $location.path('/' + $scope.b ? $scope.b : 'account');
+         $location.path('/' + ($scope.b ? $scope.b : 'account'));
          // $state.go('order', {'gid': '941174731905'}); // '305657400791', '941174731905'
         });
       });
