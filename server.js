@@ -91,6 +91,8 @@ app.get('/authorized_back', function(req, res, next) {
 
         var user_info   = result.data;
 
+        console.log(user_info, 'user_info');
+
         req.openid      = user_info.openid;
         req.passwd      = '111111';
 
