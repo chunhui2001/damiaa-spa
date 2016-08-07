@@ -128,9 +128,14 @@ app.get('/authorized_back', function(req, res, next) {
 
 // https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxbfbeee15bbe621e6&redirect_uri=
 // http%3A%2F%2Fwww.damiaa.com%2Fregister&response_type=code&scope=snsapi_base&state=HbYFbj4CAlo72uPw#wechat_redirect
+// app.post('/login', function(req, res) {
+//   res.status(200).end('1');
+// });
 
+app.post('/login', function(req, res, next) {
+  accountController.login(req, res, next, null);
+});
 
-app.post('/login', accountController.login);
 app.post('/logout', accountController.logout);
 app.post('/userinfo', accountController.userinfo);
 app.post('/resetpwd', accountController.resetPasswd);

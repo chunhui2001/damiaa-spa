@@ -964,50 +964,31 @@ angular.module('starter.controllers', [])
 
 
 
-.controller('login-controller', function($scope, $stateParams, $rootScope, $ionicViewSwitcher, $state, $location, $window, $cookieStore, $ionicPopup, $timeout, Auth) {
+.controller('login-controller', function($scope, $stateParams, $rootScope, $ionicViewSwitcher, $state, $location, $window, $cookieStore, $ionicPopup, $timeout, Auth, Browser) {
 
     $scope.openid     = $location.search().openid;
     $scope.b          = $stateParams.b || $location.search().b;
+    $scope.isWchat    = Browser.detect() == 'mobile';
 
-    // if (Auth.islogin()) {
-    //     //$state.go('account', {}, {reload: true});
-    //     $location.path('/' + ($scope.b ? $scope.b : 'account'));
-    //     return;
-    // }
-
-
-
-    // if ($scope.openid) {
-
-    //   Auth.login({username: $scope.openid, passwd: '111111'}, function(error, result) {
-    //     $scope.inProgress   = false;
-
-    //     if (result.error) {
-    //       toolTip($scope, $timeout, result.message, 'danger');
-    //       return;
-    //     }
-
-    //     Auth.loginSuccess(result.data, function() {
-
-    //       alert(Auth.islogin() + ' ' + $scope.openid);
-    //       $ionicViewSwitcher.nextDirection('forward'); // 'forward', 'back', etc.
-    //       //$state.go($scope.b ? $scope.b : 'account', {}, {reload: true});
-
-    //       $location.path('/' + $scope.b ? $scope.b : 'account');
-    //     });
-    //   });
-
-    //   return ;
-    // }
-
-    var _redirect_uri  = 'http%3A%2F%2Fwww.damiaa.com%2Fauthorized_back';
-    $scope._state         = 'HbYFbj4CAlo72uPw__' + $scope.b;
+    if (Auth.islogin()) {
+        //$state.go('account', {}, {reload: true});
+        $location.path('/' + ($scope.b ? $scope.b : 'account'));
+        return;
+    }
 
 
-    $window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxbfbeee15bbe621e6&redirect_uri='
-                    + _redirect_uri + '&response_type=code&scope=snsapi_base&state=' + $scope._state + '#wechat_redirect';
-    
-    return;
+
+    if ($scope.isWchat) {
+
+        var _redirect_uri  = 'http%3A%2F%2Fwww.damiaa.com%2Fauthorized_back';
+        $scope._state         = 'HbYFbj4CAlo72uPw__' + $scope.b;
+
+        $window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxbfbeee15bbe621e6&redirect_uri='
+                        + _redirect_uri + '&response_type=code&scope=snsapi_base&state=' + $scope._state + '#wechat_redirect';
+        
+        return;
+    }
+
 
     $scope.tabIndex   = 1;
     $scope.logM       = {};
