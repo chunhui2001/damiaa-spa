@@ -24,10 +24,10 @@
 				<span style="float:right;">{{order.statusText}}</span>
 			</div>
 
-			<div class="item" style="font-size: .8em;text-align:right;color: gray;font-style: oblique;border-bottom:none;padding:.5em 1em 0 .5em;">
+			<div class="item" style="font-size: .8em;text-align:left;color: gray;font-style: oblique;border-bottom:none;padding:.5em 1em 0 1.2em;">
 					{{order.lastEvent}}</div>
 			<div class="item item-icon-right" ng-repeat="item in order.listOfItems"
-				 style="border-top:none;padding-top:.5em;">
+				 style="border-top:none;border-bottom:none;padding-top:.5em;">
 				<span>{{item.goodsName}}</span>
 				<br />
 				<span style="font-weight: bold;">({{item.goods.weight}})</span> 
@@ -36,7 +36,10 @@
 				<i ng-click="showEvents(order)" 
 						ng-if="order.status == 'SENDED' || order.status == 'SIGNED'" 
 					class="icon ion-ios-arrow-forward" style="color:#505050;font-size:2.5em;"></i>
+
 			</div>
+				<div class="item" style="font-size: .8em;text-align:left;color: gray;font-style: oblique;border-top:none;padding:0em 1em 1em 1.2em">
+					{{order.receiveMan}} ({{order.phone}}) {{order.address}}</div>
 			<div class="item item-divider" style="font-size:.9em;">
 				<span ng-if="order.status != 'SENDED'">金额: &yen; {{order.orderMoney.toFixed(2)}}</span>
 				<span ng-if="order.status == 'SENDED'">
