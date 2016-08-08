@@ -28,7 +28,7 @@ angular.module('starter')
         });
     },
     updateAddress: function(user, addrid, orderId, success, failed) {
-      $http.post('/addr/updateAddr', {user: user, addrid:addrid, orderId, orderId})
+      $http.post('/addr/updateAddr', {user: user, addrid:addrid, orderId: orderId})
         .success(function(result) {
           if (result.error) {
             return failed(result);
@@ -74,6 +74,6 @@ angular.module('starter')
         .error(function(e) {
           return failed(e);
         });
-    },
+    }
   };
 });

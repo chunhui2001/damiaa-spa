@@ -1,3 +1,5 @@
+'use strict'
+
 angular.module('starter')
 
 .filter('capitalize', function() {

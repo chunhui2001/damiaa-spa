@@ -1,3 +1,5 @@
+'use strict'
+
 angular.module('starter')
 .factory('Auth',
   function($http, $rootScope, $cookieStore, $window, $alert) {

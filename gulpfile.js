@@ -1,5 +1,6 @@
 var gulp      = require('gulp');
 var gutil     = require('gulp-util');
+var uglify    = require('gulp-uglify');
 var bower     = require('bower');
 var concat    = require('gulp-concat');
 var sass      = require('gulp-sass');
@@ -11,6 +12,7 @@ var moment    = require('moment');
 var uuid      = require('uuid');
 var _         = require('underscore');
 var crypto    = require('crypto');
+var nimble    = require('nimble');
 
 
 
@@ -25,16 +27,83 @@ var paths = {
 gulp.task('default', ['sass']);
 
 gulp.task('sass', function(done) {
-  gulp.src('./scss/ionic.app.scss')
-    .pipe(sass())
-    .on('error', sass.logError)
-    .pipe(gulp.dest('./www/css/'))
-    .pipe(minifyCss({
-      keepSpecialComments: 0
-    }))
-    .pipe(rename({ extname: '.min.css' }))
-    .pipe(gulp.dest('./www/css/'))
-    .on('end', done);
+
+  nimble.series([
+      function(cback) {
+          nimble.parallel([
+              function (cback) {
+                gulp.src('./scss/ionic.app.scss')
+                      .pipe(sass())
+                      .on('error', sass.logError)
+                      .pipe(gulp.dest('./www/css/'))
+                      .pipe(minifyCss({
+                        keepSpecialComments: 0
+                      }))
+                      .pipe(rename({ extname: '.min.css' }))
+                      .pipe(gulp.dest('./www/css/'))
+                      .on('end', cback);
+              },
+              function(cback) {     
+                gulp.src(
+                      [
+                        './www/lib/ionic/css/ionic.css', 
+                        './www/css/style.css'
+                      ])
+                      .pipe(concat('ionic.min.css'))
+                      .pipe(minifyCss({
+                        keepSpecialComments: 0
+                      }))
+                      .pipe(gulp.dest('./www/lib/ionic/css/'))
+                      .on('end', cback);
+              },
+              function(cback) {     
+                gulp.src(
+                      [
+                        // './www/lib/ionic/js/ionic.bundle.js', 
+                        './www/lib/jquery/jquery-1.11.3.min.js', 
+                        './www/lib/angular/ngStorage-0.3.6.min.js', 
+                        './www/lib/angular/angular-cookies.min.js', 
+                        './www/lib/angular/angular-resource.min.js', 
+                        './www/lib/angular/angular-messages.min.js', 
+                        './www/lib/angular/angular-strap.min.js',
+                      ])
+                      .pipe(concat('angular-all.min.js'))
+                      .pipe(uglify())
+                      .pipe(gulp.dest('./www/lib/angular/'))
+                      .on('end', cback);
+              }
+              ,
+              function(cback) {     
+                gulp.src(
+                      [
+                        // './www/js/util.js', 
+                        // './www/js/app.js', 
+                        // './www/js/controllers.js', 
+                        // './www/js/filters.js', 
+                        // './www/js/services/auth.js', 
+                        // './www/js/services/BrowserService.js',
+                        // './www/js/services/UserService.js',
+                        // './www/js/services/WChatService.js',
+                        // './www/js/services/AddrService.js',
+                        // './www/js/services/RegionService.js',
+                        // './www/js/services/OrderService.js',
+                        // './www/js/services/GoodsService.js',
+                        // './www/js/services/PartnerService.js',
+                        // './www/js/services/QrcodeService.js',
+                        // './www/js/services.js',
+                      ])
+                      .pipe(concat('damiaaapp-all.min.js'))
+                      .pipe(uglify())
+                      .pipe(gulp.dest('./www/js/'))
+                      .on('end', cback);
+              }
+          ], cback);
+      },
+      function(cback) {              
+          return done;              
+      },
+  ]);  
+  
 });
 
 gulp.task('watch', function() {
@@ -110,4 +179,11 @@ gulp.task('replace', function () {
 });
 
 
-gulp.task('default', ['replace']);
+gulp.task('compress', function () {
+
+  console.log(1);
+});
+
+
+gulp.task('default', ['sass', 'replace']);
+
